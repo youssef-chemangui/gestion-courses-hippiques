@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Courses de Chevaux — Gestion Complète</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F5A3C">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -11,18 +14,21 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--border:#30363d;
-  --gold:#c9a227;--gold2:#e8c547;--text:#e6e6e6;--muted:#8b949e;--dim:#484f58;
-  --green:#238636;--red:#da3633;--blue:#1f6feb;
+  --bg:#000000;--bg2:#0F5A3C;--bg3:#2E8B63;--border:#4FA07A;
+  --gold:#C9A646;--gold2:#D8B85A;--text:#FFFFFF;--muted:#BFBFBF;--dim:#8B9B8F;
+  --green:#2E8B63;--red:#E53E3E;--blue:#2E8B63;
+  --copper-light:#D08A4B;--copper-main:#B56A2D;--brown-med:#8A4F24;--brown-dark:#5A2E16;
+  --black-deep:#000000;--black-soft:#121212;--beige-light:#F2E3D5;
 }
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+body{font-family:'Inter',sans-serif;background:var(--black-deep);color:var(--text);min-height:100vh}
 
 /* ── NAV ── */
-.nav{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);padding:0}
-.nav-brand{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--gold);padding:0 24px;display:flex;align-items:center;gap:8px;border-right:1px solid var(--border)}
+.nav{display:flex;background:var(--black-soft);border-bottom:2px solid var(--copper-main);padding:0}
+.nav-brand{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--copper-light);padding:0 24px;display:flex;align-items:center;gap:8px;border-right:2px solid var(--copper-main)}
+.nav-brand img{height:32px;width:auto;object-fit:contain}
 .nav-tabs{display:flex;flex:1}
 .nav-tab{flex:1;max-width:220px;padding:16px 24px;background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.5px}
-.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,162,39,.06)}
+.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,166,70,.1)}
 .nav-tab:hover:not(.active){color:var(--text);border-bottom-color:var(--dim)}
 
 /* ── PAGES ── */
@@ -30,14 +36,14 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .page.active{display:flex}
 
 /* ── SIDEBAR + MAIN ── */
-.sidebar{width:380px;min-width:340px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;padding:20px;gap:16px}
+.sidebar{width:380px;min-width:340px;background:var(--black-soft);border-right:2px solid var(--brown-med);display:flex;flex-direction:column;overflow-y:auto;padding:20px;gap:16px}
 .main{flex:1;overflow:auto;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px}
 
 /* ── FORM ELEMENTS ── */
 .sec{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .field{display:flex;flex-direction:column;gap:4px}
 .field label{font-size:11px;color:var(--muted);font-weight:500}
-.field input,.field select{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;width:100%}
+.field input,.field select{background:var(--bg2);border:1px solid var(--brown-med);border-radius:6px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;width:100%}
 .field input:focus,.field select:focus{outline:none;border-color:var(--gold)}
 .fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
@@ -45,7 +51,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 /* ── BUTTONS ── */
 .btn{border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px;justify-content:center}
 .btn:active{transform:scale(.97)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));color:#0d1117;width:100%}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));color:#FFFFFF;width:100%}
 .btn-gold:hover{opacity:.88}
 .btn-out{background:transparent;border:1px solid var(--border);color:var(--muted);width:100%}
 .btn-out:hover{border-color:var(--muted);color:var(--text)}
@@ -57,24 +63,24 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 
 /* ── DROP ZONE ── */
 .dz{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.dz:hover,.dz.ov{border-color:var(--gold);background:rgba(201,162,39,.07)}
+.dz:hover,.dz.ov{border-color:var(--gold);background:rgba(201,166,70,.1)}
 .dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .dz-icon{font-size:28px;margin-bottom:6px}
 .dz-lbl{font-size:12px;color:var(--muted)}
 .dz-lbl strong{color:var(--gold)}
 
 /* ── TIP BOX ── */
-.tip{background:#1a2744;border-radius:6px;padding:10px 12px;font-size:11px;color:var(--muted);line-height:1.7}
+.tip{background:var(--brown-dark);border-radius:6px;padding:10px 12px;font-size:11px;border-left:4px solid var(--copper-main);color:var(--beige-light);line-height:1.7}
 .tip strong{color:var(--gold)}
 
 /* ── HORSE CARDS (liste) ── */
 .horses-grid{display:flex;flex-direction:column;gap:6px;width:100%;max-width:960px}
-.hcard{background:var(--bg2);border:1px solid var(--bg3);border-radius:10px;overflow:hidden}
+.hcard{background:var(--black-soft);border:2px solid var(--brown-med);border-radius:10px;overflow:hidden}
 .hcard-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer}
 .hcard-num{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);min-width:32px}
-.hcard-silk{width:44px;height:44px;border-radius:6px;background:#1a2744;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;position:relative;overflow:hidden;flex-shrink:0}
+.hcard-silk{width:44px;height:44px;border-radius:6px;background:var(--brown-med);border:2px solid var(--copper-light);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;position:relative;overflow:hidden;flex-shrink:0}
 .hcard-silk img{width:100%;height:100%;object-fit:cover}
-.hcard-silk .sh{position:absolute;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity .2s}
+.hcard-silk .sh{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity .2s}
 .hcard-silk:hover .sh{opacity:1}
 .hcard-silk input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .hcard-info{flex:1;min-width:0}
@@ -89,84 +95,84 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 .full{grid-column:1/-1}
 
 /* ── PREVIEW CARD (liste) ── */
-#preview-list{width:960px;background:#0b1628;border-radius:4px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.6)}
-.pl-hdr{background:#0b1628;padding:16px 26px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold)}
-.pl-hdr-img{width:80px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:4px;border:1px dashed rgba(201,162,39,.3)}
+#preview-list{width:960px;background:var(--black-deep);border-radius:4px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.6);border:2px solid var(--copper-main)}
+.pl-hdr{background:var(--black-soft);padding:16px 26px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--copper-main)}
+.pl-hdr-img{width:80px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:4px;border:1px dashed rgba(201,166,70,.4)}
 .pl-hdr-img img{width:100%;height:100%;object-fit:contain}
-.pl-hdr-img .ih{position:absolute;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);opacity:0;transition:opacity .2s;flex-direction:column;gap:2px}
+.pl-hdr-img .ih{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--copper-light);opacity:0;transition:opacity .2s;flex-direction:column;gap:2px}
 .pl-hdr-img:hover .ih{opacity:1}
 .pl-hdr-img input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.pl-hdr-emb{width:72px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:50%;border:1px dashed rgba(201,162,39,.3)}
+.pl-hdr-emb{width:72px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:50%;border:1px dashed rgba(201,166,70,.4)}
 .pl-hdr-emb img{width:100%;height:100%;object-fit:contain}
-.pl-hdr-emb .ih{position:absolute;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--gold);opacity:0;transition:opacity .2s;flex-direction:column;gap:2px;border-radius:50%}
+.pl-hdr-emb .ih{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--copper-light);opacity:0;transition:opacity .2s;flex-direction:column;gap:2px;border-radius:50%}
 .pl-hdr-emb:hover .ih{opacity:1}
 .pl-hdr-emb input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .pl-hdr-mid{text-align:center;flex:1;padding:0 12px}
 .pl-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:white;letter-spacing:3px}
 .pl-hdr-mid .t2{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:2px;margin-top:2px}
 .pl-hdr-mid .t3{font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-top:3px}
-.pl-race-info{background:#0b1628;padding:8px 26px;border-bottom:1px solid #1a2744}
+.pl-race-info{background:var(--black-soft);padding:8px 26px;border-bottom:1px solid var(--brown-med)}
 .pl-race-info .rn{font-size:16px;font-weight:700;color:white}
 .pl-race-info .rnm{font-size:13px;font-weight:600;color:var(--gold)}
 
 /* table header */
-.pl-thead{display:grid;grid-template-columns:44px 56px 1fr 1fr 1fr 1fr 52px 52px 52px 80px;gap:0;background:#0a1220;padding:6px 26px;border-bottom:1px solid #1a2744}
-.pl-th{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted)}
+.pl-thead{display:grid;grid-template-columns:44px 56px 1fr 1fr 1fr 1fr 52px 52px 52px 80px;gap:0;background:var(--brown-dark);padding:6px 26px;border-bottom:2px solid var(--copper-light)}
+.pl-th{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--copper-light)}
 
 /* list row */
-.pl-row{display:grid;grid-template-columns:44px 56px 1fr 1fr 1fr 1fr 52px 52px 52px 80px;gap:0;padding:9px 26px;border-bottom:1px solid #111d2e;align-items:center}
-.pl-row:nth-child(odd){background:rgba(255,255,255,.015)}
+.pl-row{display:grid;grid-template-columns:44px 56px 1fr 1fr 1fr 1fr 52px 52px 52px 80px;gap:0;padding:9px 26px;border-bottom:1px solid var(--brown-med);align-items:center}
+.pl-row:nth-child(odd){background:rgba(255,255,255,.08)}
 .pl-row:last-child{border-bottom:none}
-.pl-num{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold)}
-.pl-silk{width:40px;height:40px;background:#1a2744;border:1px solid #2d3f6a;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:18px;flex-shrink:0}
+.pl-num{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--copper-light)}
+.pl-silk{width:40px;height:40px;background:var(--brown-med);border:1px solid var(--copper-light);border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:18px;flex-shrink:0}
 .pl-silk img{width:100%;height:100%;object-fit:cover}
 .pl-cell{font-size:11.5px;font-weight:500;color:var(--text);padding-right:8px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pl-cell.name{font-size:13px;font-weight:700;color:white}
 .pl-cell.muted{color:var(--muted);font-size:10.5px}
-.pl-cell.num{font-size:12px;font-weight:600;color:var(--gold2);text-align:center}
+.pl-cell.num{font-size:12px;font-weight:600;color:var(--copper-light);text-align:center}
 .pl-perf{font-size:10px;color:var(--muted);font-family:monospace;letter-spacing:1px}
 
 /* ── RANKING PAGE ── */
-#preview-rank{width:900px;background:#0b1628;border-radius:4px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.6)}
-.rk-hdr{background:#0b1628;padding:16px 26px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--gold)}
+#preview-rank{width:900px;background:var(--black-deep);border-radius:4px;overflow:visible;box-shadow:0 16px 50px rgba(0,0,0,.6);border:2px solid var(--copper-main);height:auto;display:flex;flex-direction:column}
+.rk-hdr{background:var(--black-soft);padding:14px 22px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--copper-main);flex-shrink:0}
 .rk-hdr-mid{text-align:center;flex:1;padding:0 12px}
-.rk-hdr-mid .t1{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:white;letter-spacing:3px}
-.rk-hdr-mid .t2{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:2px;margin-top:2px}
-.rk-hdr-mid .t3{font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-top:3px}
-.rk-race-info{background:#0b1628;padding:8px 26px}
-.rk-race-info .rn{font-size:16px;font-weight:700;color:white}
-.rk-race-info .rnm{font-size:13px;font-weight:600;color:var(--gold)}
-.rk-row{display:flex;align-items:center;padding:12px 26px;border-bottom:1px solid #1a2744;gap:14px}
+.rk-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:white;letter-spacing:2px}
+.rk-hdr-mid .t2{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:1px}
+.rk-hdr-mid .t3{font-size:9px;color:var(--muted);letter-spacing:1.5px;margin-top:2px}
+.rk-race-info{background:var(--black-soft);padding:6px 22px;flex-shrink:0}
+.rk-race-info .rn{font-size:14px;font-weight:700;color:white}
+.rk-race-info .rnm{font-size:12px;font-weight:600;color:var(--gold)}
+.rk-row{display:flex;align-items:center;padding:10px 22px;border-bottom:1px solid var(--brown-med);gap:12px;flex-shrink:0}
 .rk-row:last-child{border-bottom:none}
-.rk-row:nth-child(odd){background:rgba(255,255,255,.018)}
-.rk-place{min-width:60px;display:flex;align-items:baseline;gap:1px;flex-shrink:0}
-.rk-place-num{font-family:'Cinzel',serif;font-size:42px;font-weight:700;color:white;line-height:1}
-.rk-place-sfx{font-size:12px;font-weight:600;color:var(--muted);align-self:flex-start;margin-top:7px}
-.rk-silk{width:66px;height:66px;background:#1a2744;border:1px solid #2d3f6a;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:24px}
+.rk-row:nth-child(odd){background:rgba(255,255,255,.08)}
+.rk-place{min-width:54px;display:flex;align-items:baseline;gap:1px;flex-shrink:0}
+.rk-place-num{font-family:'Cinzel',serif;font-size:36px;font-weight:700;color:white;line-height:1}
+.rk-place-sfx{font-size:11px;font-weight:600;color:var(--muted);align-self:flex-start;margin-top:5px}
+.rk-silk{width:58px;height:58px;background:var(--brown-med);border:1px solid var(--copper-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:22px}
 .rk-silk img{width:100%;height:100%;object-fit:cover}
 .rk-info{flex:1;min-width:0}
-.rk-ig{display:grid;grid-template-columns:auto 1fr;row-gap:2px;column-gap:10px;align-items:baseline}
-.rk-il{font-size:9.5px;font-weight:700;letter-spacing:1.2px;color:var(--gold);text-transform:uppercase;white-space:nowrap}
-.rk-iv{font-size:12px;font-weight:500;color:white;letter-spacing:.3px}
-.rk-num{font-size:11px;font-weight:700;color:var(--gold2)}
-.rk-gap{font-size:13.5px;font-weight:600;color:var(--muted);min-width:56px;text-align:right;flex-shrink:0}
+.rk-ig{display:grid;grid-template-columns:auto 1fr;row-gap:1px;column-gap:8px;align-items:baseline}
+.rk-il{font-size:8.5px;font-weight:700;letter-spacing:1px;color:var(--copper-light);text-transform:uppercase;white-space:nowrap}
+.rk-iv{font-size:10.5px;font-weight:500;color:white;letter-spacing:.2px}
+.rk-num{font-size:10px;font-weight:700;color:var(--copper-light)}
+.rk-gap{font-size:12px;font-weight:600;color:var(--muted);min-width:48px;text-align:right;flex-shrink:0}
 
 /* ranking list items */
-.rk-item{background:var(--bg);border:1px solid var(--bg3);border-radius:8px;overflow:hidden;margin-bottom:5px;transition:box-shadow .2s}
-.rk-item.dragging{opacity:.4;box-shadow:0 0 0 2px var(--gold)}
-.rk-item.dot{border-top:2px solid var(--gold)}
-.rk-item.dob{border-bottom:2px solid var(--gold)}
+.rk-item{background:var(--black-soft);border:1px solid var(--brown-med);border-radius:8px;overflow:hidden;margin-bottom:5px;transition:box-shadow .2s}
+.rk-item.dragging{opacity:.4;box-shadow:0 0 0 2px var(--copper-main)}
+.rk-item.dot{border-top:3px solid var(--copper-main)}
+.rk-item.dob{border-bottom:3px solid var(--copper-main)}
 .rk-item-hdr{display:flex;align-items:center;cursor:pointer;user-select:none}
 .rk-hdl{padding:12px 8px;color:var(--dim);font-size:18px;cursor:grab;flex-shrink:0}
 .rk-hdl:active{cursor:grabbing}
-.rk-pos{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--gold);min-width:28px;flex-shrink:0}
-.rk-thumb{width:38px;height:38px;border-radius:4px;border:1px solid var(--border);background:#1a2744;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px;overflow:hidden}
+.rk-pos{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--copper-light);min-width:28px;flex-shrink:0}
+.rk-thumb{width:38px;height:38px;border-radius:4px;border:1px solid var(--copper-light);background:var(--brown-med);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px;overflow:hidden}
 .rk-thumb img{width:100%;height:100%;object-fit:cover}
 .rk-sum{flex:1;min-width:0}
 .rk-horse-name{font-size:13px;font-weight:700;color:var(--text)}
 .rk-horse-sub{font-size:10px;color:var(--dim)}
 .rk-gap-wrap{padding:0 8px;display:flex;align-items:center;gap:4px}
-.rk-gap-inp{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:4px 7px;color:var(--gold);font-size:11px;font-weight:600;width:68px;text-align:center;font-family:'Inter',sans-serif}
+.rk-gap-inp{background:var(--bg2);border:1px solid var(--brown-med);border-radius:4px;padding:4px 7px;color:var(--copper-light);font-size:11px;font-weight:600;width:68px;text-align:center;font-family:'Inter',sans-serif}
 .rk-gap-inp:focus{outline:none;border-color:var(--gold)}
 .rk-exp-btn{padding:12px 9px;color:var(--dim);font-size:13px;flex-shrink:0;transition:transform .2s}
 .rk-item.open .rk-exp-btn{transform:rotate(180deg)}
@@ -186,24 +192,189 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 .pbar{display:flex;gap:10px;width:100%;max-width:960px;align-items:center}
 .pbar span{font-size:12px;color:var(--muted);flex:1}
 
-.add-row{background:var(--bg3);border:1px dashed var(--border);border-radius:8px;padding:9px;text-align:center;cursor:pointer;color:var(--muted);font-size:12px;transition:all .2s;width:100%;max-width:960px}
+.add-row{background:var(--black-soft);border:2px dashed var(--brown-med);border-radius:8px;padding:9px;text-align:center;cursor:pointer;color:var(--copper-light);font-size:12px;transition:all .2s;width:100%;max-width:960px}
 .add-row:hover{border-color:var(--gold);color:var(--gold)}
 
-.badge{display:inline-block;background:#1a2744;color:var(--gold);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.5px}
+.badge{display:inline-block;background:var(--brown-dark);color:var(--copper-light);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.5px;border:1px solid var(--copper-main)}
+
+/* ── COPYRIGHT LOGO ── */
+.copyright-logo{position:absolute;bottom:4px;right:4px;width:32px;height:32px;opacity:.8}
+.pl-hdr-wrapper{position:relative}
+.rk-wrapper{position:relative}
+
+/* ══════════════════════ RESPONSIVE MOBILE ══════════════════════ */
+
+/* Bouton menu mobile */
+.nav-menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;padding:12px 16px;cursor:pointer}
 
 @media print{.sidebar,.pbar,.export-bar,.nav{display:none!important}.main{padding:0}.page{height:auto}}
+
+/* ── TABLETTE & MOBILE (< 1024px) ── */
+@media (max-width: 1024px) {
+  .sidebar{width:300px;min-width:280px;padding:16px}
+  .main{padding:20px}
+  #preview-list,#preview-rank{max-width:600px}
+  .horses-grid{max-width:600px}
+}
+
+/* ── MOBILE MOYENNE (< 768px) ── */
+@media (max-width: 768px) {
+  .nav{position:relative;justify-content:space-between}
+  .nav-brand{border-right:none;flex:1;font-size:13px;padding:0 12px}
+  .nav-brand img{height:28px}
+  .nav-menu-toggle{display:block}
+  .nav-tabs{position:fixed;left:0;top:53px;width:100%;max-height:calc(100vh - 53px);background:var(--bg2);flex-direction:column;border-top:1px solid var(--border);transform:translateY(-150%);opacity:0;visibility:hidden;transition:all .3s;z-index:98;overflow-y:auto}
+  .nav-tabs.mobile-open{transform:translateY(0);opacity:1;visibility:visible}
+  .nav-tab{border-right:none;border-bottom:1px solid var(--bg3);text-align:left;padding:12px 16px;max-width:none}
+  .nav-tab.active{border-bottom-color:var(--gold)}
+
+  .page{display:none;flex-direction:column;height:auto;min-height:calc(100vh - 53px)}
+  .page.active{display:flex}
+
+  .sidebar{position:fixed;left:0;top:53px;width:85vw;max-width:360px;height:calc(100vh - 53px);border-right:1px solid var(--border);border-bottom:none;transform:translateX(-100%);opacity:0;visibility:hidden;transition:all .3s;z-index:97;overflow-y:auto;padding:12px}
+  .sidebar.mobile-open{transform:translateX(0);opacity:1;visibility:visible}
+  
+  .sidebar-overlay{display:none;position:fixed;top:53px;left:0;width:100%;height:calc(100vh - 53px);background:rgba(0,0,0,.5);z-index:96}
+  .sidebar-overlay.mobile-open{display:block}
+
+  .main{position:relative;width:100%;padding:12px;flex:1}
+  
+  .fr,.fr3{grid-template-columns:1fr}
+  .field label{font-size:10px}
+  .field input,.field select{font-size:12px;padding:6px 8px}
+  .btn{font-size:12px;padding:8px 12px}
+  .sec{font-size:9px}
+  
+  #preview-list,#preview-rank{max-width:100%;width:100%;margin:8px 0}
+  .horses-grid{max-width:100%;width:100%}
+  
+  .pl-thead,.pl-row{grid-template-columns:30px 40px 1fr 1fr 30px 30px !important;font-size:8px}
+  .pl-cell.name{font-size:10px}
+  .pl-num{font-size:12px}
+  
+  .rk-row{padding:8px 12px;gap:8px}
+  .rk-hdr{flex-direction:column;padding:8px 12px;gap:6px}
+  .rk-place-num{font-size:28px}
+  .rk-silk{width:50px;height:50px}
+  .rk-gap{font-size:11px}
+  
+  .dz{padding:12px;border-radius:6px}
+  .dz-icon{font-size:20px;margin-bottom:4px}
+  .dz-lbl{font-size:10px}
+  .tip{font-size:10px;padding:8px 10px}
+  
+  .toast{bottom:12px;right:12px;padding:10px 16px;font-size:11px}
+  .pbar{gap:6px;font-size:11px}
+  .add-row{font-size:10px;padding:6px}
+}
+
+/* ── MOBILE SMALL (< 480px) ── */
+@media (max-width: 480px) {
+  .nav-brand{font-size:11px;padding:0 8px;gap:4px}
+  .nav-brand img{height:24px}
+  .nav-menu-toggle{padding:10px 12px;font-size:18px}
+  .nav-tab{font-size:11px;padding:10px 12px}
+
+  .sidebar{width:100%;max-width:100%;left:0;right:0}
+  .main{padding:8px}
+  
+  .sec{font-size:8px;margin-bottom:4px}
+  .field{gap:2px}
+  .field label{font-size:9px}
+  .field input,.field select{font-size:11px;padding:5px 6px;border-radius:4px}
+  .btn{font-size:11px;padding:6px 10px;gap:4px}
+  .btn-sm{padding:4px 8px;font-size:9px}
+
+  .dz{padding:10px;border-radius:4px;border-width:1px}
+  .dz-icon{font-size:18px;margin-bottom:3px}
+  .dz-lbl{font-size:9px;line-height:1.3}
+  .tip{font-size:9px;padding:6px 8px}
+
+  #preview-list,#preview-rank{border-radius:3px;margin:6px 0}
+  .pl-hdr{padding:8px 12px 4px;gap:4px}
+  .pl-hdr-img{width:60px;height:48px;font-size:8px}
+  .pl-hdr-mid .t1{font-size:16px;letter-spacing:2px}
+  .pl-hdr-mid .t2{font-size:10px}
+  .pl-hdr-emb{width:56px;height:48px}
+  .pl-race-info{padding:6px 12px}
+  .pl-race-info .rn{font-size:13px}
+  .pl-race-info .rnm{font-size:11px}
+  .pl-thead{grid-template-columns:24px 32px 1fr 22px !important;gap:2px;padding:3px 6px}
+  .pl-row{grid-template-columns:24px 32px 1fr 22px !important;gap:2px;padding:3px 6px}
+  .pl-th,.pl-cell{font-size:7px}
+  .pl-cell.name{font-size:9px}
+  .pl-num{font-size:11px}
+  .pl-silk{width:28px;height:28px;font-size:12px}
+
+  .rk-hdr{padding:6px 10px}
+  .rk-hdr-img,.pl-hdr-emb{width:50px;height:40px;font-size:8px}
+  .rk-hdr-mid .t1{font-size:16px;letter-spacing:1px}
+  .rk-hdr-mid .t2{font-size:9px}
+  .rk-hdr-mid .t3{font-size:8px}
+  .rk-race-info{padding:4px 10px}
+  .rk-race-info .rn{font-size:12px}
+  .rk-race-info .rnm{font-size:10px}
+  .rk-row{padding:6px 10px;gap:6px}
+  .rk-place{min-width:48px}
+  .rk-place-num{font-size:20px}
+  .rk-place-sfx{font-size:9px}
+  .rk-silk{width:40px;height:40px;font-size:16px}
+  .rk-info{gap:4px}
+  .rk-ig{column-gap:6px;row-gap:1px}
+  .rk-il{font-size:8px}
+  .rk-iv{font-size:10px}
+  .rk-gap{font-size:10px;min-width:48px}
+
+  .rk-item{margin-bottom:3px}
+  .rk-item-hdr{padding:4px}
+  .rk-hdl{padding:8px 4px;font-size:14px}
+  .rk-pos{font-size:14px;min-width:24px}
+  .rk-thumb{width:28px;height:28px;margin-right:6px;font-size:12px}
+  .rk-horse-name{font-size:10px}
+  .rk-horse-sub{font-size:8px}
+  .rk-gap-wrap{padding:0 4px}
+  .rk-gap-inp{width:50px;font-size:9px;padding:3px 5px}
+  .rk-detail{padding:4px 10px 8px 36px;font-size:9px}
+  .rk-detail-row{gap:4px;margin-top:3px}
+
+  .hcard-num{font-size:18px}
+  .hcard-silk{width:36px;height:36px}
+  .hcard-name{font-size:12px}
+  .hcard-sub{font-size:10px}
+  .hcard-grid{gap:6px}
+  .hcard-grid .field input{font-size:11px}
+
+  .empty{padding:20px 12px;gap:6px}
+  .empty .ei{font-size:28px}
+  .empty p{font-size:11px}
+
+  .toast{bottom:8px;right:8px;padding:8px 12px;font-size:10px;border-radius:4px}
+  .pbar{gap:4px;font-size:10px}
+  .badge{font-size:8px;padding:1px 5px}
+}
+
+/* ── LANDSCAPE MODE (< 600px height) ── */
+@media (max-height: 600px) and (orientation: landscape) {
+  .sidebar{max-height:calc(100vh - 53px);overflow-y:auto}
+  .page{min-height:auto}
+  .main{min-height:auto}
+}
 </style>
 </head>
 <body>
 
 <!-- ── NAV ── -->
 <div class="nav">
-  <div class="nav-brand">🏇 COURSES DE CHEVAUX</div>
+  <div class="nav-brand"><img src="logo.png" alt="Logo" title="Courses de Chevaux"> COURSES DE CHEVAUX</div>
+  <button class="nav-menu-toggle" onclick="toggleMobileMenu()">☰</button>
   <div class="nav-tabs">
-    <button class="nav-tab active" onclick="goPage('p-liste',this)">📋 &nbsp;Liste des Partants</button>
-    <button class="nav-tab" onclick="goPage('p-rank',this)">🏆 &nbsp;Classement Arrivée</button>
+    <button class="nav-tab active" onclick="goPage('p-liste',this); closeMobileMenu()">📋 &nbsp;Liste des Partants</button>
+    <button class="nav-tab" onclick="goPage('p-rank',this); closeMobileMenu()">🏆 &nbsp;Classement Arrivée</button>
   </div>
 </div>
+
+<!-- Mobile Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMobileMenu()"></div>
 
 <!-- ══════════════════════════════════════════
      PAGE 1 — LISTE DES PARTANTS
@@ -211,7 +382,7 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 <div id="p-liste" class="page active">
 
   <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar-page1">
     <div>
       <div class="sec">1. Importer le fichier Excel</div>
       <div class="dz" id="dz1">
@@ -283,7 +454,7 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 <div id="p-rank" class="page">
 
   <!-- SIDEBAR -->
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar-page2">
     <div>
       <div class="sec">1. Importer le PDF de la liste</div>
       <div class="dz" id="dz2">
@@ -344,8 +515,25 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 let horses = [];      // Liste complète
 let rankHorses = [];  // Classement (copie réordonnée)
 let logoL = null, logoR = null;
+let copyrightLogo = null;  // Logo copyright
 let dragSrc = null;
 const EMOJIS = ['🟢','🔵','🟡','⚫','🟠','🔴','🟣','🟤','⚪','🔶'];
+
+// ──────────────────────
+// LOAD COPYRIGHT LOGO
+// ──────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const img = new Image();
+  img.onload = () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    copyrightLogo = canvas.toDataURL('image/png');
+  };
+  img.src = 'logo.png';
+});
 
 // ══════════════════════
 // NAVIGATION
@@ -356,6 +544,35 @@ function goPage(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
 }
+
+// ──────────────────────
+// MOBILE MENU FUNCTIONS
+// ──────────────────────
+function toggleMobileMenu() {
+  const navTabs = document.querySelector('.nav-tabs');
+  const overlay = document.getElementById('sidebar-overlay');
+  const sidebars = document.querySelectorAll('.sidebar');
+  
+  navTabs?.classList.toggle('mobile-open');
+  overlay?.classList.toggle('mobile-open');
+  sidebars.forEach(s => s.classList.toggle('mobile-open'));
+}
+
+function closeMobileMenu() {
+  const navTabs = document.querySelector('.nav-tabs');
+  const overlay = document.getElementById('sidebar-overlay');
+  const sidebars = document.querySelectorAll('.sidebar');
+  
+  navTabs?.classList.remove('mobile-open');
+  overlay?.classList.remove('mobile-open');
+  sidebars.forEach(s => s.classList.remove('mobile-open'));
+}
+
+// Close menu when clicking overlay
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('sidebar-overlay');
+  overlay?.addEventListener('click', closeMobileMenu);
+});
 
 // ══════════════════════
 // EXCEL IMPORT
@@ -563,8 +780,8 @@ function renderList(){
     return;
   }
 
-  const logoLeftC = logoL?`<img src="${logoL}" alt="">`:`<div style="font-size:32px;color:rgba(201,162,39,.4)">🐎</div>`;
-  const logoRightC = logoR?`<img src="${logoR}" alt="">`:`<div style="font-size:28px;color:rgba(201,162,39,.4)">🏆</div>`;
+  const logoLeftC = logoL?`<img src="${logoL}" alt="">`:`<div style="font-size:32px;color:rgba(181,106,45,.8)">🐎</div>`;
+  const logoRightC = logoR?`<img src="${logoR}" alt="">`:`<div style="font-size:28px;color:rgba(181,106,45,.8)">🏆</div>`;
 
   let rows='';
   horses.forEach((h,i)=>{
@@ -585,40 +802,43 @@ function renderList(){
   });
 
   document.getElementById('preview-list').innerHTML=`
-    <div class="pl-hdr">
-      <div class="pl-hdr-img">
-        ${logoLeftC}
-        <div class="ih">🖼<br>Logo</div>
-        <input type="file" accept="image/*" onchange="upLogo('L',this)">
+    <div class="rk-wrapper" style="position:relative">
+      <div class="pl-hdr">
+        <div class="pl-hdr-img">
+          ${logoLeftC}
+          <div class="ih">🖼<br>Logo</div>
+          <input type="file" accept="image/*" onchange="upLogo('L',this)">
+        </div>
+        <div class="pl-hdr-mid">
+          <div class="t1">${gv('L_mainTitle')}</div>
+          <div class="t2">${gv('L_subTitle')}</div>
+          <div class="t3">${gv('L_raceDate')} &nbsp;|&nbsp; ${gv('L_hippodrome')}</div>
+        </div>
+        <div class="pl-hdr-emb">
+          ${logoRightC}
+          <div class="ih">🖼<br>Logo</div>
+          <input type="file" accept="image/*" onchange="upLogo('R',this)">
+        </div>
       </div>
-      <div class="pl-hdr-mid">
-        <div class="t1">${gv('L_mainTitle')}</div>
-        <div class="t2">${gv('L_subTitle')}</div>
-        <div class="t3">${gv('L_raceDate')} &nbsp;|&nbsp; ${gv('L_hippodrome')}</div>
+      <div class="pl-race-info">
+        <div class="rn">COURSE N°${gv('L_raceNum')} &nbsp;(${gv('L_raceDist')} m)</div>
+        <div class="rnm">${gv('L_raceName')}</div>
       </div>
-      <div class="pl-hdr-emb">
-        ${logoRightC}
-        <div class="ih">🖼<br>Logo</div>
-        <input type="file" accept="image/*" onchange="upLogo('R',this)">
+      <div class="pl-thead">
+        <div class="pl-th">N°</div>
+        <div class="pl-th">Casaque</div>
+        <div class="pl-th">Cheval</div>
+        <div class="pl-th">Propriétaire</div>
+        <div class="pl-th">Jockey</div>
+        <div class="pl-th">Entraîneur</div>
+        <div class="pl-th">Pds</div>
+        <div class="pl-th">S.RB.A</div>
+        <div class="pl-th">Corde</div>
+        <div class="pl-th">Perf.</div>
       </div>
+      ${rows}
+      ${copyrightLogo ? `<img src="${copyrightLogo}" alt="©" class="copyright-logo">` : ''}
     </div>
-    <div class="pl-race-info">
-      <div class="rn">COURSE N°${gv('L_raceNum')} &nbsp;(${gv('L_raceDist')} m)</div>
-      <div class="rnm">${gv('L_raceName')}</div>
-    </div>
-    <div class="pl-thead">
-      <div class="pl-th">N°</div>
-      <div class="pl-th">Casaque</div>
-      <div class="pl-th">Cheval</div>
-      <div class="pl-th">Propriétaire</div>
-      <div class="pl-th">Jockey</div>
-      <div class="pl-th">Entraîneur</div>
-      <div class="pl-th">Pds</div>
-      <div class="pl-th">S.RB.A</div>
-      <div class="pl-th">Corde</div>
-      <div class="pl-th">Perf.</div>
-    </div>
-    ${rows}
   `;
   document.getElementById('lmsg').textContent=`${horses.length} chevaux — aperçu généré`;
 }
@@ -654,33 +874,41 @@ async function genPDF() {
   const startY=39;
   
   const cols=[
-    {label:'N°',    x:margin,      w:10},
-    {label:'CAS.',  x:margin+10,   w:14},
-    {label:'CHEVAL',x:margin+24,   w:46},
-    {label:'PROPR.',x:margin+70,   w:40},
-    {label:'JOCKEY',x:margin+110,  w:36},
-    {label:'ENTR.', x:margin+146,  w:34},
-    {label:'PDS',   x:margin+180,  w:14},
-    {label:'S.RB.A',x:margin+194,  w:16},
-    {label:'CORDE', x:margin+210,  w:14},
-    {label:'PERF.', x:margin+224,  w:40},
+    {label:'Numéro',       x:margin,      w:10},
+    {label:'Casaque',      x:margin+10,   w:14},
+    {label:'Cheval',       x:margin+24,   w:46},
+    {label:'Propriétaire', x:margin+70,   w:40},
+    {label:'Jockey',       x:margin+110,  w:36},
+    {label:'Entraîneur',   x:margin+146,  w:34},
+    {label:'Poids',        x:margin+180,  w:14},
+    {label:'Surcharge',    x:margin+194,  w:16},
+    {label:'Corde',        x:margin+210,  w:14},
+    {label:'Performance',  x:margin+224,  w:40},
   ];
 
   function drawHeader(pageNum) {
     // ── DARK BACKGROUND ──
-    doc.setFillColor(11,22,40);
+    doc.setFillColor(0,0,0);
     doc.rect(0,0,W,H,'F');
 
-    // ── GOLD HEADER LINE ──
-    doc.setFillColor(201,162,39);
+    // ── COPPER HEADER LINE ──
+    doc.setFillColor(181,106,45);
     doc.rect(0,0,W,1.5,'F');
 
     // ── LOGOS ──
     if(logoL){
-      try{doc.addImage(logoL,'',margin,5,20,14,'','FAST')}catch(e){}
+      try{
+        doc.addImage(logoL,'PNG',margin,4,22,16);
+      }catch(e){
+        console.warn('Logo gauche non chargé:', e);
+      }
     }
     if(logoR){
-      try{doc.addImage(logoR,'',W-margin-20,5,20,14,'','FAST')}catch(e){}
+      try{
+        doc.addImage(logoR,'PNG',W-margin-22,4,22,16);
+      }catch(e){
+        console.warn('Logo droit non chargé:', e);
+      }
     }
 
     // ── HEADER TEXT ──
@@ -690,58 +918,65 @@ async function genPDF() {
     doc.setFont('helvetica','bold');
     doc.setFontSize(15);
     doc.text(t1, W/2, 10.5, {align:'center'});
-    doc.setTextColor(201,162,39);
+    doc.setTextColor(208,138,75);
     doc.setFontSize(9);
     doc.text(t2, W/2, 15.5, {align:'center'});
-    doc.setTextColor(120,130,150);
+    doc.setTextColor(191,191,191);
     doc.setFontSize(7.5);
     doc.text(t3, W/2, 19.5, {align:'center'});
 
     // ── RACE INFO ──
-    doc.setFillColor(201,162,39);
+    doc.setFillColor(181,106,45);
     doc.rect(0,21.5,W,0.8,'F');
     doc.setTextColor(255,255,255);
     doc.setFont('helvetica','bold');
     doc.setFontSize(10.5);
     doc.text(`COURSE N°${gv('L_raceNum')}  (${gv('L_raceDist')} m)`, margin, 26.5);
-    doc.setTextColor(201,162,39);
+    doc.setTextColor(208,138,75);
     doc.setFontSize(8);
     doc.text(gv('L_raceName'), margin, 31);
 
     // ── TABLE HEADER ──
-    doc.setFillColor(20,28,50);
-    doc.rect(margin-1,startY-5.5,W-2*margin+2,7.5,'F');
+    doc.setFillColor(18,18,18);
+    doc.rect(margin-1,startY-8,W-2*margin+2,10,'F');
     
-    // Border around header
-    doc.setDrawColor(201,162,39);
-    doc.setLineWidth(0.4);
-    doc.rect(margin-1,startY-5.5,W-2*margin+2,7.5);
+    // Border around entire header
+    doc.setDrawColor(181,106,45);
+    doc.setLineWidth(0.5);
+    doc.rect(margin-1,startY-8,W-2*margin+2,10);
     
-    doc.setTextColor(201,162,39);
+    doc.setTextColor(208,138,75);
     doc.setFont('helvetica','bold');
-    doc.setFontSize(7);
+    doc.setFontSize(8.5);
     cols.forEach((c,idx)=>{
-      doc.text(c.label, c.x+2, startY-1);
-      // Vertical separator lines
-      if(idx < cols.length-1) {
-        doc.setDrawColor(50,60,90);
-        doc.setLineWidth(0.1);
-        doc.line(c.x+c.w, startY-5.5, c.x+c.w, startY+1.5);
-      }
+      doc.text(c.label, c.x+2, startY-2, {align:'left'});
+      // Vertical separator lines for each column
+      doc.setDrawColor(138,79,36);
+      doc.setLineWidth(0.3);
+      doc.line(c.x+c.w, startY-8, c.x+c.w, startY+2);
     });
 
     // ── PAGE NUMBER (top right) ──
-    doc.setTextColor(100,110,130);
+    doc.setTextColor(139,159,143);
     doc.setFont('helvetica','normal');
     doc.setFontSize(7);
     doc.text(`Page ${pageNum}`, W-margin-10, 9);
+    
+    // ── COPYRIGHT LOGO ──
+    if(copyrightLogo){
+      try{
+        doc.addImage(copyrightLogo,'PNG',W-margin-6,H-8,5,5);
+      }catch(e){
+        console.warn('Copyright logo non chargé:', e);
+      }
+    }
   }
 
   // Draw first page header
   drawHeader(1);
 
   // ── TABLE ROWS ──
-  let y=startY+3;
+  let y=startY+5;
   let pageNum=1;
   let rowsPerPage = Math.floor((H-startY-8) / rowH);
   let currentRow=0;
@@ -752,7 +987,7 @@ async function genPDF() {
     // Check if we need a new page
     if(y > H-12){
       // ── FOOTER ON CURRENT PAGE ──
-      doc.setTextColor(100,110,130);
+      doc.setTextColor(139,159,143);
       doc.setFont('helvetica','normal');
       doc.setFontSize(6.5);
       doc.text(`Générée le ${new Date().toLocaleString('fr-FR')}`, margin, H-3);
@@ -762,27 +997,44 @@ async function genPDF() {
       doc.addPage();
       pageNum++;
       drawHeader(pageNum);
-      y=startY+3;
+      y=startY+5;
       currentRow=0;
     }
 
     // alternating bg
     if(currentRow%2===0){
-      doc.setFillColor(255,255,255,8);
+      doc.setFillColor(30,24,18);
       doc.rect(margin-1,y-6.2,W-2*margin+2,rowH,'F');
+    }
+
+    // Draw grid borders for each cell
+    doc.setDrawColor(138,79,36);
+    doc.setLineWidth(0.25);
+    
+    // Horizontal line above row
+    doc.line(margin-1, y-6.2, W-margin+1, y-6.2);
+    
+    // Vertical lines for each column
+    cols.forEach((c)=>{
+      doc.line(c.x+c.w, y-6.2, c.x+c.w, y+2.3);
+    });
+    
+    // Bottom border of row
+    if(i === horses.length-1 || y+rowH > H-12){
+      doc.line(margin-1, y+2.3, W-margin+1, y+2.3);
     }
 
     // casaque image
     if(h.silk){
-      try{doc.addImage(h.silk,'',cols[1].x-1, y-5.5, 8.5, 7,'','FAST')}catch(e){}
+      try{doc.addImage(h.silk,'PNG',cols[1].x-1, y-5.5, 8.5, 7)}catch(e){}
     } else {
-      doc.setFillColor(50,60,90);
+      doc.setFillColor(138,79,36);
       doc.rect(cols[1].x-1,y-5.5,8.5,7,'F');
     }
 
-    // ── NUM (yellow, bold, centered) ──
+    // ── NUM (copper, bold, centered) ──
     doc.setFont('helvetica','bold');
-    doc.setTextColor(201,162,39);
+    doc.setTextColor(208,138,75);
     doc.setFontSize(9.5);
     doc.text(String(h.num), cols[0].x+5, y, {align:'center'});
 
@@ -794,7 +1046,7 @@ async function genPDF() {
 
     // ── OWNER ──
     doc.setFont('helvetica','normal');
-    doc.setTextColor(200,210,220);
+    doc.setTextColor(242,227,213);
     doc.setFontSize(6.5);
     doc.text(String(h.proprietaire).substring(0,24), cols[3].x+2, y);
     
@@ -805,33 +1057,37 @@ async function genPDF() {
     doc.text(String(h.entraineur).substring(0,20), cols[5].x+2, y);
 
     // ── NUMBERS (PDS, SRBA, CORDE) ──
-    doc.setTextColor(201,162,39);
+    doc.setTextColor(208,138,75);
     doc.setFontSize(6.5);
     doc.text(String(h.pds), cols[6].x+7, y, {align:'center'});
     doc.text(String(h.srba), cols[7].x+8, y, {align:'center'});
     doc.text(String(h.corde), cols[8].x+7, y, {align:'center'});
 
     // ── PERFORMANCE ──
-    doc.setTextColor(120,130,150);
+    doc.setTextColor(191,191,191);
     doc.setFont('courier','normal');
     doc.setFontSize(6);
     doc.text(String(h.perf).substring(0,20), cols[9].x+2, y);
-
-    // separator line
-    doc.setDrawColor(40,50,80);
-    doc.setLineWidth(0.15);
-    doc.line(margin, y+2.5, W-margin, y+2.5);
 
     y+=rowH;
     currentRow++;
   }
 
   // ── FINAL FOOTER ──
-  doc.setTextColor(100,110,130);
+  doc.setTextColor(139,159,143);
   doc.setFont('helvetica','normal');
   doc.setFontSize(6.5);
   doc.text(`Générée le ${new Date().toLocaleString('fr-FR')}`, margin, H-3);
   doc.text(`${horses.length} partants`, W-margin-25, H-3);
+  
+  // ── COPYRIGHT LOGO ──
+  if(copyrightLogo){
+    try{
+      doc.addImage(copyrightLogo,'PNG',W-margin-8,H-8,6,6);
+    }catch(e){
+      console.warn('Copyright logo non chargé:', e);
+    }
+  }
 
   // ── EMBED JSON DATA (invisible metadata for ranking page) ──
   const meta = {
@@ -998,6 +1254,10 @@ function makeRkItem(h,i){
           <input value="${xss(h.cheval)}" oninput="rankHorses[${i}].cheval=this.value;updRk(${i})"></div>
         <div class="field"><label>Propriétaire</label>
           <input value="${xss(h.proprietaire)}" oninput="rankHorses[${i}].proprietaire=this.value;updRk(${i})"></div>
+        <div class="field"><label>Éleveur</label>
+          <input value="${xss(h.eleveur)}" oninput="rankHorses[${i}].eleveur=this.value;updRk(${i})"></div>
+        <div class="field"><label>Origines</label>
+          <input value="${xss(h.origines)}" oninput="rankHorses[${i}].origines=this.value;updRk(${i})"></div>
         <div class="field"><label>Jockey</label>
           <input value="${xss(h.jockey)}" oninput="rankHorses[${i}].jockey=this.value;updRk(${i})"></div>
         <div class="field"><label>Entraîneur</label>
@@ -1063,8 +1323,8 @@ function renderRank(){
   const t2    = gv('L_subTitle');
   const duree = gv('R_duree');
 
-  const logoLeftC = logoL?`<img src="${logoL}" alt="">`:`<div style="font-size:30px;color:rgba(201,162,39,.4)">🐎</div>`;
-  const logoRightC= logoR?`<img src="${logoR}" alt="">`:`<div style="font-size:26px;color:rgba(201,162,39,.4)">🏆</div>`;
+  const logoLeftC = logoL?`<img src="${logoL}" alt="">`:`<div style="font-size:30px;color:rgba(181,106,45,.8)">🐎</div>`;
+  const logoRightC= logoR?`<img src="${logoR}" alt="">`:`<div style="font-size:26px;color:rgba(181,106,45,.8)">🏆</div>`;
 
   let rows='';
   rankHorses.slice(0, 5).forEach((h,i)=>{
@@ -1081,6 +1341,10 @@ function renderRank(){
             <span class="rk-iv"><span class="rk-num">N°${h.num}</span> &nbsp;${xss(h.cheval)||'—'}</span>
             <span class="rk-il">Propriétaire:</span>
             <span class="rk-iv">${xss(h.proprietaire)||'—'}</span>
+            <span class="rk-il">Éleveur:</span>
+            <span class="rk-iv">${xss(h.eleveur)||'—'}</span>
+            <span class="rk-il">Origines:</span>
+            <span class="rk-iv">${xss(h.origines)||'—'}</span>
             <span class="rk-il">Jockey:</span>
             <span class="rk-iv">${xss(h.jockey)||'—'}</span>
             <span class="rk-il">Entraîneur:</span>
@@ -1092,20 +1356,23 @@ function renderRank(){
   });
 
   document.getElementById('preview-rank').innerHTML=`
-    <div class="rk-hdr">
-      <div class="pl-hdr-img">${logoLeftC}<div class="ih">🖼<br>Logo</div><input type="file" accept="image/*" onchange="upLogo('L',this);renderRank()"></div>
-      <div class="rk-hdr-mid">
-        <div class="t1">${xss(t1)}</div>
-        <div class="t2">${xss(t2)}</div>
-        <div class="t3">${xss(rDate)} &nbsp;|&nbsp; ${xss(rhipp)}</div>
+    <div class="rk-wrapper" style="position:relative">
+      <div class="rk-hdr">
+        <div class="pl-hdr-img">${logoLeftC}<div class="ih">🖼<br>Logo</div><input type="file" accept="image/*" onchange="upLogo('L',this);renderRank()"></div>
+        <div class="rk-hdr-mid">
+          <div class="t1">${xss(t1)}</div>
+          <div class="t2">${xss(t2)}</div>
+          <div class="t3">${xss(rDate)} &nbsp;|&nbsp; ${xss(rhipp)}</div>
+        </div>
+        <div class="pl-hdr-emb">${logoRightC}<div class="ih">🖼<br>Logo</div><input type="file" accept="image/*" onchange="upLogo('R',this);renderRank()"></div>
       </div>
-      <div class="pl-hdr-emb">${logoRightC}<div class="ih">🖼<br>Logo</div><input type="file" accept="image/*" onchange="upLogo('R',this);renderRank()"></div>
+      <div class="rk-race-info">
+        <div class="rn">COURSE N°${xss(rNum)} &nbsp;(${xss(rDist)} m)</div>
+        <div class="rnm">${xss(rName)}</div>
+      </div>
+      ${rows}
+      ${copyrightLogo ? `<img src="${copyrightLogo}" alt="©" class="copyright-logo">` : ''}
     </div>
-    <div class="rk-race-info">
-      <div class="rn">COURSE N°${xss(rNum)} &nbsp;(${xss(rDist)} m)</div>
-      <div class="rnm">${xss(rName)}</div>
-    </div>
-    ${rows}
   `;
   document.getElementById('rmsg').textContent='✅ Classement généré !';
   toast('✅ Classement généré !');
@@ -1116,14 +1383,50 @@ function exportRankPNG(){
   const card=document.getElementById('preview-rank');
   if(card.querySelector('.empty')){toast('⚠️ Générez d\'abord','warn');return}
   toast('⏳ Export…');
-  html2canvas(card,{scale:2,backgroundColor:'#0b1628',useCORS:true,logging:false})
+  
+  // Clone the card to avoid height restrictions
+  const clone = card.cloneNode(true);
+  clone.style.position = 'absolute';
+  clone.style.left = '-9999px';
+  clone.style.top = '-9999px';
+  clone.style.visibility = 'visible';
+  clone.style.display = 'block';
+  clone.style.width = card.offsetWidth + 'px';
+  
+  // Add copyright logo if available
+  if(copyrightLogo && !clone.querySelector('.copyright-logo')){
+    const wrapper = clone.querySelector('.rk-wrapper');
+    if(wrapper){
+      const logoImg = document.createElement('img');
+      logoImg.src = copyrightLogo;
+      logoImg.alt = '©';
+      logoImg.className = 'copyright-logo';
+      wrapper.appendChild(logoImg);
+    }
+  }
+  
+  document.body.appendChild(clone);
+  
+  html2canvas(clone,{
+    scale:2,
+    backgroundColor:'#0b1628',
+    useCORS:true,
+    logging:false,
+    allowTaint:true,
+    imageTimeout:0
+  })
     .then(canvas=>{
+      document.body.removeChild(clone);
       const a=document.createElement('a');
       a.download='classement_arrivee.png';
       a.href=canvas.toDataURL('image/png');
       a.click();
       toast('✅ Image téléchargée !');
-    }).catch(()=>toast('❌ Erreur export','err'));
+    }).catch(err=>{
+      document.body.removeChild(clone);
+      toast('❌ Erreur export','err');
+      console.error(err);
+    });
 }
 
 // ── LIVE UPDATE ──
