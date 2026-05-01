@@ -10,20 +10,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#000000;--bg2:#0F5A3C;--bg3:#2E8B63;--border:#4FA07A;
-  --gold:#C9A646;--gold2:#D8B85A;--text:#FFFFFF;--muted:#BFBFBF;--dim:#8B9B8F;
-  --green:#2E8B63;--red:#E53E3E;--blue:#2E8B63;
-  --copper-light:#D08A4B;--copper-main:#B56A2D;--brown-med:#8A4F24;--brown-dark:#5A2E16;
-  --black-deep:#000000;--black-soft:#121212;--beige-light:#F2E3D5;
+  --bg:#FAF7F1;--bg2:#FFFFFF;--bg3:#E8EFE7;--border:#CDBA86;
+  --gold:#A77B20;--gold2:#D8B85A;--text:#1F2933;--muted:#65727E;--dim:#8A7560;
+  --green:#2F7D5C;--red:#C73535;--blue:#2F7D5C;
+  --copper-light:#B77732;--copper-main:#8F5B22;--brown-med:#C8A36A;--brown-dark:#EFE3CF;
+  --black-deep:#FFFDF8;--black-soft:#FFFFFF;--beige-light:#4A3424;
 }
-body{font-family:'Inter',sans-serif;background:var(--black-deep);color:var(--text);min-height:100vh}
+body{font-family:'Inter',sans-serif;background:linear-gradient(180deg,#FFFDF8 0%,#F3ECE0 100%);color:var(--text);min-height:100vh}
 
 /* ── NAV ── */
-.nav{display:flex;background:var(--black-soft);border-bottom:2px solid var(--copper-main);padding:0}
+.nav{display:flex;background:var(--black-soft);border-bottom:2px solid var(--copper-main);padding:0;box-shadow:0 2px 12px rgba(143,91,34,.12)}
 .nav-brand{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--copper-light);padding:0 24px;display:flex;align-items:center;gap:8px;border-right:2px solid var(--copper-main)}
 .nav-brand img{height:32px;width:auto;object-fit:contain}
 .nav-tabs{display:flex;flex:1}
@@ -51,7 +52,7 @@ body{font-family:'Inter',sans-serif;background:var(--black-deep);color:var(--tex
 /* ── BUTTONS ── */
 .btn{border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px;justify-content:center}
 .btn:active{transform:scale(.97)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));color:#FFFFFF;width:100%}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));color:#FFFFFF;width:100%;box-shadow:0 4px 12px rgba(167,123,32,.22)}
 .btn-gold:hover{opacity:.88}
 .btn-out{background:transparent;border:1px solid var(--border);color:var(--muted);width:100%}
 .btn-out:hover{border-color:var(--muted);color:var(--text)}
@@ -95,7 +96,7 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 .full{grid-column:1/-1}
 
 /* ── PREVIEW CARD (liste) ── */
-#preview-list{width:960px;background:var(--black-deep);border-radius:4px;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.6);border:2px solid var(--copper-main)}
+#preview-list{width:960px;background:var(--black-deep);border-radius:4px;overflow:hidden;box-shadow:0 14px 34px rgba(80,58,28,.18);border:2px solid var(--copper-main)}
 .pl-hdr{background:var(--black-soft);padding:16px 26px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--copper-main)}
 .pl-hdr-img{width:80px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:4px;border:1px dashed rgba(201,166,70,.4)}
 .pl-hdr-img img{width:100%;height:100%;object-fit:contain}
@@ -108,11 +109,11 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 .pl-hdr-emb:hover .ih{opacity:1}
 .pl-hdr-emb input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .pl-hdr-mid{text-align:center;flex:1;padding:0 12px}
-.pl-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:white;letter-spacing:3px}
+.pl-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--text);letter-spacing:3px}
 .pl-hdr-mid .t2{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:2px;margin-top:2px}
 .pl-hdr-mid .t3{font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-top:3px}
 .pl-race-info{background:var(--black-soft);padding:8px 26px;border-bottom:1px solid var(--brown-med)}
-.pl-race-info .rn{font-size:16px;font-weight:700;color:white}
+.pl-race-info .rn{font-size:16px;font-weight:700;color:var(--text)}
 .pl-race-info .rnm{font-size:13px;font-weight:600;color:var(--gold)}
 
 /* table header */
@@ -121,39 +122,39 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 
 /* list row */
 .pl-row{display:grid;grid-template-columns:44px 56px 1fr 1fr 1fr 1fr 52px 52px 52px 80px;gap:0;padding:9px 26px;border-bottom:1px solid var(--brown-med);align-items:center}
-.pl-row:nth-child(odd){background:rgba(255,255,255,.08)}
+.pl-row:nth-child(odd){background:#F7F0E4}
 .pl-row:last-child{border-bottom:none}
 .pl-num{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--copper-light)}
 .pl-silk{width:40px;height:40px;background:var(--brown-med);border:1px solid var(--copper-light);border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:18px;flex-shrink:0}
 .pl-silk img{width:100%;height:100%;object-fit:cover}
 .pl-cell{font-size:11.5px;font-weight:500;color:var(--text);padding-right:8px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pl-cell.name{font-size:13px;font-weight:700;color:white}
+.pl-cell.name{font-size:13px;font-weight:700;color:var(--text)}
 .pl-cell.muted{color:var(--muted);font-size:10.5px}
 .pl-cell.num{font-size:12px;font-weight:600;color:var(--copper-light);text-align:center}
 .pl-perf{font-size:10px;color:var(--muted);font-family:monospace;letter-spacing:1px}
 
 /* ── RANKING PAGE ── */
-#preview-rank{width:900px;background:var(--black-deep);border-radius:4px;overflow:visible;box-shadow:0 16px 50px rgba(0,0,0,.6);border:2px solid var(--copper-main);height:auto;display:flex;flex-direction:column}
+#preview-rank{width:900px;background:var(--black-deep);border-radius:4px;overflow:visible;box-shadow:0 14px 34px rgba(80,58,28,.18);border:2px solid var(--copper-main);height:auto;display:flex;flex-direction:column}
 .rk-hdr{background:var(--black-soft);padding:14px 22px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--copper-main);flex-shrink:0}
 .rk-hdr-mid{text-align:center;flex:1;padding:0 12px}
-.rk-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:white;letter-spacing:2px}
+.rk-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--text);letter-spacing:2px}
 .rk-hdr-mid .t2{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:1px}
 .rk-hdr-mid .t3{font-size:9px;color:var(--muted);letter-spacing:1.5px;margin-top:2px}
 .rk-race-info{background:var(--black-soft);padding:6px 22px;flex-shrink:0}
-.rk-race-info .rn{font-size:14px;font-weight:700;color:white}
+.rk-race-info .rn{font-size:14px;font-weight:700;color:var(--text)}
 .rk-race-info .rnm{font-size:12px;font-weight:600;color:var(--gold)}
 .rk-row{display:flex;align-items:center;padding:10px 22px;border-bottom:1px solid var(--brown-med);gap:12px;flex-shrink:0}
 .rk-row:last-child{border-bottom:none}
-.rk-row:nth-child(odd){background:rgba(255,255,255,.08)}
+.rk-row:nth-child(odd){background:#F7F0E4}
 .rk-place{min-width:54px;display:flex;align-items:baseline;gap:1px;flex-shrink:0}
-.rk-place-num{font-family:'Cinzel',serif;font-size:36px;font-weight:700;color:white;line-height:1}
+.rk-place-num{font-family:'Cinzel',serif;font-size:36px;font-weight:700;color:var(--text);line-height:1}
 .rk-place-sfx{font-size:11px;font-weight:600;color:var(--muted);align-self:flex-start;margin-top:5px}
 .rk-silk{width:58px;height:58px;background:var(--brown-med);border:1px solid var(--copper-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:22px}
 .rk-silk img{width:100%;height:100%;object-fit:cover}
 .rk-info{flex:1;min-width:0}
 .rk-ig{display:grid;grid-template-columns:auto 1fr;row-gap:1px;column-gap:8px;align-items:baseline}
 .rk-il{font-size:8.5px;font-weight:700;letter-spacing:1px;color:var(--copper-light);text-transform:uppercase;white-space:nowrap}
-.rk-iv{font-size:10.5px;font-weight:500;color:white;letter-spacing:.2px}
+.rk-iv{font-size:10.5px;font-weight:500;color:var(--text);letter-spacing:.2px}
 .rk-num{font-size:10px;font-weight:700;color:var(--copper-light)}
 .rk-gap{font-size:12px;font-weight:600;color:var(--muted);min-width:48px;text-align:right;flex-shrink:0}
 
@@ -174,6 +175,12 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
 .rk-gap-wrap{padding:0 8px;display:flex;align-items:center;gap:4px}
 .rk-gap-inp{background:var(--bg2);border:1px solid var(--brown-med);border-radius:4px;padding:4px 7px;color:var(--copper-light);font-size:11px;font-weight:600;width:68px;text-align:center;font-family:'Inter',sans-serif}
 .rk-gap-inp:focus{outline:none;border-color:var(--gold)}
+.rk-status{background:var(--bg2);border:1px solid var(--brown-med);border-radius:4px;padding:4px 6px;color:var(--text);font-size:10px;font-weight:700;width:86px;font-family:'Inter',sans-serif}
+.rk-status-badge{display:inline-block;margin-top:3px;padding:2px 6px;border-radius:999px;font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;border:1px solid var(--green);color:var(--green);background:#EEF8F1}
+.rk-status-badge.np{border-color:var(--red);color:var(--red);background:#FCEEEE}
+.rk-row.non-runner{opacity:.72}
+.rk-np-list{padding:8px 22px;border-top:1px solid var(--brown-med);font-size:10px;color:var(--muted);background:#FFF8ED}
+.rk-np-list strong{color:var(--red)}
 .rk-exp-btn{padding:12px 9px;color:var(--dim);font-size:13px;flex-shrink:0;transition:transform .2s}
 .rk-item.open .rk-exp-btn{transform:rotate(180deg)}
 .rk-detail{display:none;padding:6px 12px 12px 48px;border-top:1px solid var(--bg3)}
@@ -403,6 +410,7 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
           <div class="field"><label>Distance (m)</label><input id="L_raceDist" value="2000"></div>
         </div>
         <div class="field"><label>Nom du prix</label><input id="L_raceName" value="PRIX UAE PRESIDENT CUP (GROUPE 1)"></div>
+        <div class="field"><label>Allocation de la course</label><input id="L_allocation" value="" placeholder="Ex: 80 000 DT"></div>
         <div class="fr">
           <div class="field"><label>Date</label><input id="L_raceDate" value="Dimanche 19 Avril 2026"></div>
           <div class="field"><label>Hippodrome</label><input id="L_hippodrome" value="HIPPODROME DE KASSAR SAÏD"></div>
@@ -412,7 +420,7 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
     <hr class="dv">
     <div>
       <div class="sec">3. Casaques — cliquez chaque vignette</div>
-      <div class="tip">🖼 Cliquez sur la casaque colorée de chaque cheval (dans la liste ci-dessous) pour ajouter son image. Les logos de l'en-tête sont aussi cliquables sur la carte.</div>
+      <div class="tip">🖼 Cliquez sur la casaque colorée de chaque cheval (dans la liste ci-dessous) pour ajouter son image ou un PDF. Les logos de l'en-tête sont aussi cliquables sur la carte.</div>
     </div>
     <hr class="dv">
     <button class="btn btn-gold" onclick="renderList()">🎨 Aperçu / Actualiser</button>
@@ -481,7 +489,7 @@ hr.dv{border:none;border-top:1px solid var(--bg3)}
       <div class="tip">
         <strong>⠿ Glissez</strong> pour changer l'ordre &nbsp;·&nbsp;
         <strong>▼</strong> pour modifier &nbsp;·&nbsp;
-        <strong>Durée</strong> = temps de course total
+        <strong>Statut</strong> = partant / non partant
       </div>
       <div id="rklist" style="margin-top:10px"></div>
     </div>
@@ -628,6 +636,7 @@ function readExcel(file) {
           age: String(r[cm.age]||'').trim(),
           corde: String(r[cm.corde]||r['*']||'').trim(),
           silk: prev[idx]||null,
+          status: 'partant',
           open: false,
         };
       });
@@ -635,7 +644,7 @@ function readExcel(file) {
       renderHCards();
       renderList();
       document.getElementById('ist').textContent=`✔ ${horses.length} chevaux chargés`;
-      document.getElementById('lmsg').textContent=`${horses.length} chevaux — cliquez les casaques pour ajouter les images`;
+      document.getElementById('lmsg').textContent=`${horses.length} chevaux — cliquez les casaques pour ajouter les images ou PDF`;
       document.getElementById('addRowBtn').style.display='';
       toast(`✅ ${horses.length} chevaux importés !`);
     } catch(err){toast('❌ Erreur lecture','err');console.error(err)}
@@ -658,7 +667,7 @@ function loadEx() {
   renderHCards();
   renderList();
   document.getElementById('addRowBtn').style.display='';
-  document.getElementById('lmsg').textContent='Exemple chargé — cliquez les casaques colorées pour ajouter les images';
+  document.getElementById('lmsg').textContent='Exemple chargé — cliquez les casaques colorées pour ajouter les images ou PDF';
   toast('📋 Exemple chargé !');
 }
 
@@ -684,7 +693,7 @@ function makeHCard(h, i) {
       <div class="hcard-num">${h.num}</div>
       <div class="hcard-silk" onclick="event.stopPropagation()" title="Cliquez pour la casaque">
         ${silkC}<div class="sh">🖼</div>
-        <input type="file" accept="image/*" onchange="setSilk(${i},this)" onclick="event.stopPropagation()">
+        <input type="file" accept="image/*,.pdf,application/pdf" onchange="setSilk(${i},this)" onclick="event.stopPropagation()">
       </div>
       <div class="hcard-info">
         <div class="hcard-name">${xss(h.cheval)||'(sans nom)'}</div>
@@ -742,22 +751,59 @@ function updHCard(i) {
   cards[i].querySelector('.hcard-num').textContent=horses[i].num;
 }
 
-function setSilk(i, input) {
+const SILK_ACCEPT = 'image/*,.pdf,application/pdf';
+if(window.pdfjsLib){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+async function pdfToImageDataURL(file) {
+  if(!window.pdfjsLib) throw new Error('PDF.js non chargé');
+
+  const buffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({data: buffer}).promise;
+  const page = await pdf.getPage(1);
+  const viewport = page.getViewport({scale: 2});
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = viewport.width;
+  canvas.height = viewport.height;
+  await page.render({canvasContext: ctx, viewport}).promise;
+  return canvas.toDataURL('image/png');
+}
+
+function refreshSilkInput(i, dataUrl) {
+  const cards=document.querySelectorAll('.hcard');
+  const silk=cards[i]?.querySelector('.hcard-silk');
+  if(!silk)return;
+  silk.innerHTML=`<img src="${dataUrl}" alt=""><div class="sh">🖼</div><input type="file" accept="${SILK_ACCEPT}" onchange="setSilk(${i},this)" onclick="event.stopPropagation()">`;
+}
+
+async function setSilk(i, input) {
   const f=input.files[0]; if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    horses[i].silk=e.target.result;
-    const cards=document.querySelectorAll('.hcard');
-    const silk=cards[i].querySelector('.hcard-silk');
-    silk.innerHTML=`<img src="${e.target.result}" alt=""><div class="sh">🖼</div><input type="file" accept="image/*" onchange="setSilk(${i},this)" onclick="event.stopPropagation()">`;
-    toast('🖼 Casaque ajoutée !');
-  };
-  r.readAsDataURL(f);
+  try{
+    const dataUrl = f.type==='application/pdf' || /\.pdf$/i.test(f.name)
+      ? await pdfToImageDataURL(f)
+      : await new Promise((resolve,reject)=>{
+          const r=new FileReader();
+          r.onload=e=>resolve(e.target.result);
+          r.onerror=reject;
+          r.readAsDataURL(f);
+        });
+
+    horses[i].silk=dataUrl;
+    refreshSilkInput(i,dataUrl);
+    toast(f.type==='application/pdf' || /\.pdf$/i.test(f.name) ? '📄 Casaque PDF ajoutée !' : '🖼 Casaque ajoutée !');
+  }catch(err){
+    console.error('Erreur chargement casaque:', err);
+    toast('❌ Impossible de charger cette casaque','err');
+  }finally{
+    input.value='';
+  }
 }
 
 function addHorse(){
   const n=horses.length+1;
-  horses.push({num:n,cheval:'',origines:'',proprietaire:'',jockey:'',entraineur:'',eleveur:'',perf:'',pds:'57.5',srba:'',age:'',corde:'',silk:null,open:true});
+  horses.push({num:n,cheval:'',origines:'',proprietaire:'',jockey:'',entraineur:'',eleveur:'',perf:'',pds:'57.5',srba:'',age:'',corde:'',silk:null,status:'partant',open:true});
   renderHCards();
   document.getElementById('addRowBtn').style.display='';
 }
@@ -823,6 +869,7 @@ function renderList(){
       <div class="pl-race-info">
         <div class="rn">COURSE N°${gv('L_raceNum')} &nbsp;(${gv('L_raceDist')} m)</div>
         <div class="rnm">${gv('L_raceName')}</div>
+        ${gv('L_allocation') ? `<div class="rnm">Allocation : ${xss(gv('L_allocation'))}</div>` : ''}
       </div>
       <div class="pl-thead">
         <div class="pl-th">N°</div>
@@ -870,25 +917,33 @@ async function genPDF() {
 
   const W=297, H=210;
   const margin=12;
-  const rowH=8.5;
-  const startY=39;
+  const rowH=11.5;
+  const startY=46;
   
   const cols=[
-    {label:'Numéro',       x:margin,      w:10},
+    {label:'N°',           x:margin,      w:10},
     {label:'Casaque',      x:margin+10,   w:14},
     {label:'Cheval',       x:margin+24,   w:46},
     {label:'Propriétaire', x:margin+70,   w:40},
     {label:'Jockey',       x:margin+110,  w:36},
     {label:'Entraîneur',   x:margin+146,  w:34},
-    {label:'Poids',        x:margin+180,  w:14},
-    {label:'Surcharge',    x:margin+194,  w:16},
+    {label:'Pds',          x:margin+180,  w:14},
+    {label:'S.RB.A',       x:margin+194,  w:16},
     {label:'Corde',        x:margin+210,  w:14},
-    {label:'Performance',  x:margin+224,  w:40},
+    {label:'Perf.',        x:margin+224,  w:40},
   ];
 
+  function fitText(text, maxW) {
+    let s = String(text || '').trim();
+    if(!s) return '';
+    if(doc.getTextWidth(s) <= maxW) return s;
+    while(s.length > 1 && doc.getTextWidth(s + '…') > maxW) s = s.slice(0, -1);
+    return s + '…';
+  }
+
   function drawHeader(pageNum) {
-    // ── DARK BACKGROUND ──
-    doc.setFillColor(0,0,0);
+    // ── LIGHT BACKGROUND ──
+    doc.setFillColor(255,253,248);
     doc.rect(0,0,W,H,'F');
 
     // ── COPPER HEADER LINE ──
@@ -914,30 +969,35 @@ async function genPDF() {
     // ── HEADER TEXT ──
     const t1=gv('L_mainTitle'), t2=gv('L_subTitle');
     const t3=`${gv('L_raceDate')}  |  ${gv('L_hippodrome')}`;
-    doc.setTextColor(255,255,255);
+    doc.setTextColor(31,41,51);
     doc.setFont('helvetica','bold');
     doc.setFontSize(15);
     doc.text(t1, W/2, 10.5, {align:'center'});
-    doc.setTextColor(208,138,75);
+    doc.setTextColor(143,91,34);
     doc.setFontSize(9);
     doc.text(t2, W/2, 15.5, {align:'center'});
-    doc.setTextColor(191,191,191);
+    doc.setTextColor(101,114,126);
     doc.setFontSize(7.5);
     doc.text(t3, W/2, 19.5, {align:'center'});
 
     // ── RACE INFO ──
     doc.setFillColor(181,106,45);
     doc.rect(0,21.5,W,0.8,'F');
-    doc.setTextColor(255,255,255);
+    doc.setTextColor(31,41,51);
     doc.setFont('helvetica','bold');
     doc.setFontSize(10.5);
     doc.text(`COURSE N°${gv('L_raceNum')}  (${gv('L_raceDist')} m)`, margin, 26.5);
-    doc.setTextColor(208,138,75);
+    doc.setTextColor(143,91,34);
     doc.setFontSize(8);
     doc.text(gv('L_raceName'), margin, 31);
+    if(gv('L_allocation')){
+      doc.setTextColor(101,114,126);
+      doc.setFontSize(7.5);
+      doc.text(`Allocation : ${gv('L_allocation')}`, margin, 35);
+    }
 
     // ── TABLE HEADER ──
-    doc.setFillColor(18,18,18);
+    doc.setFillColor(239,227,207);
     doc.rect(margin-1,startY-8,W-2*margin+2,10,'F');
     
     // Border around entire header
@@ -945,11 +1005,11 @@ async function genPDF() {
     doc.setLineWidth(0.5);
     doc.rect(margin-1,startY-8,W-2*margin+2,10);
     
-    doc.setTextColor(208,138,75);
+    doc.setTextColor(143,91,34);
     doc.setFont('helvetica','bold');
     doc.setFontSize(8.5);
     cols.forEach((c,idx)=>{
-      doc.text(c.label, c.x+2, startY-2, {align:'left'});
+      doc.text(fitText(c.label, c.w-3), c.x+2, startY-2, {align:'left'});
       // Vertical separator lines for each column
       doc.setDrawColor(138,79,36);
       doc.setLineWidth(0.3);
@@ -957,7 +1017,7 @@ async function genPDF() {
     });
 
     // ── PAGE NUMBER (top right) ──
-    doc.setTextColor(139,159,143);
+    doc.setTextColor(101,114,126);
     doc.setFont('helvetica','normal');
     doc.setFontSize(7);
     doc.text(`Page ${pageNum}`, W-margin-10, 9);
@@ -976,18 +1036,17 @@ async function genPDF() {
   drawHeader(1);
 
   // ── TABLE ROWS ──
-  let y=startY+5;
+  let y=startY+2;
   let pageNum=1;
-  let rowsPerPage = Math.floor((H-startY-8) / rowH);
   let currentRow=0;
 
   for(let i=0;i<horses.length;i++){
     const h=horses[i];
     
     // Check if we need a new page
-    if(y > H-12){
+    if(y + rowH > H-10){
       // ── FOOTER ON CURRENT PAGE ──
-      doc.setTextColor(139,159,143);
+      doc.setTextColor(101,114,126);
       doc.setFont('helvetica','normal');
       doc.setFontSize(6.5);
       doc.text(`Générée le ${new Date().toLocaleString('fr-FR')}`, margin, H-3);
@@ -997,84 +1056,88 @@ async function genPDF() {
       doc.addPage();
       pageNum++;
       drawHeader(pageNum);
-      y=startY+5;
+      y=startY+2;
       currentRow=0;
     }
 
+    const rowTop = y;
+    const rowBottom = rowTop + rowH;
+    const textY = rowTop + 7.2;
+    const imgSize = 9;
+
     // alternating bg
     if(currentRow%2===0){
-      doc.setFillColor(30,24,18);
-      doc.rect(margin-1,y-6.2,W-2*margin+2,rowH,'F');
+      doc.setFillColor(247,240,228);
+      doc.rect(margin-1,rowTop,W-2*margin+2,rowH,'F');
     }
 
     // Draw grid borders for each cell
     doc.setDrawColor(138,79,36);
     doc.setLineWidth(0.25);
     
-    // Horizontal line above row
-    doc.line(margin-1, y-6.2, W-margin+1, y-6.2);
+    // Horizontal row borders
+    doc.line(margin-1, rowTop, W-margin+1, rowTop);
+    doc.line(margin-1, rowBottom, W-margin+1, rowBottom);
+    doc.line(margin-1, rowTop, margin-1, rowBottom);
     
     // Vertical lines for each column
     cols.forEach((c)=>{
-      doc.line(c.x+c.w, y-6.2, c.x+c.w, y+2.3);
+      doc.line(c.x+c.w, rowTop, c.x+c.w, rowBottom);
     });
-    
-    // Bottom border of row
-    if(i === horses.length-1 || y+rowH > H-12){
-      doc.line(margin-1, y+2.3, W-margin+1, y+2.3);
-    }
 
     // casaque image
+    const imgX = cols[1].x + (cols[1].w - imgSize) / 2;
+    const imgY = rowTop + (rowH - imgSize) / 2;
     if(h.silk){
-      try{doc.addImage(h.silk,'PNG',cols[1].x-1, y-5.5, 8.5, 7)}catch(e){}
+      try{doc.addImage(h.silk,'PNG',imgX, imgY, imgSize, imgSize)}catch(e){}
     } else {
-      doc.setFillColor(138,79,36);
-      doc.rect(cols[1].x-1,y-5.5,8.5,7,'F');
+      doc.setFillColor(232,219,196);
+      doc.rect(imgX,imgY,imgSize,imgSize,'F');
     }
 
     // ── NUM (copper, bold, centered) ──
     doc.setFont('helvetica','bold');
-    doc.setTextColor(208,138,75);
+    doc.setTextColor(143,91,34);
     doc.setFontSize(9.5);
-    doc.text(String(h.num), cols[0].x+5, y, {align:'center'});
+    doc.text(fitText(h.num, cols[0].w-2), cols[0].x+cols[0].w/2, textY, {align:'center'});
 
     // ── HORSE NAME ──
     doc.setFont('helvetica','bold');
-    doc.setTextColor(255,255,255);
+    doc.setTextColor(31,41,51);
     doc.setFontSize(7.5);
-    doc.text(String(h.cheval).substring(0,28), cols[2].x+2, y);
+    doc.text(fitText(h.cheval, cols[2].w-4), cols[2].x+2, textY);
 
     // ── OWNER ──
     doc.setFont('helvetica','normal');
-    doc.setTextColor(242,227,213);
+    doc.setTextColor(74,52,36);
     doc.setFontSize(6.5);
-    doc.text(String(h.proprietaire).substring(0,24), cols[3].x+2, y);
+    doc.text(fitText(h.proprietaire, cols[3].w-4), cols[3].x+2, textY);
     
     // ── JOCKEY ──
-    doc.text(String(h.jockey).substring(0,22), cols[4].x+2, y);
+    doc.text(fitText(h.jockey, cols[4].w-4), cols[4].x+2, textY);
     
     // ── TRAINER ──
-    doc.text(String(h.entraineur).substring(0,20), cols[5].x+2, y);
+    doc.text(fitText(h.entraineur, cols[5].w-4), cols[5].x+2, textY);
 
     // ── NUMBERS (PDS, SRBA, CORDE) ──
-    doc.setTextColor(208,138,75);
+    doc.setTextColor(143,91,34);
     doc.setFontSize(6.5);
-    doc.text(String(h.pds), cols[6].x+7, y, {align:'center'});
-    doc.text(String(h.srba), cols[7].x+8, y, {align:'center'});
-    doc.text(String(h.corde), cols[8].x+7, y, {align:'center'});
+    doc.text(fitText(h.pds, cols[6].w-2), cols[6].x+cols[6].w/2, textY, {align:'center'});
+    doc.text(fitText(h.srba, cols[7].w-2), cols[7].x+cols[7].w/2, textY, {align:'center'});
+    doc.text(fitText(h.corde, cols[8].w-2), cols[8].x+cols[8].w/2, textY, {align:'center'});
 
     // ── PERFORMANCE ──
-    doc.setTextColor(191,191,191);
+    doc.setTextColor(101,114,126);
     doc.setFont('courier','normal');
     doc.setFontSize(6);
-    doc.text(String(h.perf).substring(0,20), cols[9].x+2, y);
+    doc.text(fitText(h.perf, cols[9].w-4), cols[9].x+2, textY);
 
     y+=rowH;
     currentRow++;
   }
 
   // ── FINAL FOOTER ──
-  doc.setTextColor(139,159,143);
+  doc.setTextColor(101,114,126);
   doc.setFont('helvetica','normal');
   doc.setFontSize(6.5);
   doc.text(`Générée le ${new Date().toLocaleString('fr-FR')}`, margin, H-3);
@@ -1097,6 +1160,7 @@ async function genPDF() {
     raceNum: gv('L_raceNum'),
     raceDist: gv('L_raceDist'),
     raceName: gv('L_raceName'),
+    allocation: gv('L_allocation'),
     raceDate: gv('L_raceDate'),
     hippodrome: gv('L_hippodrome'),
     horses: horses
@@ -1195,13 +1259,14 @@ function processRankingData(jsonStr) {
     }
 
     // Populate ranking page from PDF data
-    rankHorses = data.horses.map(h=>({...h, gap:'', open:false}));
+    rankHorses = data.horses.map(h=>({...h, status:h.status||'partant', gap:'', open:false}));
 
     // Copy course info to ranking fields
     if(data.title) document.getElementById('L_mainTitle').value=data.title;
     if(data.subtitle) document.getElementById('L_subTitle').value=data.subtitle;
     if(data.raceName) document.getElementById('R_raceName').value=data.raceName;
     if(data.raceDist) document.getElementById('R_dist').value=data.raceDist;
+    if(data.allocation) document.getElementById('L_allocation').value=data.allocation;
 
     renderRkList();
     document.getElementById('r_ist').textContent=`✔ ${rankHorses.length} chevaux chargés depuis le PDF`;
@@ -1230,6 +1295,9 @@ function makeRkItem(h,i){
   div.draggable=true;
 
   const silkC=h.silk?`<img src="${h.silk}" alt="">`:`<span style="font-size:16px">${EMOJIS[i%10]}</span>`;
+  const status = h.status || 'partant';
+  const statusLabel = status === 'non_partant' ? 'Non partant' : 'Partant';
+  const statusClass = status === 'non_partant' ? ' np' : '';
 
   div.innerHTML=`
     <div class="rk-item-hdr" onclick="toggleRk(${i},event)">
@@ -1239,6 +1307,15 @@ function makeRkItem(h,i){
       <div class="rk-sum">
         <div class="rk-horse-name">N°${h.num} &nbsp;${xss(h.cheval)||'—'}</div>
         <div class="rk-horse-sub">${xss(h.proprietaire)||''} · ${xss(h.jockey)||''}</div>
+        <span class="rk-status-badge${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="rk-gap-wrap">
+        <select class="rk-status"
+          onclick="event.stopPropagation()"
+          onchange="rankHorses[${i}].status=this.value;renderRkList();if(!document.getElementById('preview-rank').querySelector('.empty'))renderRank();">
+          <option value="partant"${status==='partant'?' selected':''}>Partant</option>
+          <option value="non_partant"${status==='non_partant'?' selected':''}>Non partant</option>
+        </select>
       </div>
       <div class="rk-gap-wrap">
         <input class="rk-gap-inp" value="${xss(h.gap)}" placeholder="Durée"
@@ -1298,7 +1375,7 @@ function makeRkItem(h,i){
 }
 
 function toggleRk(i,e){
-  if(e.target.closest('.rk-gap-wrap')||e.target.closest('.rk-hdl'))return;
+  if(e.target.closest('.rk-gap-wrap')||e.target.closest('.rk-hdl')||e.target.closest('.rk-status'))return;
   rankHorses[i].open=!rankHorses[i].open;
   document.querySelectorAll('.rk-item')[i]?.classList.toggle('open',rankHorses[i].open);
 }
@@ -1322,12 +1399,16 @@ function renderRank(){
   const t1    = gv('L_mainTitle');
   const t2    = gv('L_subTitle');
   const duree = gv('R_duree');
+  const allocation = gv('L_allocation');
 
   const logoLeftC = logoL?`<img src="${logoL}" alt="">`:`<div style="font-size:30px;color:rgba(181,106,45,.8)">🐎</div>`;
   const logoRightC= logoR?`<img src="${logoR}" alt="">`:`<div style="font-size:26px;color:rgba(181,106,45,.8)">🏆</div>`;
 
+  const activeHorses = rankHorses.filter(h=>(h.status||'partant')!=='non_partant');
+  const nonRunners = rankHorses.filter(h=>(h.status||'partant')==='non_partant');
+
   let rows='';
-  rankHorses.slice(0, 5).forEach((h,i)=>{
+  activeHorses.slice(0, 5).forEach((h,i)=>{
     const sfx=i===0?'er':'ème';
     const silkC=h.silk?`<img src="${h.silk}" alt="" style="width:100%;height:100%;object-fit:cover">`:`<span style="font-size:22px">${EMOJIS[i%10]}</span>`;
     const gapDisp=i===0&&duree?`<span style="color:var(--gold);font-size:12px">${xss(duree)}</span>`:(h.gap?xss(h.gap):'');
@@ -1354,6 +1435,9 @@ function renderRank(){
         <div class="rk-gap">${gapDisp}</div>
       </div>`;
   });
+  if(nonRunners.length){
+    rows+=`<div class="rk-np-list"><strong>Non partants :</strong> ${nonRunners.map(h=>`N°${xss(h.num)} ${xss(h.cheval)||'—'}`).join(' · ')}</div>`;
+  }
 
   document.getElementById('preview-rank').innerHTML=`
     <div class="rk-wrapper" style="position:relative">
@@ -1369,6 +1453,7 @@ function renderRank(){
       <div class="rk-race-info">
         <div class="rn">COURSE N°${xss(rNum)} &nbsp;(${xss(rDist)} m)</div>
         <div class="rnm">${xss(rName)}</div>
+        ${allocation ? `<div class="rnm">Allocation : ${xss(allocation)}</div>` : ''}
       </div>
       ${rows}
       ${copyrightLogo ? `<img src="${copyrightLogo}" alt="©" class="copyright-logo">` : ''}
@@ -1409,7 +1494,7 @@ function exportRankPNG(){
   
   html2canvas(clone,{
     scale:2,
-    backgroundColor:'#0b1628',
+    backgroundColor:'#FFFDF8',
     useCORS:true,
     logging:false,
     allowTaint:true,
@@ -1430,9 +1515,10 @@ function exportRankPNG(){
 }
 
 // ── LIVE UPDATE ──
-['L_mainTitle','L_subTitle','L_raceNum','L_raceDist','L_raceName','L_raceDate','L_hippodrome'].forEach(id=>{
+['L_mainTitle','L_subTitle','L_raceNum','L_raceDist','L_raceName','L_allocation','L_raceDate','L_hippodrome'].forEach(id=>{
   document.getElementById(id)?.addEventListener('input',()=>{
     if(!document.getElementById('preview-list').querySelector('.empty'))renderList();
+    if(!document.getElementById('preview-rank').querySelector('.empty'))renderRank();
   });
 });
 ['R_duree','R_dist','R_raceName'].forEach(id=>{
