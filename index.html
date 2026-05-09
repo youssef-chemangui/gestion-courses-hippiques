@@ -3,2286 +3,1237 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Courses de Chevaux — Gestion Complète</title>
-<link rel="icon" type="image/png" href="logo.png">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0F5A3C">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<title>Racing Manager — Kassar-Saïd</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#FAF7F1;--bg2:#FFFFFF;--bg3:#E8EFE7;--border:#CDBA86;
-  --gold:#A77B20;--gold2:#D8B85A;--text:#1F2933;--muted:#65727E;--dim:#8A7560;
-  --green:#2F7D5C;--red:#C73535;--blue:#2F7D5C;
-  --copper-light:#B77732;--copper-main:#8F5B22;--brown-med:#C8A36A;--brown-dark:#EFE3CF;
-  --black-deep:#FFFDF8;--black-soft:#FFFFFF;--beige-light:#4A3424;
+:root {
+  --or:#C9A84C; --or-l:#E8C97A; --or-d:#9A7A28;
+  --cuivre:#B87333; --cuivre-d:#8B4513;
+  --beige:#F5EDD8; --beige-d:#E8D8B8; --beige-m:#D4C098;
+  --brun:#3D2B1F; --brun-m:#5A3E2B; --brun-l:#7A5A3A;
+  --vert:#2D5016; --vert-m:#3E6B20; --vert-l:#567A30;
+  --bg:#1C1410; --surf:#231A13; --surf2:#2E2018;
+  --card:#38281E; --card-h:#432F23;
+  --bdr:#4A3425; --bdr-or:#6A4E1A;
+  --txt:#F0E8D8; --txt-m:#C8B898; --txt-mu:#8A7060; --txt-d:#5A4838;
+  --danger:#C0392B; --ok:#27AE60;
+  --r:5px; --r2:10px;
 }
-body{font-family:'Inter',sans-serif;background:linear-gradient(180deg,#FFFDF8 0%,#F3ECE0 100%);color:var(--text);min-height:100vh}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-size:13px;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--surf)}
+::-webkit-scrollbar-thumb{background:var(--bdr-or);border-radius:3px}
 
-/* ── NAV ── */
-.nav{display:flex;background:var(--black-soft);border-bottom:2px solid var(--copper-main);padding:0;box-shadow:0 2px 12px rgba(143,91,34,.12)}
-.nav-brand{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--copper-light);padding:0 24px;display:flex;align-items:center;gap:8px;border-right:2px solid var(--copper-main)}
-.nav-brand img{height:32px;width:auto;object-fit:contain}
-.nav-tabs{display:flex;flex:1}
-.nav-tab{flex:1;max-width:220px;padding:16px 24px;background:none;border:none;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.5px}
-.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(201,166,70,.1)}
-.nav-tab:hover:not(.active){color:var(--text);border-bottom-color:var(--dim)}
+/* ── TOPBAR ── */
+#topbar{height:52px;background:var(--surf);border-bottom:1px solid var(--bdr-or);display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+.tb-brand{display:flex;align-items:center;gap:10px;margin-right:28px}
+.tb-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--or),var(--cuivre));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.tb-name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--or);letter-spacing:.1em}
+.tb-sub{font-size:9px;color:var(--txt-mu);letter-spacing:.12em}
+.nav-sep{width:1px;height:28px;background:var(--bdr);margin:0 16px}
+.ntab{height:52px;padding:0 20px;display:flex;align-items:center;gap:7px;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;color:var(--txt-mu);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;user-select:none}
+.ntab:hover{color:var(--or)}
+.ntab.active{color:var(--or);border-bottom-color:var(--or)}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tb-badge{background:linear-gradient(135deg,var(--or-d),var(--cuivre-d));color:var(--beige);padding:3px 10px;border-radius:12px;font-size:10px;font-family:'Cinzel',serif;letter-spacing:.06em}
 
-/* ── PAGES ── */
-.page{display:none;height:calc(100vh - 53px)}
+/* ── LAYOUT ── */
+.page{display:none;height:calc(100vh - 52px)}
 .page.active{display:flex}
+.sidebar{width:268px;min-width:268px;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;display:flex;flex-direction:column}
+.sb-inner{padding:14px 14px 20px;flex:1}
+.sec{margin-bottom:20px}
+.sec-hd{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;color:var(--or-d);text-transform:uppercase;padding-bottom:7px;margin-bottom:10px;border-bottom:1px solid var(--bdr-or);display:flex;align-items:center;gap:6px}
+.sec-hd::before{content:'';display:block;width:3px;height:10px;background:linear-gradient(to bottom,var(--or),var(--cuivre));border-radius:2px;flex-shrink:0}
 
-/* ── SIDEBAR + MAIN ── */
-.sidebar{width:380px;min-width:340px;background:var(--black-soft);border-right:2px solid var(--brown-med);display:flex;flex-direction:column;overflow-y:auto;padding:20px;gap:16px}
-.main{flex:1;overflow:auto;padding:28px;display:flex;flex-direction:column;align-items:center;gap:16px}
+/* Fields */
+.fg{margin-bottom:8px}
+.fl{font-size:10px;color:var(--txt-mu);margin-bottom:3px;display:block;font-weight:500;letter-spacing:.03em}
+.fi{width:100%;background:var(--surf2);border:1px solid var(--bdr);color:var(--txt);padding:6px 9px;border-radius:var(--r);font-size:12px;font-family:'Inter',sans-serif;transition:border-color .15s,box-shadow .15s}
+.fi:focus{outline:none;border-color:var(--or-d);box-shadow:0 0 0 2px rgba(201,168,76,.12)}
+.fi::placeholder{color:var(--txt-d)}
+.fr{display:flex;gap:6px}
+.fr .fg{flex:1}
 
-/* ── FORM ELEMENTS ── */
-.sec{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
-.field{display:flex;flex-direction:column;gap:4px}
-.field label{font-size:11px;color:var(--muted);font-weight:500}
-.field input,.field select{background:var(--bg2);border:1px solid var(--brown-med);border-radius:6px;padding:8px 10px;color:var(--text);font-size:13px;font-family:'Inter',sans-serif;width:100%}
-.field input:focus,.field select:focus{outline:none;border-color:var(--gold)}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 13px;border-radius:var(--r);border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.07em;transition:all .18s;white-space:nowrap;font-weight:600}
+.btn-gold{background:linear-gradient(135deg,var(--or),var(--cuivre));color:var(--brun);box-shadow:0 2px 8px rgba(201,168,76,.3)}
+.btn-gold:hover{filter:brightness(1.1);box-shadow:0 3px 12px rgba(201,168,76,.45)}
+.btn-out{background:transparent;color:var(--txt-m);border:1px solid var(--bdr)}
+.btn-out:hover{border-color:var(--or-d);color:var(--or)}
+.btn-danger{background:rgba(192,57,43,.15);color:#e74c3c;border:1px solid rgba(192,57,43,.3)}
+.btn-danger:hover{background:rgba(192,57,43,.25)}
+.btn-sm{padding:5px 9px;font-size:9px}
+.btn-full{width:100%;margin-bottom:5px}
 
-/* ── BUTTONS ── */
-.btn{border:none;border-radius:8px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;display:inline-flex;align-items:center;gap:6px;justify-content:center}
-.btn:active{transform:scale(.97)}
-.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2),var(--gold));color:#FFFFFF;width:100%;box-shadow:0 4px 12px rgba(167,123,32,.22)}
-.btn-gold:hover{opacity:.88}
-.btn-out{background:transparent;border:1px solid var(--border);color:var(--muted);width:100%}
-.btn-out:hover{border-color:var(--muted);color:var(--text)}
-.btn-grn{background:var(--green);color:white;width:100%}
-.btn-grn:hover{opacity:.9}
-.btn-blue{background:var(--blue);color:white;width:100%}
-.btn-sm{padding:6px 12px;font-size:11px;width:auto}
-hr.dv{border:none;border-top:1px solid var(--bg3)}
+/* Drop zone */
+.dz{border:1.5px dashed var(--bdr-or);border-radius:var(--r2);padding:18px 12px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:10px;background:rgba(201,168,76,.02)}
+.dz:hover,.dz.over{border-color:var(--or);background:rgba(201,168,76,.07)}
+.dz .dz-ic{font-size:22px;margin-bottom:6px}
+.dz p{font-size:10px;color:var(--txt-mu);line-height:1.6}
+.dz p strong{color:var(--or-l)}
 
-/* ── DROP ZONE ── */
-.dz{border:2px dashed var(--border);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.dz:hover,.dz.ov{border-color:var(--gold);background:rgba(201,166,70,.1)}
-.dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dz-icon{font-size:28px;margin-bottom:6px}
-.dz-lbl{font-size:12px;color:var(--muted)}
-.dz-lbl strong{color:var(--gold)}
+/* Course tabs */
+.ctabs{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:10px}
+.ctab{padding:4px 8px;border-radius:4px;border:1px solid var(--bdr);background:var(--surf2);color:var(--txt-mu);cursor:pointer;font-size:10px;font-family:'Cinzel',serif;transition:all .15s}
+.ctab:hover{border-color:var(--or-d);color:var(--or)}
+.ctab.active{background:linear-gradient(135deg,var(--or),var(--cuivre));border-color:var(--or);color:var(--brun);font-weight:700}
 
-/* ── TIP BOX ── */
-.tip{background:var(--brown-dark);border-radius:6px;padding:10px 12px;font-size:11px;border-left:4px solid var(--copper-main);color:var(--beige-light);line-height:1.7}
-.tip strong{color:var(--gold)}
+/* Logo row */
+.logo-row{display:flex;align-items:center;gap:10px}
+.logo-box{width:52px;height:52px;background:var(--surf2);border:1.5px dashed var(--bdr-or);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;overflow:hidden;flex-shrink:0}
+.logo-box img{width:100%;height:100%;object-fit:contain}
 
-/* ── HORSE CARDS (liste) ── */
-.horses-grid{display:flex;flex-direction:column;gap:6px;width:100%;max-width:960px}
-.hcard{background:var(--black-soft);border:2px solid var(--brown-med);border-radius:10px;overflow:hidden}
-.hcard-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer}
-.hcard-num{font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gold);min-width:32px}
-.hcard-silk{width:44px;height:44px;border-radius:6px;background:var(--brown-med);border:2px solid var(--copper-light);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;position:relative;overflow:hidden;flex-shrink:0}
-.hcard-silk img{width:100%;height:100%;object-fit:cover}
-.hcard-silk .sh{position:absolute;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity .2s}
-.hcard-silk:hover .sh{opacity:1}
-.hcard-silk input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.hcard-info{flex:1;min-width:0}
-.hcard-name{font-size:14px;font-weight:700;color:var(--text);letter-spacing:.5px}
-.hcard-sub{font-size:11px;color:var(--dim)}
-.hcard-exp{color:var(--dim);font-size:13px;flex-shrink:0;transition:transform .2s;padding:4px}
-.hcard.open .hcard-exp{transform:rotate(180deg)}
-.hcard-body{display:none;padding:0 14px 14px 14px}
-.hcard.open .hcard-body{display:block}
-.hcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.hcard-grid .field input{font-size:12px;padding:6px 8px}
-.full{grid-column:1/-1}
+/* ── MAIN AREA ── */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.mtoolbar{background:var(--surf2);border-bottom:1px solid var(--bdr);padding:8px 16px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.mtitle{font-family:'Cinzel',serif;font-size:11px;color:var(--txt-m);letter-spacing:.08em;flex:1}
+.mbody{flex:1;display:flex;overflow:hidden}
+.ed-col{width:350px;min-width:350px;overflow-y:auto;border-right:1px solid var(--bdr);background:var(--surf2)}
+.pv-col{flex:1;overflow-y:auto;padding:24px;background:var(--bg)}
 
-/* ── PREVIEW CARD (liste) ── */
-#preview-list{width:960px;background:var(--black-deep);border-radius:4px;overflow:hidden;box-shadow:0 14px 34px rgba(80,58,28,.18);border:2px solid var(--copper-main);position:relative}
-.pl-hdr{background:var(--black-soft);padding:16px 26px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--copper-main)}
-.pl-hdr-img{width:80px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:4px;border:1px dashed rgba(201,166,70,.4)}
-.pl-hdr-img img{width:100%;height:100%;object-fit:contain}
-.pl-hdr-img .ih{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--copper-light);opacity:0;transition:opacity .2s;flex-direction:column;gap:2px}
-.pl-hdr-img:hover .ih{opacity:1}
-.pl-hdr-img input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.pl-hdr-emb{width:80px;height:64px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;overflow:hidden;border-radius:4px;border:1px dashed rgba(201,166,70,.4)}
-.pl-hdr-emb img{width:100%;height:100%;object-fit:contain}
-.pl-hdr-emb .ih{position:absolute;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--copper-light);opacity:0;transition:opacity .2s;flex-direction:column;gap:2px}
-.pl-hdr-emb:hover .ih{opacity:1}
-.pl-hdr-emb input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.pl-hdr-mid{text-align:center;flex:1;padding:0 12px}
-.flag-tn{width:34px;height:22px;object-fit:cover;margin:0 auto 5px;display:block;border-radius:2px;box-shadow:0 0 0 1px rgba(143,91,34,.25)}
-.pl-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--text);letter-spacing:3px}
-.pl-hdr-mid .t2{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);letter-spacing:2px;margin-top:2px}
-.pl-hdr-mid .t3{font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-top:3px}
-.pl-race-info{background:var(--black-soft);padding:8px 26px;border-bottom:1px solid var(--brown-med)}
-.pl-race-info .rn{font-size:16px;font-weight:700;color:var(--text)}
-.pl-race-info .rnm{font-size:13px;font-weight:600;color:var(--gold)}
+/* ── HORSE CARDS ── */
+.hcards-hd{font-family:'Cinzel',serif;font-size:10px;color:var(--or);padding:10px 14px 6px;letter-spacing:.1em;border-bottom:1px solid var(--bdr);background:var(--surf)}
+.hcard{border-bottom:1px solid var(--bdr)}
+.hcard-hd{display:flex;align-items:center;gap:9px;padding:9px 12px;cursor:pointer;user-select:none;transition:background .15s}
+.hcard-hd:hover{background:var(--card-h)}
+.hcard.exp .hcard-hd{background:var(--card)}
+.hnum{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--or),var(--cuivre));color:var(--brun);font-family:'Cinzel',serif;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hname{font-family:'Cinzel',serif;font-size:12px;color:var(--txt);flex:1}
+.hsub{font-size:10px;color:var(--txt-mu)}
+.hbody{padding:12px 14px;background:var(--card);display:none}
+.hcard.exp .hbody{display:block}
+.eg{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ef label{display:block;font-size:9px;color:var(--txt-mu);margin-bottom:2px;font-weight:500;letter-spacing:.04em}
+.ef input,.ef textarea{width:100%;background:var(--surf);border:1px solid var(--bdr);color:var(--txt);padding:5px 7px;border-radius:3px;font-size:11px;font-family:'Inter',sans-serif}
+.ef input:focus,.ef textarea:focus{outline:none;border-color:var(--or-d)}
+.ef.full{grid-column:1/-1}
+.cas-row{display:flex;align-items:center;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--bdr)}
+.cas-prev{width:48px;height:48px;object-fit:contain;border-radius:4px;border:1px solid var(--bdr-or)}
+.cas-ph{width:48px;height:48px;background:var(--surf);border:1.5px dashed var(--bdr-or);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}
+.cas-ph:hover{background:var(--surf2)}
+.card-acts{display:flex;gap:5px;justify-content:flex-end;margin-top:10px}
+.notice{background:rgba(201,168,76,.06);border:1px solid var(--bdr-or);border-radius:var(--r2);padding:20px;text-align:center;color:var(--txt-mu);font-size:12px;line-height:1.7;margin:16px}
+.notice strong{color:var(--or)}
 
-/* table header */
-.pl-thead{display:grid;grid-template-columns:1.15fr 56px 42px 1.25fr 34px 1fr 46px 68px 1.2fr 1fr 1fr 1fr;gap:0;background:var(--brown-dark);padding:6px 26px;border-bottom:2px solid var(--copper-light)}
-.pl-th{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--copper-light)}
+/* ══════════════════════════════════════
+   DOCUMENT PREVIEW
+══════════════════════════════════════ */
+#pvdoc{background:var(--beige);color:#1A0F08;max-width:1060px;margin:0 auto;font-family:'Inter',sans-serif;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.3);overflow:hidden;position:relative}
+.doc-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:320px;opacity:0;transition:opacity .3s}
+.doc-wm.vis{opacity:.07}
+.doc-hband{background:linear-gradient(135deg,var(--brun) 0%,var(--brun-m) 50%,var(--brun) 100%);padding:18px 28px;display:flex;align-items:center;gap:18px;position:relative;z-index:1;border-bottom:3px solid var(--or)}
+.doc-logo-slot{width:80px;height:80px;flex-shrink:0;border:2px solid var(--or-d);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;background:rgba(201,168,76,.08)}
+.doc-logo-slot img{width:100%;height:100%;object-fit:contain}
+.doc-logo-slot .ph{font-size:10px;color:var(--or-d);text-align:center;font-family:'Cinzel',serif;letter-spacing:.05em}
+.doc-hctr{flex:1;text-align:center}
+.doc-ht{font-family:'Cinzel',serif;font-size:21px;font-weight:900;color:var(--or-l);letter-spacing:.05em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.doc-hippo{font-family:'Cinzel',serif;font-size:13px;color:var(--beige-d);letter-spacing:.12em;margin-top:4px}
+.doc-journee{font-size:11px;color:var(--beige-m);font-style:italic;margin-top:3px}
+.doc-datebar{background:linear-gradient(90deg,var(--vert),var(--vert-m));padding:7px 28px;display:flex;justify-content:space-between;align-items:center;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;color:var(--beige);border-bottom:1px solid rgba(201,168,76,.3);position:relative;z-index:1}
+.doc-body{padding:18px 22px;position:relative;z-index:1}
 
-/* list row */
-.pl-row{display:grid;grid-template-columns:1.15fr 56px 42px 1.25fr 34px 1fr 46px 68px 1.2fr 1fr 1fr 1fr;gap:0;padding:9px 26px;border-bottom:1px solid var(--brown-med);align-items:center}
-.pl-row:nth-child(odd){background:#F7F0E4}
-.pl-row:last-child{border-bottom:none}
-.pl-num{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--copper-light)}
-.pl-silk{width:40px;height:40px;background:var(--brown-med);border:1px solid var(--copper-light);border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:18px;flex-shrink:0}
-.pl-silk img{width:100%;height:100%;object-fit:cover}
-.pl-cell{font-size:13px;font-weight:600;color:var(--text);padding-right:8px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.pl-cell.name{font-size:14.5px;font-weight:800;color:var(--text)}
-.pl-cell.muted{color:var(--muted);font-size:12px}
-.pl-cell.num{font-size:13.5px;font-weight:700;color:var(--copper-light);text-align:center}
-.pl-perf{font-size:16px;font-weight:900;color:var(--copper-light);font-family:monospace;letter-spacing:.8px}
+/* Course block */
+.cb{border:1.5px solid var(--or);border-radius:var(--r);margin-bottom:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.1)}
+.cb-hd{background:linear-gradient(135deg,var(--brun),var(--brun-m));padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.cb-num{font-family:'Cinzel',serif;font-size:17px;font-weight:900;color:var(--or-l)}
+.cb-prix{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--beige);margin-left:12px}
+.cb-pills{display:flex;gap:7px;align-items:center}
+.cb-pill{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--or-l);padding:2px 8px;border-radius:12px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.06em}
+.cb-pill.g{background:rgba(45,80,22,.3);border-color:rgba(45,80,22,.5);color:#90c050}
+.cb-cond{background:#f7f2e8;padding:5px 14px;font-size:10px;color:var(--brun-m);border-bottom:1px solid var(--beige-d);font-style:italic}
 
-/* ── RANKING PAGE ── */
-#preview-rank{width:900px;background:var(--black-deep);border-radius:4px;overflow:visible;box-shadow:0 14px 34px rgba(80,58,28,.18);border:2px solid var(--copper-main);height:auto;display:flex;flex-direction:column}
-.rk-hdr{background:var(--black-soft);padding:14px 22px 8px;display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid var(--copper-main);flex-shrink:0}
-.rk-hdr-mid{text-align:center;flex:1;padding:0 12px}
-.rk-hdr-mid .t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--text);letter-spacing:2px}
-.rk-hdr-mid .t2{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);letter-spacing:2px;margin-top:1px}
-.rk-hdr-mid .t3{font-size:9px;color:var(--muted);letter-spacing:1.5px;margin-top:2px}
-.rk-race-info{background:var(--black-soft);padding:6px 22px;flex-shrink:0}
-.rk-race-info .rn{font-size:14px;font-weight:700;color:var(--text)}
-.rk-race-info .rnm{font-size:12px;font-weight:600;color:var(--gold)}
-.rk-row{display:flex;align-items:center;padding:10px 22px;border-bottom:1px solid var(--brown-med);gap:12px;flex-shrink:0}
-.rk-row:last-child{border-bottom:none}
-.rk-row:nth-child(odd){background:#F7F0E4}
-.rk-place{min-width:54px;display:flex;align-items:baseline;gap:1px;flex-shrink:0}
-.rk-place-num{font-family:'Cinzel',serif;font-size:36px;font-weight:700;color:var(--text);line-height:1}
-.rk-place-sfx{font-size:11px;font-weight:600;color:var(--muted);align-self:flex-start;margin-top:5px}
-.rk-silk{width:58px;height:58px;background:var(--brown-med);border:1px solid var(--copper-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;font-size:22px}
-.rk-silk img{width:100%;height:100%;object-fit:cover}
-.rk-info{flex:1;min-width:0}
-.rk-ig{display:grid;grid-template-columns:auto 1fr;row-gap:1px;column-gap:8px;align-items:baseline}
-.rk-il{font-size:8.5px;font-weight:700;letter-spacing:1px;color:var(--copper-light);text-transform:uppercase;white-space:nowrap}
-.rk-iv{font-size:10.5px;font-weight:500;color:var(--text);letter-spacing:.2px}
-.rk-num{font-size:10px;font-weight:700;color:var(--copper-light)}
-.rk-ig.compact{display:flex;flex-direction:column;gap:4px}
-.rk-line{font-size:12px;font-weight:600;color:var(--text);line-height:1.25}
-.rk-line.horse{font-size:13px;font-weight:800}
-.rk-line .rk-il{font-size:9px;margin-right:4px}
-.rk-line .rk-num{font-size:12px;margin-right:6px}
-.rk-origin{color:var(--muted)}
-.rk-gap{font-size:12px;font-weight:600;color:var(--muted);min-width:48px;text-align:right;flex-shrink:0}
+/* TABLE — colonnes : Casaque | N° | Cheval | Propriétaire | Éleveur | Corde | Jockey | Pds | S | RB | Âge | Origines | Entr. | Perf */
+.ht{width:100%;border-collapse:collapse;font-size:11px;background:white}
+.ht th{background:var(--brun);color:var(--beige);padding:5px 5px;text-align:left;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.07em;white-space:nowrap;font-weight:700}
+.ht th.c{text-align:center}
+.ht td{padding:5px 5px;border-bottom:1px solid #ede4d0;vertical-align:middle;color:#2a1a0a}
+.ht td.c{text-align:center}
+.ht tr:nth-child(even) td{background:#fdf8f0}
+.ht tr:hover td{background:#fef4d8}
+.hcas{width:36px;height:36px;object-fit:contain;border-radius:3px;cursor:pointer;border:1px solid #d4c090}
+.hcas-ph{width:36px;height:36px;background:#f0e8d0;border:1.5px dashed var(--or);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+.hcas-ph:hover{background:#e8d8b0}
+.hnum-bd{width:20px;height:20px;border-radius:50%;background:var(--brun);color:var(--beige);font-family:'Cinzel',serif;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.corde-bd{width:18px;height:18px;border-radius:3px;background:var(--vert);color:white;font-family:'Cinzel',serif;font-size:8px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.srb-cell{font-size:10px;color:#5a3e2b;font-weight:600;text-align:center}
+.arr-line{background:#faf6ec;padding:6px 14px;text-align:center;font-size:9px;color:#8a7060;letter-spacing:.1em;border-top:1px solid var(--beige-d)}
 
-/* ranking list items */
-.rk-item{background:var(--black-soft);border:1px solid var(--brown-med);border-radius:8px;overflow:hidden;margin-bottom:5px;transition:box-shadow .2s}
-.rk-item.dragging{opacity:.4;box-shadow:0 0 0 2px var(--copper-main)}
-.rk-item.dot{border-top:3px solid var(--copper-main)}
-.rk-item.dob{border-bottom:3px solid var(--copper-main)}
-.rk-item-hdr{display:flex;align-items:center;cursor:pointer;user-select:none}
-.rk-hdl{padding:12px 8px;color:var(--dim);font-size:18px;cursor:grab;flex-shrink:0}
-.rk-hdl:active{cursor:grabbing}
-.rk-pos{font-family:'Cinzel',serif;font-size:18px;font-weight:700;color:var(--copper-light);min-width:28px;flex-shrink:0}
-.rk-thumb{width:38px;height:38px;border-radius:4px;border:1px solid var(--copper-light);background:var(--brown-med);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-right:8px;overflow:hidden}
-.rk-thumb img{width:100%;height:100%;object-fit:cover}
-.rk-sum{flex:1;min-width:0}
-.rk-horse-name{font-size:13px;font-weight:700;color:var(--text)}
-.rk-horse-sub{font-size:10px;color:var(--dim)}
-.rk-gap-wrap{padding:0 8px;display:flex;align-items:center;gap:4px}
-.rk-gap-inp{background:var(--bg2);border:1px solid var(--brown-med);border-radius:4px;padding:4px 7px;color:var(--copper-light);font-size:11px;font-weight:600;width:68px;text-align:center;font-family:'Inter',sans-serif}
-.rk-gap-inp:focus{outline:none;border-color:var(--gold)}
-.rk-status{background:var(--bg2);border:1px solid var(--brown-med);border-radius:4px;padding:4px 6px;color:var(--text);font-size:10px;font-weight:700;width:86px;font-family:'Inter',sans-serif}
-.rk-status-badge{display:inline-block;margin-top:3px;padding:2px 6px;border-radius:999px;font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;border:1px solid var(--green);color:var(--green);background:#EEF8F1}
-.rk-status-badge.np{border-color:var(--red);color:var(--red);background:#FCEEEE}
-.rk-row.non-runner{opacity:.72}
-.rk-np-list{margin:8px 22px 12px;padding:12px 14px;border:2px solid rgba(192,57,43,.45);border-left:7px solid var(--red);border-radius:6px;font-size:15px;font-weight:800;color:#5B2B22;background:#FFF1EA;box-shadow:0 4px 12px rgba(192,57,43,.16)}
-.rk-np-list strong{display:inline-block;margin-right:8px;color:var(--red);font-size:16px;letter-spacing:.4px;text-transform:uppercase}
-.rk-np-chip{display:inline-block;margin:3px 5px 3px 0;padding:4px 8px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(192,57,43,.35);color:#6B2C24;font-size:14px;font-weight:800}
-.rk-exp-btn{padding:12px 9px;color:var(--dim);font-size:13px;flex-shrink:0;transition:transform .2s}
-.rk-item.open .rk-exp-btn{transform:rotate(180deg)}
-.rk-detail{display:none;padding:6px 12px 12px 48px;border-top:1px solid var(--bg3)}
-.rk-item.open .rk-detail{display:block}
-.rk-detail-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
-.rk-detail .field input{font-size:11px;padding:5px 7px}
+/* Perf chips */
+.pc{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:3px;font-family:'Cinzel',serif;font-size:9px;font-weight:700;margin:1px}
+.pc1{background:#c9a84c;color:#fff}
+.pc2{background:#aaa;color:#fff}
+.pc3{background:#cd7f32;color:#fff}
+.pc4{background:#e8ddc8;color:#5a3e2b}
+.pc0{background:#fadbd8;color:#c0392b}
+.pci{background:#eaf4fb;color:#2980b9}
+.pcd{background:#f5f5f5;color:#bbb}
 
-/* empty states */
-.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 20px;color:var(--dim);text-align:center}
-.empty .ei{font-size:48px}
+/* ══════════════════════════════════════
+   PAGE 2
+══════════════════════════════════════ */
+#page2{flex-direction:column}
+#p2-layout{display:flex;flex:1;overflow:hidden}
+#p2-sb{width:268px;min-width:268px;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto}
+#p2-main{flex:1;overflow-y:auto;padding:20px;background:var(--bg)}
+#p2-topbar{background:var(--surf);border-bottom:1px solid var(--bdr-or);padding:10px 20px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+.p2-title{font-family:'Cinzel',serif;font-size:14px;color:var(--or)}
+.p2-sub{font-size:11px;color:var(--txt-mu)}
 
-/* toast */
-.toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:white;padding:12px 20px;border-radius:8px;font-size:13px;font-weight:500;transform:translateY(60px);opacity:0;transition:all .3s;z-index:9999;pointer-events:none}
+/* Classement */
+.cl-list{list-style:none;max-width:800px;margin:0 auto 20px}
+.cl-item{display:flex;align-items:center;gap:10px;background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);margin-bottom:5px;padding:8px 10px;cursor:grab;transition:all .18s}
+.cl-item:hover{border-color:var(--bdr-or);background:var(--card)}
+.cl-item.dragging{opacity:.45;transform:scale(.97);border-color:var(--or)}
+.cl-item.over{border-color:var(--or);background:rgba(201,168,76,.1)}
+.cl-hdl{color:var(--txt-d);font-size:16px;cursor:grab;user-select:none;flex-shrink:0}
+.rk{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:13px;font-weight:700;flex-shrink:0}
+.rk1{background:linear-gradient(135deg,var(--or),var(--cuivre));color:var(--brun)}
+.rk2{background:linear-gradient(135deg,#c0c0c0,#888);color:#fff}
+.rk3{background:linear-gradient(135deg,#cd7f32,#8b4513);color:#fff}
+.rk-o{background:var(--surf);border:1px solid var(--bdr);color:var(--txt-mu)}
+.cl-cas{width:32px;height:32px;object-fit:contain;border-radius:2px}
+.cl-cas-ph{width:32px;height:32px;background:var(--surf);border:1px dashed var(--bdr-or);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.cl-name{font-family:'Cinzel',serif;font-size:12px;color:var(--txt);flex:1}
+.cl-sub{font-size:10px;color:var(--txt-mu)}
+.gap-in{width:100px;background:var(--surf);border:1px solid var(--bdr);color:var(--txt);padding:4px 7px;border-radius:3px;font-size:11px;font-family:'Inter',sans-serif}
+.gap-in:focus{outline:none;border-color:var(--or-d)}
+.st-sel{background:var(--surf);border:1px solid var(--bdr);color:var(--txt);padding:4px 6px;border-radius:3px;font-size:11px;font-family:'Inter',sans-serif}
+.st-sel.np{border-color:var(--danger);color:#e74c3c}
+.np-block{max-width:800px;margin:0 auto;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:var(--r);padding:12px;margin-top:14px}
+.np-hd{font-family:'Cinzel',serif;font-size:10px;color:#e74c3c;letter-spacing:.08em;margin-bottom:8px}
+.np-it{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(192,57,43,.12);font-size:11px}
+.np-it:last-child{border-bottom:none}
+
+/* Classement preview — light beige theme */
+#cl-pv{max-width:960px;margin:20px auto 0;background:#F5EDD8;color:#1A0F08;border-radius:6px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.4);font-family:'Inter',sans-serif;position:relative;display:none}
+.cpwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:280px;opacity:0}
+.cpwm.vis{opacity:.07}
+/* Header band — same gradient as doc-hband */
+.cp-hband{background:linear-gradient(135deg,var(--brun) 0%,var(--brun-m) 50%,var(--brun) 100%);padding:18px 28px 12px;border-bottom:3px solid var(--or);display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.cp-logo{width:72px;height:72px;flex-shrink:0}
+.cp-logo img{width:100%;height:100%;object-fit:contain}
+.cp-htxt{flex:1;text-align:center}
+.cp-t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--or-l);letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.cp-t2{font-family:'Cinzel',serif;font-size:11px;color:var(--beige-d);letter-spacing:.14em;margin-top:2px;text-transform:uppercase}
+.cp-t3{font-size:10px;color:var(--beige-m);margin-top:3px;letter-spacing:.04em}
+/* Course sub-header — green bar like doc-datebar */
+.cp-course-hd{background:linear-gradient(90deg,var(--vert),var(--vert-m));padding:8px 28px;border-bottom:1px solid rgba(201,168,76,.3)}
+.cp-course-hd-num{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--beige);letter-spacing:.06em}
+.cp-course-hd-prix{font-family:'Cinzel',serif;font-size:11px;color:var(--beige-m);margin-top:2px;letter-spacing:.08em}
+.cp-body{padding:0 0 16px;position:relative;z-index:1;background:#F5EDD8}
+
+/* Row-style classement */
+.cl-row{display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:#F5EDD8;min-height:80px}
+.cl-row:nth-child(even){background:#EDE2C8}
+.cl-row:hover{background:#fdf3d8}
+.cl-rank-col{width:68px;min-width:68px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px 6px;border-right:1px solid #C9A84C;flex-shrink:0;background:linear-gradient(180deg,#fdf3d8,#f9edd0)}
+.cl-rank-num{font-family:'Cinzel',serif;font-size:26px;font-weight:900;line-height:1;color:#7A5A20}
+.cl-rank-sup{font-family:'Cinzel',serif;font-size:11px;font-weight:600;color:#9A7A28}
+.cl-cas-col{width:72px;min-width:72px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8;flex-shrink:0}
+.cl-pv-cas{width:54px;height:54px;object-fit:contain;border-radius:4px;border:1px solid #C9A84C;background:#fdf8f0}
+.cl-pv-cas-ph{width:54px;height:54px;background:#fdf8f0;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.cl-info-col{flex:1;padding:10px 14px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.cl-info-label{font-size:8px;color:#8A7060;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:1px}
+.cl-info-name{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#1A0F08}
+.cl-info-num{font-size:11px;color:#9A7A28;font-weight:600}
+.cl-info-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:2px}
+.cl-info-item{display:flex;flex-direction:column}
+.cl-info-item-lbl{font-size:8px;color:#9A7A28;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.cl-info-item-val{font-size:10px;color:#5A3E2B;font-weight:500}
+.cl-gap-col{width:100px;min-width:100px;display:flex;align-items:center;justify-content:center;padding:8px 10px;border-left:1px solid #C9A84C;flex-shrink:0;background:#fdf8e8}
+.cl-gap-val{font-size:13px;color:#2D5016;font-weight:700;font-style:italic;text-align:center}
+
+/* Compact info line styles */
+.cl-info-compact{display:flex;align-items:baseline;gap:5px;margin-bottom:3px}
+.cl-info-label-inline{font-size:8px;color:#8A7060;letter-spacing:.1em;text-transform:uppercase;font-weight:600;flex-shrink:0}
+.cl-info-line1,.cl-info-line2{display:flex;align-items:baseline;flex-wrap:wrap;gap:3px;margin-top:2px;font-size:11px;color:#3D2B1F}
+.cl-info-sep{color:#9A7A28;font-weight:700;margin:0 2px}
+
+/* Non-partants block */
+.cp-np{background:rgba(192,57,43,.08);border:1.5px solid rgba(192,57,43,.35);border-radius:4px;padding:10px 18px;margin:14px 18px 4px}
+.cp-np-t{font-family:'Cinzel',serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700}
+.cp-np-tags{display:flex;flex-wrap:wrap;gap:5px}
+.np-tag{background:rgba(192,57,43,.15);color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:'Cinzel',serif;border:1px solid rgba(192,57,43,.3)}
+
+/* Toast */
+.toast{position:fixed;bottom:22px;right:22px;background:linear-gradient(135deg,var(--or),var(--cuivre));color:var(--brun);padding:10px 18px;border-radius:var(--r);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.05em;z-index:9999;transform:translateY(70px);opacity:0;transition:all .3s;box-shadow:0 4px 16px rgba(201,168,76,.4)}
 .toast.show{transform:translateY(0);opacity:1}
 
-.pbar{display:flex;gap:10px;width:100%;max-width:960px;align-items:center}
-.pbar span{font-size:12px;color:var(--muted);flex:1}
-
-.add-row{background:var(--black-soft);border:2px dashed var(--brown-med);border-radius:8px;padding:9px;text-align:center;cursor:pointer;color:var(--copper-light);font-size:12px;transition:all .2s;width:100%;max-width:960px}
-.add-row:hover{border-color:var(--gold);color:var(--gold)}
-
-.badge{display:inline-block;background:var(--brown-dark);color:var(--copper-light);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;letter-spacing:.5px;border:1px solid var(--copper-main)}
-
-/* ── COPYRIGHT LOGO ── */
-.copyright-logo{position:absolute;bottom:4px;right:4px;width:32px;height:32px;opacity:.8}
-.watermark-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:45%;max-width:440px;opacity:.08;pointer-events:none;z-index:0;display:block}
-.rk-wrapper > :not(.watermark-logo){position:relative;z-index:1}
-.pl-hdr-wrapper{position:relative}
-.rk-wrapper{position:relative;min-height:200px}
-
-/* ══════════════════════ RESPONSIVE MOBILE ══════════════════════ */
-
-/* Bouton menu mobile */
-.nav-menu-toggle{display:none;background:none;border:none;color:var(--text);font-size:20px;padding:12px 16px;cursor:pointer}
-
-@media print{.sidebar,.pbar,.export-bar,.nav{display:none!important}.main{padding:0}.page{height:auto}}
-
-/* ── TABLETTE & MOBILE (< 1024px) ── */
-@media (max-width: 1024px) {
-  .sidebar{width:300px;min-width:280px;padding:16px}
-  .main{padding:20px}
-  #preview-list,#preview-rank{max-width:600px}
-  .horses-grid{max-width:600px}
-}
-
-/* ── MOBILE MOYENNE (< 768px) ── */
-@media (max-width: 768px) {
-  .nav{position:relative;justify-content:space-between}
-  .nav-brand{border-right:none;flex:1;font-size:13px;padding:0 12px}
-  .nav-brand img{height:28px}
-  .nav-menu-toggle{display:block}
-  .nav-tabs{position:fixed;left:0;top:53px;width:100%;max-height:calc(100vh - 53px);background:var(--bg2);flex-direction:column;border-top:1px solid var(--border);transform:translateY(-150%);opacity:0;visibility:hidden;transition:all .3s;z-index:98;overflow-y:auto}
-  .nav-tabs.mobile-open{transform:translateY(0);opacity:1;visibility:visible}
-  .nav-tab{border-right:none;border-bottom:1px solid var(--bg3);text-align:left;padding:12px 16px;max-width:none}
-  .nav-tab.active{border-bottom-color:var(--gold)}
-
-  .page{display:none;flex-direction:column;height:auto;min-height:calc(100vh - 53px)}
-  .page.active{display:flex}
-
-  .sidebar{position:fixed;left:0;top:53px;width:85vw;max-width:360px;height:calc(100vh - 53px);border-right:1px solid var(--border);border-bottom:none;transform:translateX(-100%);opacity:0;visibility:hidden;transition:all .3s;z-index:97;overflow-y:auto;padding:12px}
-  .sidebar.mobile-open{transform:translateX(0);opacity:1;visibility:visible}
-  
-  .sidebar-overlay{display:none;position:fixed;top:53px;left:0;width:100%;height:calc(100vh - 53px);background:rgba(0,0,0,.5);z-index:96}
-  .sidebar-overlay.mobile-open{display:block}
-
-  .main{position:relative;width:100%;padding:12px;flex:1}
-  
-  .fr,.fr3{grid-template-columns:1fr}
-  .field label{font-size:10px}
-  .field input,.field select{font-size:12px;padding:6px 8px}
-  .btn{font-size:12px;padding:8px 12px}
-  .sec{font-size:9px}
-  
-  #preview-list,#preview-rank{max-width:100%;width:100%;margin:8px 0}
-  .horses-grid{max-width:100%;width:100%}
-  
-  .pl-thead,.pl-row{grid-template-columns:30px 40px 1fr 1fr 30px 30px !important;font-size:8px}
-  .pl-cell.name{font-size:10px}
-  .pl-num{font-size:12px}
-  
-  .rk-row{padding:8px 12px;gap:8px}
-  .rk-hdr{flex-direction:column;padding:8px 12px;gap:6px}
-  .rk-place-num{font-size:28px}
-  .rk-silk{width:50px;height:50px}
-  .rk-gap{font-size:11px}
-  
-  .dz{padding:12px;border-radius:6px}
-  .dz-icon{font-size:20px;margin-bottom:4px}
-  .dz-lbl{font-size:10px}
-  .tip{font-size:10px;padding:8px 10px}
-  
-  .toast{bottom:12px;right:12px;padding:10px 16px;font-size:11px}
-  .pbar{gap:6px;font-size:11px}
-  .add-row{font-size:10px;padding:6px}
-}
-
-/* ── MOBILE SMALL (< 480px) ── */
-@media (max-width: 480px) {
-  .nav-brand{font-size:11px;padding:0 8px;gap:4px}
-  .nav-brand img{height:24px}
-  .nav-menu-toggle{padding:10px 12px;font-size:18px}
-  .nav-tab{font-size:11px;padding:10px 12px}
-
-  .sidebar{width:100%;max-width:100%;left:0;right:0}
-  .main{padding:8px}
-  
-  .sec{font-size:8px;margin-bottom:4px}
-  .field{gap:2px}
-  .field label{font-size:9px}
-  .field input,.field select{font-size:11px;padding:5px 6px;border-radius:4px}
-  .btn{font-size:11px;padding:6px 10px;gap:4px}
-  .btn-sm{padding:4px 8px;font-size:9px}
-
-  .dz{padding:10px;border-radius:4px;border-width:1px}
-  .dz-icon{font-size:18px;margin-bottom:3px}
-  .dz-lbl{font-size:9px;line-height:1.3}
-  .tip{font-size:9px;padding:6px 8px}
-
-  #preview-list,#preview-rank{border-radius:3px;margin:6px 0}
-  .pl-hdr{padding:8px 12px 4px;gap:4px}
-  .pl-hdr-img{width:60px;height:48px;font-size:8px}
-  .pl-hdr-mid .t1{font-size:16px;letter-spacing:2px}
-  .pl-hdr-mid .t2{font-size:10px}
-  .pl-hdr-emb{width:56px;height:48px}
-  .pl-race-info{padding:6px 12px}
-  .pl-race-info .rn{font-size:13px}
-  .pl-race-info .rnm{font-size:11px}
-  .pl-thead{grid-template-columns:24px 32px 1fr 22px !important;gap:2px;padding:3px 6px}
-  .pl-row{grid-template-columns:24px 32px 1fr 22px !important;gap:2px;padding:3px 6px}
-  .pl-th,.pl-cell{font-size:7px}
-  .pl-cell.name{font-size:9px}
-  .pl-num{font-size:11px}
-  .pl-silk{width:28px;height:28px;font-size:12px}
-
-  .rk-hdr{padding:6px 10px}
-  .rk-hdr-img,.pl-hdr-emb{width:50px;height:40px;font-size:8px}
-  .rk-hdr-mid .t1{font-size:16px;letter-spacing:1px}
-  .rk-hdr-mid .t2{font-size:9px}
-  .rk-hdr-mid .t3{font-size:8px}
-  .rk-race-info{padding:4px 10px}
-  .rk-race-info .rn{font-size:12px}
-  .rk-race-info .rnm{font-size:10px}
-  .rk-row{padding:6px 10px;gap:6px}
-  .rk-place{min-width:48px}
-  .rk-place-num{font-size:20px}
-  .rk-place-sfx{font-size:9px}
-  .rk-silk{width:40px;height:40px;font-size:16px}
-  .rk-info{gap:4px}
-  .rk-ig{column-gap:6px;row-gap:1px}
-  .rk-il{font-size:8px}
-  .rk-iv{font-size:10px}
-  .rk-gap{font-size:10px;min-width:48px}
-
-  .rk-item{margin-bottom:3px}
-  .rk-item-hdr{padding:4px}
-  .rk-hdl{padding:8px 4px;font-size:14px}
-  .rk-pos{font-size:14px;min-width:24px}
-  .rk-thumb{width:28px;height:28px;margin-right:6px;font-size:12px}
-  .rk-horse-name{font-size:10px}
-  .rk-horse-sub{font-size:8px}
-  .rk-gap-wrap{padding:0 4px}
-  .rk-gap-inp{width:50px;font-size:9px;padding:3px 5px}
-  .rk-detail{padding:4px 10px 8px 36px;font-size:9px}
-  .rk-detail-row{gap:4px;margin-top:3px}
-
-  .hcard-num{font-size:18px}
-  .hcard-silk{width:36px;height:36px}
-  .hcard-name{font-size:12px}
-  .hcard-sub{font-size:10px}
-  .hcard-grid{gap:6px}
-  .hcard-grid .field input{font-size:11px}
-
-  .empty{padding:20px 12px;gap:6px}
-  .empty .ei{font-size:28px}
-  .empty p{font-size:11px}
-
-  .toast{bottom:8px;right:8px;padding:8px 12px;font-size:10px;border-radius:4px}
-  .pbar{gap:4px;font-size:10px}
-  .badge{font-size:8px;padding:1px 5px}
-}
-
-/* ── LANDSCAPE MODE (< 600px height) ── */
-@media (max-height: 600px) and (orientation: landscape) {
-  .sidebar{max-height:calc(100vh - 53px);overflow-y:auto}
-  .page{min-height:auto}
-  .main{min-height:auto}
+@media print{
+  #topbar,.sidebar,.ed-col,#p2-sb,#p2-topbar,.mtoolbar,.btn{display:none!important}
+  .page{display:block!important;height:auto}
+  #page2{display:none!important}
+  #pvdoc{box-shadow:none;max-width:100%}
+  body{background:white}
+  .pv-col{padding:0}
 }
 </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
-<div class="nav">
-  <div class="nav-brand"><img src="logo.png" alt="Logo" title="Courses de Chevaux"> COURSES DE CHEVAUX</div>
-  <button class="nav-menu-toggle" onclick="toggleMobileMenu()">☰</button>
-  <div class="nav-tabs">
-    <button class="nav-tab active" onclick="goPage('p-liste',this); closeMobileMenu()">📋 &nbsp;Liste des Partants</button>
-    <button class="nav-tab" onclick="goPage('p-rank',this); closeMobileMenu()">🏆 &nbsp;Classement Arrivée</button>
+<!-- TOPBAR -->
+<div id="topbar">
+  <div class="tb-brand">
+    <div class="tb-icon">🏇</div>
+    <div><div class="tb-name">RACING MANAGER</div><div class="tb-sub">KASSAR-SAÏD · TUNIS</div></div>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="ntab active" id="tab1" onclick="switchPage(1)"><span>📋</span> Liste des Partants</div>
+  <div class="ntab" id="tab2" onclick="switchPage(2)"><span>🏆</span> Classement Arrivée</div>
+  <div class="tb-right"><div class="tb-badge" id="tb-badge">7 COURSES</div></div>
+</div>
+
+<!-- PAGE 1 -->
+<div class="page active" id="page1">
+  <div class="sidebar">
+    <div class="sb-inner">
+
+      <div class="sec">
+        <div class="sec-hd">Import données</div>
+        <div class="dz" id="dz1" onclick="document.getElementById('fi1').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="ddr(event)">
+          <div class="dz-ic">⬆️</div>
+          <p>Glissez un <strong>.xlsx / .xls / .csv</strong><br>ou cliquez pour sélectionner</p>
+        </div>
+        <input type="file" id="fi1" accept=".xlsx,.xls,.csv" style="display:none" onchange="hdlFile(event)">
+        <button class="btn btn-out btn-sm btn-full" onclick="loadDemo()">📊 Programme 10 mai 2026</button>
+      </div>
+
+      <div class="sec" id="csel" style="display:none">
+        <div class="sec-hd">Course active</div>
+        <div class="ctabs" id="ctabs"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-hd">Informations course</div>
+        <div class="fg"><label class="fl">Titre</label><input class="fi" id="f-title" value="SOCIETE DES COURSES" oninput="upPV()"></div>
+        <div class="fg"><label class="fl">Hippodrome</label><input class="fi" id="f-hippo" value="HIPPODROME DE KASSAR-SAÏD" oninput="upPV()"></div>
+        <div class="fr">
+          <div class="fg"><label class="fl">N° course</label><input class="fi" id="f-num" value="1" oninput="upPV()"></div>
+          <div class="fg"><label class="fl">Heure</label><input class="fi" id="f-heure" value="14:00" oninput="upPV()"></div>
+        </div>
+        <div class="fg"><label class="fl">Nom du Prix</label><input class="fi" id="f-prix" value="PRIX BESBES" oninput="upPV()"></div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Distance (m)</label><input class="fi" id="f-dist" value="1200" oninput="upPV()"></div>
+          <div class="fg"><label class="fl">Allocation (DT)</label><input class="fi" id="f-alloc" value="4250" oninput="upPV()"></div>
+        </div>
+        <div class="fg"><label class="fl">Date</label><input class="fi" id="f-date" value="DIMANCHE 10 MAI 2026" oninput="upPV()"></div>
+        <div class="fg"><label class="fl">Journée</label><input class="fi" id="f-journee" value="25ème Journée" oninput="upPV()"></div>
+        <div class="fg"><label class="fl">Conditions</label><input class="fi" id="f-cond" value="" oninput="upPV()"></div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-hd">Logo hippodrome</div>
+        <div class="logo-row">
+          <div class="logo-box" id="lbox" onclick="document.getElementById('li').click()">
+            <span id="lph">🏟️</span><img id="limg" src="" style="display:none">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <button class="btn btn-out btn-sm" onclick="document.getElementById('li').click()">Choisir logo</button>
+            <button class="btn btn-out btn-sm" onclick="clrLogo()">✕ Effacer</button>
+          </div>
+        </div>
+        <input type="file" id="li" accept="image/*" style="display:none" onchange="hdlLogo(event)">
+      </div>
+
+      <div class="sec">
+        <div class="sec-hd">Exports</div>
+        <button class="btn btn-gold btn-sm btn-full" onclick="expPDF()">📄 Export PDF (données embarquées)</button>
+        <button class="btn btn-out btn-sm btn-full" onclick="expPNG()">🖼️ Export PNG haute résolution</button>
+        <button class="btn btn-out btn-sm btn-full" onclick="window.print()">🖨️ Imprimer</button>
+      </div>
+
+      <div class="sec">
+        <div class="sec-hd">Gestion</div>
+        <button class="btn btn-out btn-sm btn-full" onclick="addH()">➕ Ajouter un cheval</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="main-area">
+    <div class="mtoolbar">
+      <span class="mtitle" id="mtitle">Programme officiel — Liste des partants</span>
+      <button class="btn btn-gold btn-sm" onclick="expPDF()">📄 PDF</button>
+      <button class="btn btn-out btn-sm" onclick="expPNG()">🖼️ PNG</button>
+    </div>
+    <div class="mbody">
+      <div class="ed-col" id="edcol"><div class="notice">Chargez le <strong>programme démo</strong> ou importez un fichier Excel.</div></div>
+      <div class="pv-col">
+        <div id="pvdoc">
+          <img class="doc-wm" id="docwm" src="">
+          <div class="doc-hband">
+            <div class="doc-logo-slot" id="dls" onclick="document.getElementById('li').click()"><div class="ph">LOGO</div></div>
+            <div class="doc-hctr">
+              <div class="doc-ht" id="dht">SOCIETE DES COURSES</div>
+              <div class="doc-hippo" id="dhippo">HIPPODROME DE KASSAR-SAÏD</div>
+              <div class="doc-journee" id="djournee">25ème Journée</div>
+            </div>
+          </div>
+          <div class="doc-datebar">
+            <span id="ddate">DIMANCHE 10 MAI 2026</span>
+            <span>PROGRAMME OFFICIEL</span>
+            <span id="dprog"></span>
+          </div>
+          <div class="doc-body" id="dbody"><div class="notice">Les données apparaîtront ici.</div></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- Mobile Sidebar Overlay -->
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeMobileMenu()"></div>
-
-<!-- ══════════════════════════════════════════
-     PAGE 1 — LISTE DES PARTANTS
-══════════════════════════════════════════ -->
-<div id="p-liste" class="page active">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar-page1">
-    <div>
-      <div class="sec">1. Importer le fichier Excel</div>
-      <div class="dz" id="dz1">
-        <input type="file" id="fi1" accept=".xlsx,.xls,.csv">
-        <div class="dz-icon">📊</div>
-        <div class="dz-lbl"><strong>Cliquez</strong> ou glissez votre .xlsx</div>
-      </div>
-      <div id="ist" style="font-size:11px;color:var(--muted);text-align:center;margin-top:6px"></div>
-    </div>
-    <hr class="dv">
-    <div>
-      <div class="sec">2. Informations de la course</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="field"><label>Titre principal</label><input id="L_mainTitle" value="UAE PRESIDENT CUP"></div>
-        <div class="field"><label>Sous-titre</label><input id="L_subTitle" value="ARABIAN PUREBRED CLASSIC SERIES"></div>
-        <div class="fr">
-          <div class="field"><label>N° Course</label><input id="L_raceNum" value="1"></div>
-          <div class="field"><label>Distance (m)</label><input id="L_raceDist" value="2000"></div>
-        </div>
-        <div class="field"><label>Nom du prix</label><input id="L_raceName" value="PRIX UAE PRESIDENT CUP (GROUPE 1)"></div>
-        <div class="field"><label>Allocation de la course</label><input id="L_allocation" value="" placeholder="Ex: 80 000 DT"></div>
-        <div class="fr">
-          <div class="field"><label>Date</label><input id="L_raceDate" value="Dimanche 19 Avril 2026"></div>
-          <div class="field"><label>Hippodrome</label><input id="L_hippodrome" value="HIPPODROME DE KASSAR SAÏD"></div>
-        </div>
-      </div>
-    </div>
-    <hr class="dv">
-    <div>
-      <div class="sec">3. Logo de l'hippodrome</div>
-      <div style="display:flex;align-items:center;gap:10px">
-        <div id="logo-preview-box" style="width:56px;height:44px;border:2px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;background:var(--bg2);cursor:pointer;position:relative" title="Cliquez pour choisir le logo">
-          <img id="logo-preview-img" src="logo.png" alt="" style="width:100%;height:100%;object-fit:contain;display:block" onerror="this.style.display='none'">
-          <span id="logo-preview-empty" style="font-size:20px;display:none">🖼</span>
-          <input type="file" accept="image/*" id="logo-upload-input" style="position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%" onchange="uploadMainLogo(this)">
-        </div>
-        <div style="flex:1">
-          <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px">Logo en-tête &amp; export</div>
-          <div style="font-size:11px;color:var(--muted)">Apparaît dans le PDF et les PNG exportés</div>
-          <button class="btn btn-out btn-sm" style="margin-top:5px;width:auto" onclick="document.getElementById('logo-upload-input').click()">📁 Choisir…</button>
-        </div>
-      </div>
-    </div>
-    <hr class="dv">
-    <div>
-      <div class="sec">4. Casaques — cliquez chaque vignette</div>
-      <div class="tip">🖼 Cliquez sur la casaque colorée de chaque cheval (dans la liste ci-dessous) pour ajouter son image ou un PDF. Les logos de l'en-tête sont aussi cliquables sur la carte.</div>
-    </div>
-    <hr class="dv">
-    <button class="btn btn-gold" onclick="renderList()">🎨 Aperçu / Actualiser</button>
-    <button class="btn btn-out" onclick="loadEx()">📋 Charger exemple</button>
-    <hr class="dv">
-    <button class="btn btn-grn" onclick="genPDF()">📄 Générer le PDF Liste</button>
-    <button class="btn btn-blue" style="margin-top:5px" onclick="exportListPNG()">📸 Télécharger PNG Liste</button>
-    <div class="tip" style="margin-top:4px"><strong>Ce PDF</strong> contient toutes les données et casaques — importez-le dans la page Classement pour ne pas ressaisir.</div>
+<!-- PAGE 2 -->
+<div class="page" id="page2">
+  <div id="p2-topbar">
+    <div><div class="p2-title">🏆 Classement Arrivée</div><div class="p2-sub">Importez le PDF de la Page 1 ou utilisez les données courantes</div></div>
   </div>
-
-  <!-- MAIN -->
-  <div class="main">
-    <div class="pbar">
-      <span id="lmsg">👈 Importez votre Excel pour commencer</span>
-      <button class="btn btn-gold btn-sm" onclick="renderList()">⚡ Aperçu</button>
-    </div>
-
-    <!-- horse cards -->
-    <div class="horses-grid" id="hgrid"></div>
-    <div class="add-row" id="addRowBtn" style="display:none" onclick="addHorse()">＋ Ajouter un cheval</div>
-
-    <!-- preview -->
-    <div class="pbar" style="margin-top:12px">
-      <span style="font-size:12px;color:var(--muted)">Aperçu de la liste :</span>
-    </div>
-    <div id="preview-list">
-      <div class="empty"><div class="ei">📋</div><p>La liste apparaîtra ici</p></div>
-    </div>
-
-    <div class="pbar export-bar">
-      <button class="btn btn-grn" onclick="genPDF()">📄 Générer PDF</button>
-      <button class="btn btn-blue" onclick="exportListPNG()">📸 Télécharger PNG</button>
-      <button class="btn btn-out btn-sm" onclick="window.print()">🖨️ Imprimer</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     PAGE 2 — CLASSEMENT
-══════════════════════════════════════════ -->
-<div id="p-rank" class="page">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar" id="sidebar-page2">
-    <div>
-      <div class="sec">1. Importer le PDF de la liste</div>
-      <div class="dz" id="dz2">
-        <input type="file" id="fi2" accept=".pdf">
-        <div class="dz-icon">📄</div>
-        <div class="dz-lbl"><strong>Cliquez</strong> ou glissez le PDF généré<br><small style="color:var(--dim)">Le PDF contient toutes les données</small></div>
-      </div>
-      <div id="r_ist" style="font-size:11px;color:var(--muted);text-align:center;margin-top:6px"></div>
-    </div>
-    <hr class="dv">
-    <div>
-      <div class="sec">2. Résultat de la course</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="fr">
-          <div class="field"><label>Durée (ex: 2'18" 5/10)</label><input id="R_duree" placeholder="2' 18&quot; 5/10"></div>
-          <div class="field"><label>Distance réelle (m)</label><input id="R_dist" placeholder="2000"></div>
+  <div id="p2-layout">
+    <div id="p2-sb">
+      <div class="sb-inner">
+        <div class="sec">
+          <div class="sec-hd">Import PDF liste</div>
+          <div class="dz" id="dz2" onclick="document.getElementById('fi2').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="p2Drop(event)">
+            <div class="dz-ic">📄</div>
+            <p>Importez le <strong>PDF</strong> généré depuis la Page 1</p>
+          </div>
+          <input type="file" id="fi2" accept=".pdf" style="display:none" onchange="hdlP2PDF(event)">
+          <button class="btn btn-out btn-sm btn-full" onclick="useP1()">↩️ Utiliser données Page 1</button>
         </div>
-        <div class="field"><label>Nom du prix (si différent)</label><input id="R_raceName" placeholder="Même que la liste"></div>
+        <div class="sec" id="p2csel" style="display:none">
+          <div class="sec-hd">Course</div>
+          <select class="fi" id="p2sel" onchange="loadP2C()" style="font-family:'Inter',sans-serif"></select>
+        </div>
+        <div class="sec">
+          <div class="sec-hd">Résumé</div>
+          <div id="p2sum" style="font-size:11px;color:var(--txt-mu)">Aucune donnée</div>
+        </div>
+        <div class="sec">
+          <div class="sec-hd">Exports classement</div>
+          <button class="btn btn-gold btn-sm btn-full" onclick="expClPNG()">🖼️ Export PNG classement</button>
+          <button class="btn btn-out btn-sm btn-full" onclick="expClPDF()">📄 Export PDF classement</button>
+        </div>
       </div>
     </div>
-    <hr class="dv">
-    <div>
-      <div class="sec">3. Classement — glissez pour réordonner</div>
-      <div class="tip">
-        <strong>⠿ Glissez</strong> pour changer l'ordre &nbsp;·&nbsp;
-        <strong>▼</strong> pour modifier &nbsp;·&nbsp;
-        <strong>Statut</strong> = partant / non partant
-      </div>
-      <div id="rklist" style="margin-top:10px"></div>
-    </div>
-    <hr class="dv">
-    <button class="btn btn-gold" onclick="renderRank()">🎨 Générer le Classement</button>
-    <button class="btn btn-grn" style="margin-top:5px" onclick="exportRankPNG()">📸 Télécharger PNG</button>
-  </div>
-
-  <!-- MAIN -->
-  <div class="main">
-    <div class="pbar">
-      <span id="rmsg">👈 Importez le PDF de la liste pour commencer</span>
-      <button class="btn btn-gold btn-sm" onclick="renderRank()">⚡ Générer</button>
-    </div>
-    <div id="preview-rank">
-      <div class="empty"><div class="ei">🏆</div><p>Le classement apparaîtra ici</p><p style="font-size:12px;margin-top:4px">Importez le PDF puis réordonnez les chevaux</p></div>
-    </div>
-    <div class="pbar export-bar">
-      <button class="btn btn-grn" onclick="exportRankPNG()">📸 Télécharger PNG</button>
-      <button class="btn btn-out btn-sm" onclick="window.print()">🖨️ Imprimer</button>
+    <div id="p2-main">
+      <div id="p2wrap"><div class="notice"><strong>Importez le PDF</strong> ou utilisez les données de la Page 1.</div></div>
+      <div id="cl-pv"></div>
     </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
+<input type="file" id="casin" accept="image/*,.pdf" style="display:none">
 
 <script>
-// ══════════════════════
+// ═══════════════════════
 // STATE
-// ══════════════════════
-let horses = [];      // Liste complète
-let rankHorses = [];  // Classement (copie réordonnée)
-let logoL = null, logoR = null;
-let copyrightLogo = null;  // Logo copyright
-let watermarkLogo = null;
-let flagLogo = null;
-let dragSrc = null;
-const EMOJIS = ['🟢','🔵','🟡','⚫','🟠','🔴','🟣','🟤','⚪','🔶'];
+// ═══════════════════════
+let AC = []; // allCourses
+let AI = 0;  // activeCourseIdx
+let LOGO = null;
+let P2C = [];
+let P2I = 0;
+let _CAS = -1; // pending casaque idx
+let _DS = null; // drag source
 
-// ──────────────────────
-// LOAD COPYRIGHT LOGO
-// ──────────────────────
-function extractLogoFromDOM() {
-  const navImg = document.querySelector('.nav-brand img');
-  if (!navImg || !navImg.complete || !navImg.naturalWidth) return false;
-  try {
-    const canvas = document.createElement('canvas');
-    canvas.width  = navImg.naturalWidth;
-    canvas.height = navImg.naturalHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(navImg, 0, 0);
-    // Test CORS taint (échoue si logo.png est local sans serveur)
-    const dataUrl = canvas.toDataURL('image/png');
-    copyrightLogo = dataUrl;
-    watermarkLogo = makeImageTransparent(navImg, 0.08);
-    const previewImg = document.getElementById('logo-preview-img');
-    if(previewImg){ previewImg.src = copyrightLogo; previewImg.style.display='block'; }
-    const previewEmpty = document.getElementById('logo-preview-empty');
-    if(previewEmpty) previewEmpty.style.display='none';
-    return true;
-  } catch(e) {
-    // CORS taint : ouverture locale sans serveur — demander upload manuel
-    console.warn('Logo bloqué CORS, uploadez-le via le bouton.', e);
-    const previewImg = document.getElementById('logo-preview-img');
-    const previewEmpty = document.getElementById('logo-preview-empty');
-    if(previewImg) previewImg.style.display='none';
-    if(previewEmpty){ previewEmpty.style.display='block'; previewEmpty.textContent='⚠️'; }
-    return false;
-  }
-}
+// ═══════════════════════
+// HARDCODED PROGRAMME (exact XLS data)
+// Columns from XLS:
+// C1 format: col0=proprio col2=couleurs col5=num col6=nom
+//            col8=corde col9=jockey col10=pds col11=(1)
+//            col12=S_flag col13=age col14=origines col15=entraineur col16-20=perf
+// C2+ format: col0=proprio col2=couleurs col5=num col6=nom
+//             col10=corde col11=jockey col12=pds col13=(1)
+//             col14=sex col15=RB col16=age col17=origines col18=entraineur col19-23=perf
+// S = col12 (format A) or inferred | RB = col15 (format B) = S.RB label
+// ═══════════════════════
+const PROG = [
+ {num:'1',heure:'14:00',prix:'BESBES',dist:'1200',alloc:'4250',
+  cond:"Pour poulains de 3 ans de Pur Sang Arabe n'ayant pas gagné une course de groupes ni 5.500DT — Poids 56kg",
+  chevaux:[
+   {num:1,nom:'SULTAN EL METTLINE',prop:'M.BEN AYED',elev:'',coul:'BLE.C.&.BR.JNE.F.CH.NOI.T.BLE.',jok:'HAM.MIRAOUI',entr:'JAMEL BRIK',orig:'SO BIG IS BETTER-KAMAR EZZAMEN',pds:58,s:'M',rb:'B',age:3,corde:1,perf:'3 2 2 5',cas:null},
+   {num:2,nom:'SEMH AL BADIA',prop:'HASSEN SELMI',elev:'',coul:'DAM-BLE&BLC.M&T-BLE',jok:'MOU.MECHI',entr:'BLH.HASNY',orig:'MAJEED-KHOULAIFA',pds:56,s:'M',rb:'B',age:3,corde:4,perf:'2 6 0 . .',cas:null},
+   {num:3,nom:'SARAB EL HASSAN',prop:'GHASSEN MHENNI',elev:'',coul:'MI-BL&RG-M.BL.M.RG-T.BL.ETS-RG',jok:'MED NEFZI',entr:'DHAOU BRIK',orig:'SAMMY V-BERLIN',pds:56,s:'M',rb:'B',age:3,corde:2,perf:'5 4 4 . .',cas:null},
+   {num:4,nom:'SOKRATE',prop:'WALID BAHLOUL',elev:'',coul:'CA.JAUNE.POIS.BLE-T.BLEU',jok:'MED EL HOUCH',entr:'NASSIM ALIBI',orig:"MALIK D'OR-ISLAMABAD",pds:55,s:'M',rb:'',age:3,corde:3,perf:'I N E D',cas:null},
+   {num:5,nom:'SEHM CARTHAGE',prop:'HARAS AGROLUX',elev:'',coul:'VR-BR-ORG.M&T-CR-BC&ORG',jok:'AD.ESSAHAL',entr:'MED HAJERI',orig:'HAKIM DU BAC-FORJA',pds:53,s:'M',rb:'B',age:3,corde:5,perf:'I N E D',cas:null},
+  ]},
+ {num:'2',heure:'14:30',prix:'OUNCHOUDA',dist:'1200',alloc:'4250',
+  cond:"Pour pouliches de 3 ans de Pur Sang Arabe n'ayant pas gagné une course de groupes ni 5.500DT — Poids 54kg",
+  chevaux:[
+   {num:1,nom:'SIDRAT EL EZZ',prop:'ABDELKAOUI NACER',elev:'',coul:'LOZ-BLC&BR.M-BLC&RGE.T-BLC',jok:'S.FERCHICHI',entr:'S.BEJAOUI',orig:'KANDAR DU FALGAS-HAWAZINE',pds:56,s:'F',rb:'B',age:3,corde:7,perf:'1 2 2 4 .',cas:null},
+   {num:2,nom:'SOLARA',prop:'MED GASMI',elev:'',coul:'C&T RGE.F.CH.BLC',jok:'AM.MARZOUGUI',entr:'MED GASMI',orig:'MAJEED-RAGOUBA',pds:56,s:'F',rb:'GR',age:3,corde:6,perf:'1 1 . . .',cas:null},
+   {num:3,nom:'SASSYA',prop:'HARAS MEDDEB',elev:'',coul:'RGE.&.JNE.M.C.R.& J.T.RGE.',jok:'A.ZOUAIDI',entr:'SAHBI RAJHI',orig:'AL MAMUN MONLAU-BYRSA',pds:55,s:'F',rb:'B',age:3,corde:4,perf:'4 0 3 4 .',cas:null},
+   {num:4,nom:'SIWAR',prop:'MEHDI AMAARI',elev:'',coul:'VRT.B.BLA.M.VRT.T.VR.&BLA.',jok:'AZ.TARCHOUN',entr:'ZIED RAJHI',orig:'RIJM-ICHBILIA',pds:55,s:'F',rb:'GR',age:3,corde:1,perf:'5 . . . .',cas:null},
+   {num:5,nom:'SABAYEK',prop:'IMED TRABELSI',elev:'',coul:'NOIR.DAM.BD.JAUN-T.EC.JAU.NOIR',jok:'E.MAGHRAOUI',entr:'A.B.JAAFAR',orig:'MARED AL SAHRA-KAMAR ALI',pds:55,s:'F',rb:'',age:3,corde:3,perf:'3 . . . .',cas:null},
+   {num:6,nom:'SELMA AL BADR',prop:'ALI BOUZOUMITA',elev:'',coul:'ROSE.CN-BLC-M.RY.T-ROSE',jok:'HAM.MIRAOUI',entr:'JAMEL BRIK',orig:'AL FATIH-KARAWANE AL BADR',pds:54,s:'F',rb:'GR',age:3,corde:5,perf:'7 7 0 . .',cas:null},
+   {num:7,nom:'SARIAT AL JANOUB',prop:'WALID TAIEB',elev:'',coul:'NOI-ET-JAU.M-NOI-P-JAU.T-NOI',jok:'HAY. HASSINE',entr:'DHAOU BRIK',orig:'KANDAR DU FALGAS-IMEN SADEK',pds:53,s:'F',rb:'',age:3,corde:2,perf:'I N E D .',cas:null},
+   {num:8,nom:'SABEH DOUZ',prop:'HARAS AL OMAR',elev:'',coul:'C.BLC-LOS.BLE-M.JAU-T.EC.JAU.BLE',jok:'F.T.MAHFOUDH',entr:'Y. GHABRI',orig:"NAFE'EH-JABALIA",pds:53,s:'F',rb:'G.R.',age:3,corde:8,perf:'I N E D .',cas:null},
+  ]},
+ {num:'3',heure:'15:00',prix:'MEXICO',dist:'1700',alloc:'4250',
+  cond:"Pour chevaux de 4 ans & plus de Pur Sang Anglais nés & élevés en Tunisie n'ayant pas gagné",
+  chevaux:[
+   {num:1,nom:'MAYAR LUX',prop:'HARAS AGROLUX',elev:'',coul:'VR-BR-ORG.M&T-CR-BC&ORG',jok:'L.SLEIMI',entr:'MED HAJERI',orig:"ARCHANGE D'OR-MAIA DREAM",pds:61,s:'M',rb:'AL',age:4,corde:4,perf:'0 4 0 5 3',cas:null},
+   {num:2,nom:'FLASH',prop:'HARAS MEDDEB',elev:'',coul:'RGE.&.JNE.M.C.R.& J.T.RGE.',jok:'E.MAGHRAOUI',entr:'SAHBI RAJHI',orig:'CRACKSMAN-CHERRYXMA',pds:59,s:'M',rb:'GR',age:4,corde:5,perf:'4 2 1 1 .',cas:null},
+   {num:3,nom:'CONFIDENTIAL LADY',prop:'HS.AH. ESSAIED',elev:'',coul:'ORG.DAM.N.T.ORG.',jok:'MOUHIB MELLITI',entr:'NIZAR GHABRI',orig:'MORANDI-MEMORIES TSARIMES',pds:56,s:'F',rb:'GR',age:4,corde:1,perf:'4 1 3 4 3',cas:null},
+   {num:4,nom:'MIAMI LUX',prop:'HARAS AGROLUX',elev:'',coul:'VR-BR-ORG.M&T-CR-BC&ORG',jok:'MED NEFZI',entr:'AY.JABERI',orig:"ARCHANGE D'OR-MADONNITA",pds:56,s:'F',rb:'B',age:4,corde:3,perf:'2 2 4 3 5',cas:null},
+   {num:5,nom:'NO RISK NO LIFE',prop:'NAILI ABDALLAH',elev:'',coul:'BC-ETS-RG.M-RY-BL-BC.T-BC',jok:'AM.MARZOUGUI',entr:'S.BEJAOUI',orig:'ATTENDU-SINGING MACHINE',pds:53,s:'F',rb:'B',age:4,corde:2,perf:'4 4 2 2 4',cas:null},
+  ]},
+ {num:'4',heure:'15:30',prix:'ZOUHEIR',dist:'1700',alloc:'5100',
+  cond:"Pour chevaux de 4 ans & plus de Pur Sang Arabe n'ayant pas gagné une course de G1 ou G2 depuis le 01/01/2025 ni 8.500DT",
+  chevaux:[
+   {num:1,nom:'IAKOUB',prop:'HS.AH. ESSAIED',elev:'',coul:'ORG.DAM.N.T.ORG.',jok:'MOUHIB MELLITI',entr:'NIZAR GHABRI',orig:'MUQATIL AL KHALIDIAH-DOURA WAHDA',pds:57,s:'M',rb:'AL',age:4,corde:2,perf:'1 3 0 1 0',cas:null},
+   {num:2,nom:'NAJEL',prop:'KHALED KOBBI',elev:'',coul:'RGE-RAY-BLC.T.RGE',jok:'AM.MARZOUGUI',entr:'S.BEJAOUI',orig:'TIDJAM LOTOIS-DIMA',pds:57,s:'M',rb:'GR',age:4,corde:1,perf:'0 4 2 1 3',cas:null},
+   {num:3,nom:'MAYMOUN',prop:'MED ZETRINI',elev:'',coul:'VRT-PS-F-CHV&T-RGE',jok:'MED NEFZI',entr:'FAOUZI ALIBI',orig:"MUNJIZ-CH'RITA",pds:56,s:'M',rb:'AL',age:4,corde:9,perf:'4 3 0 1 4',cas:null},
+   {num:4,nom:'MOUAADH',prop:'NABIL EL HASNY',elev:'',coul:'VIO.ET.RGE.M.RGE.T.VIO',jok:'AY.GHABRI',entr:'NIZAR GHABRI',orig:'MUNEEF-FERJANIA',pds:56,s:'M',rb:'GR',age:4,corde:8,perf:'2 0 2 1 0',cas:null},
+   {num:5,nom:'OMRANE ZARZIS',prop:'MED BEN AMRI',elev:'',coul:'VIOL.ECL-BR & T-JAUNE',jok:'A.ZOUAIDI',entr:'SABRI GUESMI',orig:'DJELMANE-OOJOUBA',pds:55,s:'M',rb:'B',age:4,corde:7,perf:'0 0 0 0 2',cas:null},
+   {num:6,nom:'OSKAR MAZAGAN',prop:'HASSEN SELMI',elev:'',coul:'DAM-BLE&BLC.M&T-BLE',jok:'F.T.MAHFOUDH',entr:'AK. BEN ALI',orig:'DJELMANE-MALIKAT EZZAMAN',pds:55,s:'M',rb:'B.B.',age:4,corde:5,perf:'4 0 1 0 4',cas:null},
+   {num:7,nom:'OULWAN',prop:'SYLVIANE FABRY',elev:'',coul:'C.RGE.ETOIL & T-JAU-DORE',jok:'M.A.BOUCHNIBA',entr:'S.BEJAOUI',orig:'NEDJAM LOTOIS-INES',pds:53,s:'M',rb:'B',age:4,corde:3,perf:'4 4 2 5 2',cas:null},
+   {num:8,nom:'ONCHOUDET SFAX',prop:'FATHI FOURATI',elev:'',coul:'BLC-EP-CHV &T NOI',jok:'CHAHINE MANI',entr:'MOUR.GHABRI',orig:'LWSAIL-EL MOOTASMA',pds:53,s:'F',rb:'B',age:4,corde:4,perf:'5 6 0 4 1',cas:null},
+   {num:9,nom:'OUILD EL HAFSIA',prop:'HARAS MEDDEB',elev:'',coul:'RGE.&.JNE.M.C.R.& J.T.RGE.',jok:'E.MAGHRAOUI',entr:'HAMZA RAJHI',orig:'AL MAMUN MONLAU-BINT SIDHOM',pds:53,s:'M',rb:'AL',age:4,corde:10,perf:'5 0 5 4 2',cas:null},
+   {num:10,nom:'RAHY',prop:'HANNIBAL STUD',elev:'',coul:'C&T-RGE.EP&ETS-NOI.M-NOI',jok:'MED EL HOUCH',entr:'AN. MSALLAM',orig:'MISTER GINOUX-HALIMA',pds:53,s:'M',rb:'AL',age:4,corde:6,perf:'I N E D .',cas:null},
+  ]},
+ {num:'5',heure:'16:00',prix:'IEZZI',dist:'1700',alloc:'4250',
+  cond:"Pour poulains et pouliches de 3 ans de Pur Sang Arabe (Réservé) n'ayant pas gagné",
+  chevaux:[
+   {num:1,nom:'SARHANE AL BADR',prop:"A.KEN. M'HIRSI",elev:'',coul:'BCHE.EP.RGE.M.BCHE.T.RGE.',jok:'M.A.BOUCHNIBA',entr:'S.BOUCHNAK',orig:'SAYAF-CHATIRAT AL BADR',pds:58,s:'M',rb:'AL',age:3,corde:8,perf:'0 3 3 3 2',cas:null},
+   {num:2,nom:'SAOUEN',prop:'MED S. FELHI',elev:'',coul:'VERTE.EP.BR.BLA.T.VERT',jok:'AN.ALWEN',entr:'MED.S.FELHI',orig:'SAYAF-GHADET ESSAHEL',pds:56,s:'M',rb:'B',age:3,corde:1,perf:'3 . . . .',cas:null},
+   {num:3,nom:'SAAD CARTHAGE',prop:'GHASSEN MHENNI',elev:'',coul:'MI-BL&RG-M.BL.M.RG-T.BL.ETS-RG',jok:'YA.LEMDIHIN',entr:'DHAOU BRIK',orig:'HAYDEB CARTHAGE-ACH KAWLEK',pds:56,s:'M',rb:'AL',age:3,corde:13,perf:'0 0 4 4 3',cas:null},
+   {num:4,nom:'SHEMI',prop:'MED ALI MILADI',elev:'',coul:'GR-ETO-JAU-T-JAU',jok:'HAM.MIRAOUI',entr:'JAMEL BRIK',orig:'FETA KORAICH-GHOZLANIYA',pds:55,s:'M',rb:'AL',age:3,corde:5,perf:'4 7 0 0 2',cas:null},
+   {num:5,nom:'SAAD',prop:'MED ABID',elev:'',coul:'BLC-CV-BLE.M.BLC.T.BLE',jok:'W.BERAJEH',entr:'AY.JABERI',orig:'FLECH-DADHRA',pds:55,s:'M',rb:'AL',age:3,corde:2,perf:'3 5 4 0 5',cas:null},
+   {num:6,nom:'SABIKAT SAKIET EDAIER',prop:'YAICH MED',elev:'',coul:'RGE.M.RGE-CHV-VRT.T-RGE&VRT',jok:'MOU.MECHI',entr:'MED.S.FELHI',orig:'KALATOUS AL CHAAMBI-TIZIOUZOU',pds:54,s:'F',rb:'GR',age:3,corde:9,perf:'3 2 2 0 0',cas:null},
+   {num:7,nom:'SADDAM CARTHAGE',prop:'HARAS AGROLUX',elev:'',coul:'VR-BR-ORG.M&T-CR-BC&ORG',jok:'MED EL HOUCH',entr:'AY.JABERI',orig:'HANNIBAL CARTHAGE-LOMJA',pds:53,s:'M',rb:'AL',age:3,corde:3,perf:'I N E D .',cas:null},
+   {num:8,nom:'SAADET ESSAFIRA',prop:'SAMIR GUIDARA',elev:'',coul:'ORG.ET-JAU.M-ORG-JAU.T-ORG',jok:'M.AM ALLAGUI',entr:'MT.GHORGHARE',orig:'SGHAIER-SMAYRA',pds:53,s:'F',rb:'AL',age:3,corde:14,perf:'5 5 7 . .',cas:null},
+   {num:9,nom:'SAHEK',prop:'FATHI SOUISSI',elev:'',coul:'C&T.DAM-VERT&BLC-M.BLC',jok:'MED NEFZI',entr:'JAMEL BRIK',orig:'SULTAN-FAJR ESSAHEL',pds:53,s:'M',rb:'AL',age:3,corde:6,perf:'0 0 . . .',cas:null},
+   {num:10,nom:'SOUHAIEL',prop:'HS.AH. ESSAIED',elev:'',coul:'ORG.DAM.N.T.ORG.',jok:'S.FERCHICHI',entr:'NIZAR GHABRI',orig:'HANDHALAH-TOUTA HLOUA',pds:53,s:'M',rb:'AL',age:3,corde:4,perf:'I N E D .',cas:null},
+   {num:11,nom:'SAKR EL ATHIR',prop:'OMRAN ZALLEG',elev:'',coul:'RGE-ETO-BLC.T-RGE',jok:'MOUHIB MELLITI',entr:'OMRAN ZALLEG',orig:'SAYAF-KILMETNA',pds:53,s:'M',rb:'AL',age:3,corde:11,perf:'0 0 0 . .',cas:null},
+   {num:12,nom:'SARRA',prop:'KHALIL MALLAK',elev:'',coul:'VRT-ETS-BLC.M-BLC.T-VRT',jok:'YA.LAAWAY',entr:'MED.S.FELHI',orig:'SGHAIER-GHADAT ENNOUR',pds:53,s:'F',rb:'B',age:3,corde:12,perf:'I N E D .',cas:null},
+   {num:13,nom:'SAKLAOUI',prop:'ECURIE EL GHABRI',elev:'',coul:'BLE.M-BLE-ETS-BLC.T-BLC',jok:'F.T.MAHFOUDH',entr:'Y. GHABRI',orig:'SAYAF-IBTIHEL',pds:53,s:'M',rb:'AL',age:3,corde:7,perf:'I N E D .',cas:null},
+   {num:14,nom:'SOUROUR',prop:"ABDELAZIZ M'CHALA",elev:'',coul:'BLC-CHV-RGE.M-RGE.CHVS.BLC.T-RGE',jok:'MA.ETTOUMI',entr:'AH. AMDOUNI',orig:'SULTAN-OM EL KHALIJ',pds:51,s:'F',rb:'',age:3,corde:10,perf:'I N E D .',cas:null},
+  ]},
+ {num:'6',heure:'16:25',prix:'MONDINO',dist:'2000',alloc:'4250',
+  cond:"Pour poulains et pouliches de 3 ans de Pur Sang Anglais nés & élevés en Tunisie n'ayant pas gagné",
+  chevaux:[
+   {num:1,nom:'SNOW TRAIN',prop:'HS.AH. ESSAIED',elev:'',coul:'ORG.DAM.N.T.ORG.',jok:'S.FERCHICHI',entr:'S.BEJAOUI',orig:'RENAT-MONTEROSA',pds:56,s:'M',rb:'B',age:3,corde:1,perf:'2 1 3 3 2',cas:null},
+   {num:2,nom:'KALAR',prop:'ECURIE EL GHABRI',elev:'',coul:'BLE.M-BLE-ETS-BLC.T-BLC',jok:'MOU.MECHI',entr:'Y. GHABRI',orig:'SANDWAKI-GREGORACI',pds:53,s:'M',rb:'B',age:3,corde:3,perf:'4 2 2 3 .',cas:null},
+   {num:3,nom:'SAMAR TOUNES',prop:'HARAS BEN TOUNES',elev:'',coul:'VRT-LOS-RGE.T-RGE',jok:'AYMEN NEFZI',entr:'J.P.MELLOUL',orig:'BEST OF MAX-KALIMBA',pds:53,s:'F',rb:'AL',age:3,corde:2,perf:'2 4 4 . .',cas:null},
+  ]},
+ {num:'7',heure:'16:55',prix:'FARDJALA',dist:'2000',alloc:'4250',
+  cond:"Pour poulains et pouliches de 4 ans de Pur Sang Arabe n'ayant pas gagné 3.000DT — Poids 56kg",
+  chevaux:[
+   {num:1,nom:'RACIF',prop:'KHALED KOBBI',elev:'',coul:'RGE-RAY-BLC.T.RGE',jok:'AM.MARZOUGUI',entr:'S.BEJAOUI',orig:'MISTER GINOUX-THABTA',pds:58,s:'M',rb:'GR',age:4,corde:16,perf:'4 2 2 2 4',cas:null},
+   {num:2,nom:'RAYWAHED',prop:'KARIM GHABRI',elev:'',coul:'BLE-CHV-RAY-JAU.T-BLE',jok:'F.T.MAHFOUDH',entr:'MOUR.GHABRI',orig:'KANDAR DU FALGAS-AKIDAH',pds:58,s:'M',rb:'AL',age:4,corde:12,perf:'0 2 2 2 0',cas:null},
+   {num:3,nom:'RISSELET EL GHOFRANE',prop:'HAFEDH SLIMANI',elev:'',coul:'VRT-ECH&T.ORG.M-ORG-BD-VRT',jok:'M.A.BOUCHNIBA',entr:'NIZAR GHABRI',orig:'TIDJAM LOTOIS-FERJANIA',pds:56,s:'F',rb:'B',age:4,corde:2,perf:'2 6 5 3 1',cas:null},
+   {num:4,nom:'RAKIA',prop:'KARIM GHABRI',elev:'',coul:'BLE-CHV-RAY-JAU.T-BLE',jok:'MOU.MECHI',entr:'MOUR.GHABRI',orig:'DJELMANE-GUERRET LAHSOUM',pds:56,s:'F',rb:'B',age:4,corde:9,perf:'3 0 0 3 3',cas:null},
+   {num:5,nom:'RAS JBAL',prop:'MED ATTIA',elev:'',coul:'JAU-ET-MAR.T-EC',jok:'KARIM JAFFELI',entr:'SABRI GUESMI',orig:'IMTIYEZ-ZAALANA',pds:56,s:'M',rb:'AL',age:4,corde:17,perf:'0 7 0 0 0',cas:null},
+   {num:6,nom:'RAYESS',prop:'HS. GANTOURIA',elev:'',coul:'VRT.CHEV.&.M.BLA.T.V.&.BL',jok:'A.ZOUAIDI',entr:'SABRI GUESMI',orig:"ABU ALEMARAT-Z'HAIRA",pds:56,s:'M',rb:'AL',age:4,corde:6,perf:'0 5 4 5 0',cas:null},
+   {num:7,nom:'RABIAA',prop:'HS.AH. ESSAIED',elev:'',coul:'ORG.DAM.N.T.ORG.',jok:'MOUHIB MELLITI',entr:'NIZAR GHABRI',orig:'LWSAIL-KORTOUBA',pds:56,s:'F',rb:'B',age:4,corde:15,perf:'3 2 4 2 1',cas:null},
+   {num:8,nom:'RAJAB',prop:'JIHED SAKKAH',elev:'',coul:'C.JAU-BAND-VERT.T-VERT',jok:'AY.GHABRI',entr:'DHAOU BRIK',orig:'TIDJAM LOTOIS-DORAT EL ARZ',pds:56,s:'M',rb:'B',age:4,corde:10,perf:'0 0 0 4 0',cas:null},
+   {num:9,nom:'REZGUI',prop:'MED S. FELHI',elev:'',coul:'VERTE.EP.BR.BLA.T.VERT',jok:'W.BERAJEH',entr:'MED.S.FELHI',orig:'TID LOTOIS-CHAHLOULETELKHADHRA',pds:56,s:'M',rb:'AL',age:4,corde:8,perf:'7 . . . .',cas:null},
+   {num:10,nom:'ROUSSOUL',prop:'HS.AH. ESSAIED',elev:'',coul:'ORG.DAM.N.T.ORG.',jok:'S.FERCHICHI',entr:'NIZAR GHABRI',orig:'DJELMANE-ABRA',pds:56,s:'F',rb:'AL',age:4,corde:13,perf:'6 2 2 3 1',cas:null},
+   {num:11,nom:'RABIYAH',prop:'HS. GANTOURIA',elev:'',coul:'VRT.CHEV.&.M.BLA.T.V.&.BL',jok:'AYMEN NEFZI',entr:'SABRI GUESMI',orig:'DJELMANE-TAYYARA',pds:56,s:'F',rb:'AL',age:4,corde:4,perf:'1 . . . .',cas:null},
+   {num:12,nom:'RAFII ESSALEM',prop:'HARAS ETTEJ',elev:'',coul:'RGE CHE.NOI-CHE.MI-NOI.T-ECT.RG.NOI',jok:'MED NEFZI',entr:'DHAOU BRIK',orig:'HAKIM DU BAC-JNEINA',pds:56,s:'M',rb:'AL',age:4,corde:11,perf:'0 3 3 4 0',cas:null},
+   {num:13,nom:'RAED AL CHAAMBI',prop:'AZEM MOKHTAR',elev:'',coul:'BLC-CEV-RGE&VET.T-VERT',jok:'HAM.MIRAOUI',entr:'JAMEL BRIK',orig:'SAMMY V-HAMASSET AL CHAAMBI',pds:54,s:'M',rb:'GR',age:4,corde:1,perf:'0 2 2 5 3',cas:null},
+   {num:14,nom:'RAYSSEN',prop:'ALI AKROUT',elev:'',coul:'DAM-RGE&JAU.M&T-NOI',jok:'E.MAGHRAOUI',entr:'ZIED RAJHI',orig:'NIZAM-AMMOURA',pds:54,s:'M',rb:'B',age:4,corde:5,perf:'0 0 7 0 .',cas:null},
+   {num:15,nom:'RAHHAL',prop:'HS.OTHMAN RAJHI',elev:'',coul:'ORG.BRT.NOI.T.RGE',jok:'AZ.TARCHOUN',entr:'ZIED RAJHI',orig:'SAMY V-HIND AL BADR',pds:54,s:'M',rb:'G.R.',age:4,corde:14,perf:'5 . . . .',cas:null},
+   {num:16,nom:'RABII CARTHAGE',prop:'HARAS AGROLUX',elev:'',coul:'VR-BR-ORG.M&T-CR-BC&ORG',jok:'L.SLEIMI',entr:'MED HAJERI',orig:'MAJEED-JEMILAT CARTHAGE',pds:54,s:'M',rb:'B',age:4,corde:3,perf:'0 0 0 0 0',cas:null},
+   {num:17,nom:'RAAD AWLED GHANEM',prop:'GHANMI HATEM',elev:'',coul:'VERT-CR&T-JAU',jok:'MED EL HOUCH',entr:'AY.JABERI',orig:'NEMROD DU PAON-ISKAA',pds:54,s:'M',rb:'AL',age:4,corde:18,perf:'0 0 0 . .',cas:null},
+   {num:18,nom:'ROMDHANIA',prop:'SAMI SAIDI',elev:'',coul:'RGE-M.BLC-ETOILES.& T.RGE',jok:'YA.LEMDIHIN',entr:'DHAOU BRIK',orig:'RIJM-FAHDET ESSAHRA',pds:53,s:'F',rb:'AL',age:4,corde:7,perf:'I N E D .',cas:null},
+  ]},
+];
 
-document.addEventListener('DOMContentLoaded', () => {
-  const navImg = document.querySelector('.nav-brand img');
-  const doExtract = () => {
-    if (!extractLogoFromDOM()) setTimeout(extractLogoFromDOM, 500);
-  };
-  if (navImg) {
-    if (navImg.complete && navImg.naturalWidth) doExtract();
-    else { navImg.addEventListener('load', doExtract); }
-  }
-  ensurePDFLogo();
-
-  // Charger drap.svg → rasteriser en PNG (jsPDF ne lit pas SVG directement)
-  fetch('drap.svg')
-    .then(r => r.text())
-    .then(svgText => {
-      const blob = new Blob([svgText], {type:'image/svg+xml;charset=utf-8'});
-      const url = URL.createObjectURL(blob);
-      const svgImg = new Image();
-      svgImg.onload = () => {
-        const c = document.createElement('canvas');
-        c.width  = svgImg.width  || 200;
-        c.height = svgImg.height || 133;
-        const ctx = c.getContext('2d');
-        ctx.drawImage(svgImg, 0, 0, c.width, c.height);
-        flagLogo = c.toDataURL('image/png');
-        URL.revokeObjectURL(url);
-      };
-      svgImg.onerror = () => URL.revokeObjectURL(url);
-      svgImg.src = url;
-    })
-    .catch(()=>{});
-});
-
-function loadImageDataURL(src) {
-  return new Promise((resolve,reject)=>{
-    const img = new Image();
-    const timer = setTimeout(()=>reject(new Error('Chargement image trop long: '+src)),2500);
-    img.onload = () => {
-      clearTimeout(timer);
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-      const ctx = canvas.getContext('2d');
-      ctx.drawImage(img,0,0);
-      resolve(canvas.toDataURL('image/png'));
-    };
-    img.onerror = err => {
-      clearTimeout(timer);
-      reject(err);
-    };
-    img.src = src;
-  });
-}
-
-function makeImageTransparent(img, opacity) {
-  const canvas = document.createElement('canvas');
-  canvas.width = img.width;
-  canvas.height = img.height;
-  const ctx = canvas.getContext('2d');
-  ctx.globalAlpha = opacity;
-  ctx.drawImage(img,0,0);
-  return canvas.toDataURL('image/png');
-}
-
-async function ensurePDFLogo() {
-  if(copyrightLogo){
-    return copyrightLogo;
-  }
-  try{
-    copyrightLogo = await loadImageDataURL('logo.png');
-    return copyrightLogo;
-  }catch(e){
-    console.warn('Logo PDF non chargé:', e);
-    return null;
-  }
-}
-
-async function preparePDFLogo(timeoutMs = 3000) {
-  if(copyrightLogo) return copyrightLogo;
-  return Promise.race([
-    ensurePDFLogo(),
-    new Promise(resolve => setTimeout(()=>resolve(null), timeoutMs))
-  ]);
-}
-
-// ══════════════════════
-// NAVIGATION
-// ══════════════════════
-function goPage(id, btn) {
+// ═══════════════════════
+// NAV
+// ═══════════════════════
+function switchPage(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  btn.classList.add('active');
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page'+n).classList.add('active');
+  document.getElementById('tab'+n).classList.add('active');
 }
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 
-// ──────────────────────
-// MOBILE MENU FUNCTIONS
-// ──────────────────────
-function toggleMobileMenu() {
-  const navTabs = document.querySelector('.nav-tabs');
-  const overlay = document.getElementById('sidebar-overlay');
-  const sidebars = document.querySelectorAll('.sidebar');
-  
-  navTabs?.classList.toggle('mobile-open');
-  overlay?.classList.toggle('mobile-open');
-  sidebars.forEach(s => s.classList.toggle('mobile-open'));
-}
+// ═══════════════════════
+// DRAG & DROP IMPORT
+// ═══════════════════════
+function dov(e){e.preventDefault();e.currentTarget.classList.add('over')}
+function dlv(e){e.currentTarget.classList.remove('over')}
+function ddr(e){e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f)procXLS(f)}
+function p2Drop(e){e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f)procP2PDF(f)}
+function hdlFile(e){if(e.target.files[0])procXLS(e.target.files[0])}
+function hdlP2PDF(e){if(e.target.files[0])procP2PDF(e.target.files[0])}
 
-function closeMobileMenu() {
-  const navTabs = document.querySelector('.nav-tabs');
-  const overlay = document.getElementById('sidebar-overlay');
-  const sidebars = document.querySelectorAll('.sidebar');
-  
-  navTabs?.classList.remove('mobile-open');
-  overlay?.classList.remove('mobile-open');
-  sidebars.forEach(s => s.classList.remove('mobile-open'));
-}
-
-// Close menu when clicking overlay
-document.addEventListener('DOMContentLoaded', () => {
-  const overlay = document.getElementById('sidebar-overlay');
-  overlay?.addEventListener('click', closeMobileMenu);
-});
-
-// ══════════════════════
-// EXCEL IMPORT
-// ══════════════════════
-const dz1 = document.getElementById('dz1');
-dz1.addEventListener('dragover', e=>{e.preventDefault();dz1.classList.add('ov')});
-dz1.addEventListener('dragleave', ()=>dz1.classList.remove('ov'));
-dz1.addEventListener('drop', e=>{e.preventDefault();dz1.classList.remove('ov');if(e.dataTransfer.files[0])readExcel(e.dataTransfer.files[0])});
-document.getElementById('fi1').addEventListener('change', e=>{if(e.target.files[0])readExcel(e.target.files[0])});
-
-function readExcel(file) {
-  const r = new FileReader();
-  r.onload = e => {
-    try {
-      const wb = XLSX.read(new Uint8Array(e.target.result),{type:'array'});
-      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
-      if(!rows.length){toast('❌ Fichier vide','err');return}
-
-      // Column detection
-      const cm={};
-      for(const k of Object.keys(rows[0])){
-        const n=k.toLowerCase().replace(/[^a-z0-9°]/g,'');
-        if(/propri/.test(n)) cm.prop=k;
-        else if(/cheva|horse/.test(n)) cm.chev=k;
-        else if(/jock/.test(n)) cm.jock=k;
-        else if(/entra/.test(n)) cm.entr=k;
-        else if(/orig/.test(n)) cm.orig=k;
-        else if(/elev/.test(n)) cm.elev=k;
-        else if(/perf/.test(n)) cm.perf=k;
-        else if(/n°|n°|num|^n$/.test(n)) cm.num=k;
-        else if(/pds|poid/.test(n)) cm.pds=k;
-        else if(/srb|sexe/.test(n)) cm.srb=k;
-        else if(/age/.test(n)) cm.age=k;
-        else if(/^\*$|corde/.test(n)) cm.corde=k;
-      }
-
-      const prev={};
-      horses.forEach((h,i)=>{if(h.silk)prev[i]=h.silk});
-
-      horses = rows.map((r,idx)=>{
-        const cr=String(r[cm.chev]||r['CHEVAUX']||'');
-        return {
-          num: r[cm.num]||r['N°']||idx+1,
-          cheval: cr.split('(')[0].trim(),
-          origines: cm.orig&&r[cm.orig]?String(r[cm.orig]).trim():'',
-          proprietaire: String(r[cm.prop]||r['PROPRIETAIRES']||'').trim(),
-          jockey: String(r[cm.jock]||r['JOCKEYS']||'').trim(),
-          entraineur: String(r[cm.entr]||r['ENTRAINEURS']||'').trim(),
-          eleveur: String(r[cm.elev]||r['ELEVEUR']||'').trim(),
-          perf: String(r[cm.perf]||r['PERF']||'').trim(),
-          pds: String(r[cm.pds]||r['Pds']||'').trim(),
-          srba: String(r[cm.srb]||r['S.RB.A']||'').trim(),
-          age: String(r[cm.age]||'').trim(),
-          corde: String(r[cm.corde]||r['*']||'').trim(),
-          silk: prev[idx]||null,
-          status: 'partant',
-          open: false,
-        };
-      });
-
-      renderHCards();
-      renderList();
-      document.getElementById('ist').textContent=`✔ ${horses.length} chevaux chargés`;
-      document.getElementById('lmsg').textContent=`${horses.length} chevaux — cliquez les casaques pour ajouter les images ou PDF`;
-      document.getElementById('addRowBtn').style.display='';
-      toast(`✅ ${horses.length} chevaux importés !`);
-    } catch(err){toast('❌ Erreur lecture','err');console.error(err)}
+function procXLS(file){
+  const r=new FileReader();
+  r.onload=ev=>{
+    const wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    const parsed=parseXLS(rows);
+    if(!parsed.length){toast('⚠️ Format non reconnu — programme intégré chargé');loadDemo();return}
+    AC=parsed; AI=0; setupCourses();
+    toast('✅ '+AC.length+' courses importées');
   };
   r.readAsArrayBuffer(file);
 }
 
-function loadEx() {
-  horses = [
-    {num:1,cheval:'MARMARAT EL BOURA',origines:'TIDJAM LOTOIS-CECILIA',proprietaire:'HS.BOURAQUE STA',jockey:'AYMEN NEFZI',entraineur:'AH. AMDOUNI',eleveur:'IBRAHIM OUNIS',perf:'0 2 1 3 2',pds:'57.5',srba:'F B',age:'6',corde:'9',silk:null,open:false},
-    {num:2,cheval:'NAZEEHA',origines:'KANDARDFALOAS-OMARR',proprietaire:'MEHREZ ABBASSI',jockey:'M.A.BOUCHNIB',entraineur:'S.BEJAOUI',eleveur:'MEHREZ ABBASSI',perf:'1 4 5 2 2',pds:'57.5',srba:'F AL',age:'5',corde:'5',silk:null,open:false},
-    {num:3,cheval:'NABHANA',origines:'TIDJAM LOTOIS-FARIHA',proprietaire:'DAAFOUS ABDESS',jockey:'G.GHRISSI',entraineur:'HAMZA FARHI',eleveur:'ABDESSALEM DADAI',perf:'3 0 4 4 1',pds:'57.5',srba:'F B',age:'5',corde:'7',silk:null,open:false},
-    {num:4,cheval:'OMM TRAKI',origines:'TIDJAM LOTOIS-DOUAA EL KARAWAN',proprietaire:'MED.MEZGHANI',jockey:'JOSE SANTIAGO',entraineur:'S.BEJAOUI',eleveur:'NAWEL BEN HASSI',perf:'1 1 4 1 1',pds:'57.5',srba:'F B',age:'4',corde:'6',silk:null,open:false},
-    {num:5,cheval:'ODAYNA EL BIBANE',origines:'BO BO IS BETTER-BAHREN',proprietaire:'HARAS EL BIBANE',jockey:'MED L. MEDIH',entraineur:'SABRI GUESMI',eleveur:'HARAS EL BIBANE',perf:'2 3 4 1 1',pds:'57.5',srba:'F B',age:'4',corde:'8',silk:null,open:false},
-    {num:6,cheval:'OUARDET EL METLINE',origines:'RUM-FOUTOUN E3ABRA',proprietaire:'HARAS EL BIBANE',jockey:'AB.GOUIDER',entraineur:'MED GASMI',eleveur:'LOTFI LADHIB',perf:'5 0 1 2 1',pds:'57.5',srba:'F AL',age:'4',corde:'4',silk:null,open:false},
-    {num:7,cheval:'OKTOR',origines:'RUM-FETAT DAHE83',proprietaire:'EC.SADEK TRABEL',jockey:'ANALWEN',entraineur:'AY.JABERI',eleveur:'SAMI TRABELSI',perf:'2 4 0 1 1',pds:'57.5',srba:'F B',age:'4',corde:'1',silk:null,open:false},
-    {num:8,cheval:'OUM EL ARAB',origines:'TIDJAM LOTOIS-BIDON',proprietaire:'ALI BOUZOUMITA',jockey:'WL SAMHOUN',entraineur:'AN. MSALLAM',eleveur:'ALI SGHAIER',perf:'4 3 5 0 0',pds:'57.5',srba:'F AL',age:'4',corde:'2',silk:null,open:false},
-    {num:9,cheval:'RIHET EL BIBANE',origines:'RUMICHRAK EL BIBANE',proprietaire:'KHALED KOBBI',jockey:'S.FERCHICHI',entraineur:'S.BEJAOUI',eleveur:'HARAS EL BIBANE',perf:'1 1 5 3 4',pds:'57.0',srba:'F AL',age:'3',corde:'3',silk:null,open:false},
-  ];
-  renderHCards();
-  renderList();
-  document.getElementById('addRowBtn').style.display='';
-  document.getElementById('lmsg').textContent='Exemple chargé — cliquez les casaques colorées pour ajouter les images ou PDF';
-  toast('📋 Exemple chargé !');
-}
+// ═══════════════════════
+// XLS PARSER — exact column mapping
+// ═══════════════════════
+function parseXLS(rows){
+  const s=(r,j)=>{const v=r[j];return(v===null||v===undefined||String(v).trim()==='nan')?'':String(v).trim()};
+  const isN=(v,lo,hi)=>/^\d+(\.\d+)?$/.test(v)&&parseFloat(v)>=lo&&parseFloat(v)<=hi;
+  const courses=[];
+  let cur=null, hdrSeen=false;
 
-// ══════════════════════
-// HORSE CARDS (sidebar list)
-// ══════════════════════
-function renderHCards() {
-  const grid = document.getElementById('hgrid');
-  grid.innerHTML='';
-  horses.forEach((h,i)=>grid.appendChild(makeHCard(h,i)));
-}
-
-function makeHCard(h, i) {
-  const div = document.createElement('div');
-  div.className='hcard'+(h.open?' open':'');
-
-  const silkC = h.silk
-    ? `<img src="${h.silk}" alt="">`
-    : `<span>${EMOJIS[i%10]}</span>`;
-
-  div.innerHTML=`
-    <div class="hcard-hdr" onclick="toggleHCard(${i},event)">
-      <div class="hcard-num">${h.num}</div>
-      <div class="hcard-silk" onclick="event.stopPropagation()" title="Cliquez pour la casaque">
-        ${silkC}<div class="sh">🖼</div>
-        <input type="file" accept="image/*,.pdf,application/pdf" onchange="setSilk(${i},this)" onclick="event.stopPropagation()">
-      </div>
-      <div class="hcard-info">
-        <div class="hcard-name">${xss(h.cheval)||'(sans nom)'}</div>
-        <div class="hcard-sub">${xss(h.proprietaire)||''} · ${xss(h.jockey)||''}</div>
-      </div>
-      <div class="hcard-exp">▼</div>
-    </div>
-    <div class="hcard-body">
-      <div class="hcard-grid">
-        <div class="field full"><label>Nom du cheval</label>
-          <input value="${xss(h.cheval)}" oninput="horses[${i}].cheval=this.value;updHCard(${i})"></div>
-        <div class="field"><label>N° (dossard)</label>
-          <input value="${xss(h.num)}" oninput="horses[${i}].num=this.value;updHCard(${i})"></div>
-        <div class="field"><label>Âge</label>
-          <input value="${xss(h.age)}" oninput="horses[${i}].age=this.value"></div>
-        <div class="field"><label>Propriétaire</label>
-          <input value="${xss(h.proprietaire)}" oninput="horses[${i}].proprietaire=this.value;updHCard(${i})"></div>
-        <div class="field"><label>Jockey</label>
-          <input value="${xss(h.jockey)}" oninput="horses[${i}].jockey=this.value;updHCard(${i})"></div>
-        <div class="field"><label>Entraîneur</label>
-          <input value="${xss(h.entraineur)}" oninput="horses[${i}].entraineur=this.value"></div>
-        <div class="field"><label>Éleveur</label>
-          <input value="${xss(h.eleveur)}" oninput="horses[${i}].eleveur=this.value"></div>
-        <div class="field"><label>Origines</label>
-          <input value="${xss(h.origines)}" oninput="horses[${i}].origines=this.value"></div>
-        <div class="field"><label>Poids (Pds)</label>
-          <input value="${xss(h.pds)}" oninput="horses[${i}].pds=this.value"></div>
-        <div class="field"><label>S.RB.A</label>
-          <input value="${xss(h.srba)}" oninput="horses[${i}].srba=this.value"></div>
-        <div class="field"><label>Corde (*)</label>
-          <input value="${xss(h.corde)}" oninput="horses[${i}].corde=this.value"></div>
-        <div class="field"><label>Performances</label>
-          <input value="${xss(h.perf)}" oninput="horses[${i}].perf=this.value"></div>
-      </div>
-      <div style="display:flex;gap:6px;margin-top:8px">
-        <button class="btn btn-out btn-sm" onclick="delHorse(${i})">🗑 Supprimer</button>
-      </div>
-    </div>
-  `;
-  return div;
-}
-
-function toggleHCard(i, e) {
-  if(e.target.closest('.hcard-silk'))return;
-  horses[i].open=!horses[i].open;
-  const cards=document.querySelectorAll('.hcard');
-  if(cards[i])cards[i].classList.toggle('open',horses[i].open);
-}
-
-function updHCard(i) {
-  const cards=document.querySelectorAll('.hcard');
-  if(!cards[i])return;
-  cards[i].querySelector('.hcard-name').textContent=horses[i].cheval||'(sans nom)';
-  cards[i].querySelector('.hcard-sub').textContent=(horses[i].proprietaire||'')+' · '+(horses[i].jockey||'');
-  cards[i].querySelector('.hcard-num').textContent=horses[i].num;
-}
-
-const SILK_ACCEPT = 'image/*,.pdf,application/pdf';
-if(window.pdfjsLib){
-  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-}
-
-async function pdfToImageDataURL(file) {
-  if(!window.pdfjsLib) throw new Error('PDF.js non chargé');
-
-  const buffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({data: buffer}).promise;
-  const page = await pdf.getPage(1);
-  const viewport = page.getViewport({scale: 2});
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = viewport.width;
-  canvas.height = viewport.height;
-  await page.render({canvasContext: ctx, viewport}).promise;
-  return canvas.toDataURL('image/png');
-}
-
-function refreshSilkInput(i, dataUrl) {
-  const cards=document.querySelectorAll('.hcard');
-  const silk=cards[i]?.querySelector('.hcard-silk');
-  if(!silk)return;
-  silk.innerHTML=`<img src="${dataUrl}" alt=""><div class="sh">🖼</div><input type="file" accept="${SILK_ACCEPT}" onchange="setSilk(${i},this)" onclick="event.stopPropagation()">`;
-}
-
-async function setSilk(i, input) {
-  const f=input.files[0]; if(!f)return;
-  try{
-    const dataUrl = f.type==='application/pdf' || /\.pdf$/i.test(f.name)
-      ? await pdfToImageDataURL(f)
-      : await new Promise((resolve,reject)=>{
-          const r=new FileReader();
-          r.onload=e=>resolve(e.target.result);
-          r.onerror=reject;
-          r.readAsDataURL(f);
-        });
-
-    horses[i].silk=dataUrl;
-    refreshSilkInput(i,dataUrl);
-    toast(f.type==='application/pdf' || /\.pdf$/i.test(f.name) ? '📄 Casaque PDF ajoutée !' : '🖼 Casaque ajoutée !');
-  }catch(err){
-    console.error('Erreur chargement casaque:', err);
-    toast('❌ Impossible de charger cette casaque','err');
-  }finally{
-    input.value='';
+  for(let i=0;i<rows.length;i++){
+    const r=rows[i];
+    // Course header: col2="COURSE", col0=digit
+    if(s(r,2)==='COURSE'&&/^\d+$/.test(s(r,0))){
+      if(cur&&cur.chevaux.length>0)courses.push(cur);
+      cur={num:s(r,0),heure:s(r,3),prix:s(r,5),dist:s(r,17),alloc:s(r,14),cond:'',chevaux:[]};
+      hdrSeen=false;
+    }
+    else if(cur&&s(r,0)==='GAGNANT'&&s(r,3).length>20){
+      let c=s(r,3);const p=c.indexOf('Pour');if(p>=0)c=c.substring(p);
+      cur.cond=c.substring(0,250);
+    }
+    else if(cur&&s(r,0)==='PROPRIETAIRES'){hdrSeen=true}
+    else if(cur&&hdrSeen&&/^\d{1,2}$/.test(s(r,5))&&parseInt(s(r,5))>=1&&parseInt(s(r,5))<=20&&s(r,6).length>1){
+      const num=parseInt(s(r,5)),nom=s(r,6).trim(),prop=s(r,0).trim(),coul=s(r,2).trim();
+      // FORMAT FIXE — vérifié sur fichier Excel réel prg10052026:
+      // col0=PROPRIETAIRE | col2=COULEURS | col5=N° | col6=NOM | col7=(*)
+      // col10=CORDE | col11=JOCKEY | col12=PDS | col13=PDS_HCAP(opt)
+      // col14=S | col15=RB | col16=AGE | col17=ORIGINES | col18=ENTRAINEUR | col19..23=PERF
+      let jok='',entr='',orig='',pds='',S='',RB='',age='',corde='';
+      const perf=[];
+      corde = s(r,10);
+      jok   = s(r,11);
+      pds   = s(r,12);
+      S     = s(r,14)||'';
+      RB    = s(r,15)||'';
+      age   = s(r,16);
+      orig  = s(r,17);
+      entr  = s(r,18);
+      for(let k=19;k<=23;k++){const v=s(r,k);if(v&&v!=='.')perf.push(v)}
+      const elev2=''; // pas de colonne éleveur dans le fichier Excel
+      cur.chevaux.push({num,nom,prop,elev:elev2.trim(),coul,jok:jok.trim(),entr:entr.trim(),orig:orig.trim(),
+        pds:pds?parseInt(pds)||pds:'',s:S,rb:RB,age:age?parseInt(age)||age:'',
+        corde:corde?parseInt(corde)||corde:num,perf:perf.join(' '),cas:null});
+    }
+    else if(cur&&hdrSeen&&(s(r,0).includes('1er')||s(r,0).includes('1ER'))){hdrSeen=false}
   }
+  if(cur&&cur.chevaux.length>0)courses.push(cur);
+  return courses;
 }
 
-function addHorse(){
-  const n=horses.length+1;
-  horses.push({num:n,cheval:'',origines:'',proprietaire:'',jockey:'',entraineur:'',eleveur:'',perf:'',pds:'57.5',srba:'',age:'',corde:'',silk:null,status:'partant',open:true});
-  renderHCards();
-  document.getElementById('addRowBtn').style.display='';
+function loadDemo(){
+  AC=JSON.parse(JSON.stringify(PROG)); AI=0; setupCourses();
+  toast('✅ Programme 10 mai 2026 — 7 courses');
 }
 
-function delHorse(i){
-  if(!confirm('Supprimer ce cheval ?'))return;
-  horses.splice(i,1);
-  renderHCards();
-  renderList();
-}
-
-// ══════════════════════
-// RENDER PREVIEW LIST
-// ══════════════════════
-function gv(id){return document.getElementById(id).value}
-
-function renderList(){
-  if(!horses.length){
-    document.getElementById('preview-list').innerHTML='<div class="empty"><div class="ei">📋</div><p>La liste apparaîtra ici</p></div>';
-    return;
-  }
-
-  const logoLeftC = `<img src="${logoL || 'logo.png'}" alt="">`;
-  const logoRightC = `<img src="${logoR || 'logo.png'}" alt="">`;
-
-  let rows='';
-  horses.forEach((h,i)=>{
-    const silkC=h.silk?`<img src="${h.silk}" alt="">`:`<span style="font-size:18px">${EMOJIS[i%10]}</span>`;
-    rows+=`
-      <div class="pl-row">
-        <div class="pl-cell">${xss(h.proprietaire)}</div>
-        <div class="pl-silk">${silkC}</div>
-        <div class="pl-num">${h.num}</div>
-        <div class="pl-cell name">${xss(h.cheval)}</div>
-        <div class="pl-cell num">${xss(h.corde)}</div>
-        <div class="pl-cell">${xss(h.jockey)}</div>
-        <div class="pl-cell num">${xss(h.pds)}</div>
-        <div class="pl-cell num">${xss([h.srba,h.age].filter(Boolean).join(' / '))}</div>
-        <div class="pl-cell">${xss(h.origines)}</div>
-        <div class="pl-cell">${xss(h.eleveur)}</div>
-        <div class="pl-cell">${xss(h.entraineur)}</div>
-        <div class="pl-perf">${xss(h.perf)}</div>
-      </div>`;
+function setupCourses(){
+  document.getElementById('tb-badge').textContent=AC.length+' COURSES';
+  const wrap=document.getElementById('csel');
+  const tabs=document.getElementById('ctabs');
+  wrap.style.display='block'; tabs.innerHTML='';
+  AC.forEach((c,i)=>{
+    const b=document.createElement('button');
+    b.className='ctab'+(i===AI?' active':'');
+    b.textContent=(i+1)+'e';
+    b.onclick=()=>{AI=i;setupCourses()};
+    tabs.appendChild(b);
   });
+  loadAC();
+}
 
-  document.getElementById('preview-list').innerHTML=`
-    <div class="rk-wrapper" style="position:relative">
-      ${copyrightLogo ? `<img src="${copyrightLogo}" alt="" class="watermark-logo">` : ''}
-      <div class="pl-hdr">
-        <div class="pl-hdr-img">
-          ${logoLeftC}
-          <div class="ih">🖼<br>Logo</div>
-          <input type="file" accept="image/*" onchange="upLogo('L',this)">
+function loadAC(){
+  const c=AC[AI];
+  document.getElementById('f-num').value=c.num||(AI+1);
+  document.getElementById('f-heure').value=c.heure||'';
+  document.getElementById('f-prix').value='PRIX '+(c.prix||'');
+  document.getElementById('f-dist').value=c.dist||'';
+  document.getElementById('f-alloc').value=c.alloc||'';
+  document.getElementById('f-cond').value=c.cond||'';
+  renderEd(); upPV();
+}
+
+// ═══════════════════════
+// EDITOR
+// ═══════════════════════
+function renderEd(){
+  const ec=document.getElementById('edcol'),c=AC[AI];
+  if(!c||!c.chevaux.length){ec.innerHTML='<div class="notice">Aucun cheval.</div>';return}
+  let h=`<div class="hcards-hd">COURSE ${c.num} — ${c.chevaux.length} CHEVAUX</div>`;
+  c.chevaux.forEach((h2,i)=>{
+    const cas=h2.cas?`<img src="${h2.cas}" class="cas-prev">`:`<div class="cas-ph" onclick="pickCas(${i})">🎽</div>`;
+    h+=`<div class="hcard" id="hc${i}">
+      <div class="hcard-hd" onclick="togCard(${i})">
+        <div class="hnum">${h2.num}</div>
+        <div style="flex:1"><div class="hname">${h2.nom||'—'}</div><div class="hsub">${h2.prop||''}</div></div>
+        ${h2.cas?`<img src="${h2.cas}" style="width:24px;height:24px;object-fit:contain;border-radius:2px;border:1px solid var(--bdr-or)">`:`<span style="font-size:17px;opacity:.35">🎽</span>`}
+        <span style="color:var(--txt-d);font-size:12px;margin-left:4px">▾</span>
+      </div>
+      <div class="hbody" id="hb${i}">
+        <div class="eg">
+          <div class="ef"><label>Nom</label><input value="${e(h2.nom)}" oninput="sH(${i},'nom',this.value)"></div>
+          <div class="ef"><label>N° dossard</label><input value="${h2.num}" oninput="sH(${i},'num',this.value)"></div>
+          <div class="ef"><label>Propriétaire</label><input value="${e(h2.prop)}" oninput="sH(${i},'prop',this.value)"></div>
+          <div class="ef"><label>Éleveur</label><input value="${e(h2.elev)}" oninput="sH(${i},'elev',this.value)"></div>
+          <div class="ef"><label>Entraîneur</label><input value="${e(h2.entr)}" oninput="sH(${i},'entr',this.value)"></div>
+          <div class="ef"><label>Jockey</label><input value="${e(h2.jok)}" oninput="sH(${i},'jok',this.value)"></div>
+          <div class="ef"><label>Origines</label><input value="${e(h2.orig)}" oninput="sH(${i},'orig',this.value)"></div>
+          <div class="ef"><label>Poids</label><input value="${h2.pds||''}" oninput="sH(${i},'pds',this.value)"></div>
+          <div class="ef"><label>S (sexe)</label><input value="${e(h2.s)}" oninput="sH(${i},'s',this.value)"></div>
+          <div class="ef"><label>RB (race)</label><input value="${e(h2.rb)}" oninput="sH(${i},'rb',this.value)"></div>
+          <div class="ef"><label>Âge</label><input value="${h2.age||''}" oninput="sH(${i},'age',this.value)"></div>
+          <div class="ef"><label>Corde</label><input value="${h2.corde||''}" oninput="sH(${i},'corde',this.value)"></div>
+          <div class="ef full"><label>Performances</label><input value="${e(h2.perf)}" oninput="sH(${i},'perf',this.value)"></div>
+          <div class="ef full"><label>Couleurs casaque</label><input value="${e(h2.coul)}" oninput="sH(${i},'coul',this.value)"></div>
         </div>
-        <div class="pl-hdr-mid">
-          <div class="t1">${gv('L_mainTitle')}</div>
-          <div class="t2">${gv('L_subTitle')}</div>
-          <div class="t3">${gv('L_raceDate')} &nbsp;|&nbsp; ${gv('L_hippodrome')}</div>
-        </div>
-        <div class="pl-hdr-emb">
-          ${logoRightC}
-          <div class="ih">🖼<br>Logo</div>
-          <input type="file" accept="image/*" onchange="upLogo('R',this)">
-        </div>
-      </div>
-      <div class="pl-race-info">
-        <div class="rn">COURSE N°${gv('L_raceNum')} &nbsp;(${gv('L_raceDist')} m)</div>
-        <div class="rnm">${gv('L_raceName')}</div>
-        ${gv('L_allocation') ? `<div class="rnm">Allocation : ${xss(gv('L_allocation'))}</div>` : ''}
-      </div>
-      <div class="pl-thead">
-        <div class="pl-th">PROPRIÉTAIRES</div>
-        <div class="pl-th">COULEUR</div>
-        <div class="pl-th">NUM</div>
-        <div class="pl-th">CHEVAUX</div>
-        <div class="pl-th">*</div>
-        <div class="pl-th">JOCKEYS</div>
-        <div class="pl-th">PDS</div>
-        <div class="pl-th">SRB-AGE</div>
-        <div class="pl-th">ORIGINES</div>
-        <div class="pl-th">ÉLEVEURS</div>
-        <div class="pl-th">ENTRAÎNEURS</div>
-        <div class="pl-th">PERFORMANCES</div>
-      </div>
-      ${rows}
-    </div>
-  `;
-  document.getElementById('lmsg').textContent=`${horses.length} chevaux — aperçu généré`;
-}
-
-function upLogo(side,input){
-  const f=input.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    if(side==='L')logoL=e.target.result;
-    else logoR=e.target.result;
-    renderList();
-    toast('🖼 Logo mis à jour !');
-  };
-  r.readAsDataURL(f);
-}
-
-function uploadMainLogo(input){
-  const f=input.files[0];if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>{
-    const dataUrl=e.target.result;
-    copyrightLogo=dataUrl;
-    const img=new Image();
-    img.onload=()=>{ watermarkLogo=makeImageTransparent(img,0.08); };
-    img.src=dataUrl;
-    const previewImg=document.getElementById('logo-preview-img');
-    const previewEmpty=document.getElementById('logo-preview-empty');
-    if(previewImg){previewImg.src=dataUrl;previewImg.style.display='block';}
-    if(previewEmpty)previewEmpty.style.display='none';
-    const navImg=document.querySelector('.nav-brand img');
-    if(navImg)navImg.src=dataUrl;
-    if(!logoL)logoL=dataUrl;
-    if(!logoR)logoR=dataUrl;
-    // Mettre à jour les filigranes dans les aperçus HTML
-    document.querySelectorAll('img.watermark-logo').forEach(img=>img.src=dataUrl);
-    renderList();
-    if(rankHorses.length)renderRank();
-    toast('✅ Logo chargé pour les exports !');
-  };
-  r.readAsDataURL(f);
-}
-
-// ══════════════════════
-// GENERATE PDF (embed JSON data for ranking page)
-// ══════════════════════
-async function genPDF() {
-try{
-  if(!horses.length){toast('⚠️ Aucun cheval !','warn');return}
-  if(!window.jspdf || !window.jspdf.jsPDF){
-    toast('❌ Librairie PDF non chargée — ouverture impression','err');
-    renderList();
-    setTimeout(()=>window.print(),300);
-    return;
-  }
-
-  const pdfLogo = await preparePDFLogo(3000);
-
-  renderList();
-  toast('⏳ Génération du PDF…');
-
-  await new Promise(r=>setTimeout(r,300));
-
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-
-  const W=297, H=210;
-  const margin=12;
-  const rowH=12.5;
-  const startY=58;
-  
-  const colDefs=[
-    ['PROPRIETAIRES',35],
-    ['COULEUR',16],
-    ['NUM',9],
-    ['CHEVAUX',33],
-    ['*',8],
-    ['JOCKEYS',27],
-    ['PDS',10],
-    ['SRB-AGE',18],
-    ['ORIGINES',34],
-    ['ELEVEURS',27],
-    ['ENTRAINEURS',29],
-    ['PERFORMANCES',27],
-  ];
-  let colX=margin;
-  const cols=colDefs.map(([label,w])=>{
-    const col={label,x:colX,w};
-    colX+=w;
-    return col;
-  });
-
-  function fitText(text, maxW) {
-    let s = String(text || '').trim();
-    if(!s) return '';
-    if(doc.getTextWidth(s) <= maxW) return s;
-    while(s.length > 1 && doc.getTextWidth(s + '...') > maxW) s = s.slice(0, -1);
-    return s + '...';
-  }
-
-  function drawTunisiaFlag(x, y, w, h) {
-    doc.setFillColor(214,0,28);
-    doc.rect(x,y,w,h,'F');
-    doc.setFillColor(255,255,255);
-    doc.circle(x+w/2,y+h/2,h*0.32,'F');
-    doc.setFillColor(214,0,28);
-    doc.circle(x+w/2-1.1,y+h/2,h*0.18,'F');
-    doc.setFillColor(255,255,255);
-    doc.circle(x+w/2+0.2,y+h/2,h*0.16,'F');
-    doc.setFillColor(214,0,28);
-    doc.circle(x+w/2+2.5,y+h/2,1.1,'F');
-  }
-
-  function addWatermark() {
-    const wm = watermarkLogo || copyrightLogo || pdfLogo;
-    if(!wm) return;
-    try{
-      const contentTop = startY;
-      const contentH   = H - contentTop - 10;
-      const size       = Math.min(contentH * 0.85, 120);
-      const cx         = W / 2 - size / 2;
-      const cy         = contentTop + (contentH - size) / 2;
-      if(doc.GState && doc.setGState){
-        doc.setGState(new doc.GState({opacity: 0.07}));
-        doc.addImage(wm, 'PNG', cx, cy, size, size);
-        doc.setGState(new doc.GState({opacity: 1}));
-      } else {
-        doc.addImage(wm, 'PNG', cx, cy, size, size);
-      }
-    }catch(e){ console.warn('Filigrane PDF:', e); }
-  }
-
-  function drawHeader(pageNum) {
-    // ── LIGHT BACKGROUND ──
-    doc.setFillColor(255,253,248);
-    doc.rect(0,0,W,H,'F');
-    addWatermark();
-
-    // ── COPPER HEADER LINE ──
-    doc.setFillColor(181,106,45);
-    doc.rect(0,0,W,1.5,'F');
-
-    // ── LOGOS ──
-    const baseLogo = pdfLogo || copyrightLogo;
-    const leftLogo = logoL || baseLogo;
-    const rightLogo = logoR || baseLogo;
-    if(leftLogo){
-      try{
-        doc.addImage(leftLogo,'PNG',margin,4,22,16);
-      }catch(e){
-        console.warn('Logo gauche non chargé:', e);
-      }
-    }
-    if(rightLogo){
-      try{
-        doc.addImage(rightLogo,'PNG',W-margin-22,4,22,16);
-      }catch(e){
-        console.warn('Logo droit non chargé:', e);
-      }
-    }
-    // ── HEADER TEXT ──
-    const t1=gv('L_mainTitle'), t2=gv('L_subTitle');
-    const t3=`${gv('L_raceDate')}  |  ${gv('L_hippodrome')}`;
-    doc.setTextColor(31,41,51);
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(15);
-    doc.text(t1, W/2, 17, {align:'center'});
-    doc.setTextColor(143,91,34);
-    doc.setFontSize(9);
-    doc.text(t2, W/2, 22, {align:'center'});
-    doc.setTextColor(101,114,126);
-    doc.setFontSize(7.5);
-    doc.text(t3, W/2, 26, {align:'center'});
-
-    // ── RACE INFO ──
-    doc.setFillColor(181,106,45);
-    doc.rect(0,29,W,0.8,'F');
-    doc.setTextColor(31,41,51);
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(10.5);
-    doc.text(`COURSE N°${gv('L_raceNum')}  (${gv('L_raceDist')} m)`, margin, 35);
-    doc.setTextColor(143,91,34);
-    doc.setFontSize(8);
-    doc.text(gv('L_raceName'), margin, 40);
-    if(gv('L_allocation')){
-      doc.setTextColor(101,114,126);
-      doc.setFont('helvetica','bold');
-      doc.setFontSize(9);
-      doc.text(`ALLOCATION : ${gv('L_allocation')}`, W/2, 45, {align:'center'});
-    }
-
-    // ── TABLE HEADER ──
-    doc.setFillColor(239,227,207);
-    doc.rect(margin-1,startY-8,W-2*margin+2,10,'F');
-    
-    // Border around entire header
-    doc.setDrawColor(181,106,45);
-    doc.setLineWidth(0.5);
-    doc.rect(margin-1,startY-8,W-2*margin+2,10);
-    
-    doc.setTextColor(143,91,34);
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(7.1);
-    cols.forEach((c,idx)=>{
-      doc.text(fitText(c.label, c.w-2), c.x+1, startY-2, {align:'left'});
-      // Vertical separator lines for each column
-      doc.setDrawColor(138,79,36);
-      doc.setLineWidth(0.3);
-      doc.line(c.x+c.w, startY-8, c.x+c.w, startY+2);
-    });
-
-    // ── PAGE NUMBER (top right) ──
-    doc.setTextColor(101,114,126);
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(7);
-    doc.text(`Page ${pageNum}`, W-margin-10, 9);
-    
-    // ── COPYRIGHT LOGO ──
-    if(copyrightLogo){
-      try{
-        doc.addImage(copyrightLogo,'PNG',W-margin-6,H-8,5,5);
-      }catch(e){
-        console.warn('Copyright logo non chargé:', e);
-      }
-    }
-  }
-
-  // Draw first page header
-  drawHeader(1);
-
-  // ── TABLE ROWS ──
-  let y=startY+2;
-  let pageNum=1;
-  let currentRow=0;
-
-  for(let i=0;i<horses.length;i++){
-    const h=horses[i];
-    
-    // Check if we need a new page
-    if(y + rowH > H-10){
-      // ── FOOTER ON CURRENT PAGE ──
-      doc.setTextColor(101,114,126);
-      doc.setFont('helvetica','normal');
-      doc.setFontSize(6.5);
-      doc.text(`Générée le ${new Date().toLocaleString('fr-FR')}`, margin, H-3);
-      doc.text(`${horses.length} partants`, W-margin-25, H-3);
-      
-      // ── ADD NEW PAGE ──
-      doc.addPage();
-      pageNum++;
-      drawHeader(pageNum);
-      y=startY+2;
-      currentRow=0;
-    }
-
-    const rowTop = y;
-    const rowBottom = rowTop + rowH;
-    const textY = rowTop + 7.2;
-    const imgSize = 9;
-
-    // alternating bg
-    if(currentRow%2===0){
-      doc.setFillColor(247,240,228);
-      doc.rect(margin-1,rowTop,W-2*margin+2,rowH,'F');
-    }
-
-    // Draw grid borders for each cell
-    doc.setDrawColor(138,79,36);
-    doc.setLineWidth(0.25);
-    
-    // Horizontal row borders
-    doc.line(margin-1, rowTop, W-margin+1, rowTop);
-    doc.line(margin-1, rowBottom, W-margin+1, rowBottom);
-    doc.line(margin-1, rowTop, margin-1, rowBottom);
-    
-    // Vertical lines for each column
-    cols.forEach((c)=>{
-      doc.line(c.x+c.w, rowTop, c.x+c.w, rowBottom);
-    });
-
-    // couleur / casaque image
-    const imgX = cols[1].x + (cols[1].w - imgSize) / 2;
-    const imgY = rowTop + (rowH - imgSize) / 2;
-    if(h.silk){
-      try{doc.addImage(h.silk,'PNG',imgX, imgY, imgSize, imgSize)}catch(e){}
-    } else {
-      doc.setFillColor(232,219,196);
-      doc.rect(imgX,imgY,imgSize,imgSize,'F');
-    }
-
-    // ── TEXT COLUMNS ──
-    doc.setFont('helvetica','normal');
-    doc.setTextColor(74,52,36);
-    doc.setFontSize(6.8);
-    doc.text(fitText(h.proprietaire, cols[0].w-3), cols[0].x+1.5, textY);
-
-    doc.setFont('helvetica','bold');
-    doc.setTextColor(143,91,34);
-    doc.setFontSize(8);
-    doc.text(fitText(h.num, cols[2].w-2), cols[2].x+cols[2].w/2, textY, {align:'center'});
-
-    doc.setTextColor(31,41,51);
-    doc.setFontSize(7.4);
-    doc.text(fitText(h.cheval, cols[3].w-3), cols[3].x+1.5, textY);
-
-    doc.setFont('helvetica','normal');
-    doc.setTextColor(143,91,34);
-    doc.setFontSize(7);
-    doc.text(fitText(h.corde, cols[4].w-2), cols[4].x+cols[4].w/2, textY, {align:'center'});
-    
-    doc.setTextColor(74,52,36);
-    doc.setFontSize(6.8);
-    doc.text(fitText(h.jockey, cols[5].w-3), cols[5].x+1.5, textY);
-
-    doc.setTextColor(143,91,34);
-    doc.setFontSize(7);
-    doc.text(fitText(h.pds, cols[6].w-2), cols[6].x+cols[6].w/2, textY, {align:'center'});
-    doc.text(fitText([h.srba,h.age].filter(Boolean).join(' / '), cols[7].w-2), cols[7].x+cols[7].w/2, textY, {align:'center'});
-
-    doc.setTextColor(74,52,36);
-    doc.setFontSize(6.7);
-    doc.text(fitText(h.origines, cols[8].w-3), cols[8].x+1.5, textY);
-    doc.text(fitText(h.eleveur, cols[9].w-3), cols[9].x+1.5, textY);
-    doc.text(fitText(h.entraineur, cols[10].w-3), cols[10].x+1.5, textY);
-
-    doc.setTextColor(143,91,34);
-    doc.setFont('courier','normal');
-    doc.setFont('courier','bold');
-    doc.setFontSize(8.6);
-    doc.text(fitText(h.perf, cols[11].w-3), cols[11].x+1.5, textY);
-
-    y+=rowH;
-    currentRow++;
-  }
-
-  // ── FINAL FOOTER ──
-  doc.setTextColor(101,114,126);
-  doc.setFont('helvetica','normal');
-  doc.setFontSize(6.5);
-  doc.text(`Générée le ${new Date().toLocaleString('fr-FR')}`, margin, H-3);
-  doc.text(`${horses.length} partants`, W-margin-25, H-3);
-  
-  // ── COPYRIGHT LOGO ──
-  if(copyrightLogo){
-    try{
-      doc.addImage(copyrightLogo,'PNG',W-margin-8,H-8,6,6);
-    }catch(e){
-      console.warn('Copyright logo non chargé:', e);
-    }
-  }
-
-  // ── EMBED JSON DATA (invisible metadata for ranking page) ──
-  const meta = {
-    v:1,
-    title: gv('L_mainTitle'),
-    subtitle: gv('L_subTitle'),
-    raceNum: gv('L_raceNum'),
-    raceDist: gv('L_raceDist'),
-    raceName: gv('L_raceName'),
-    allocation: gv('L_allocation'),
-    raceDate: gv('L_raceDate'),
-    hippodrome: gv('L_hippodrome'),
-    horses: horses.map(h=>({
-      ...h,
-      silk: h.silk && h.silk.length < 350000 ? h.silk : null
-    }))
-  };
-  
-  // Encode JSON to Base64 to avoid corruption with special characters
-  const jsonStr = JSON.stringify(meta);
-  const b64 = btoa(unescape(encodeURIComponent(jsonStr)));
-  doc.setProperties({subject: '##B64##'+b64+'##END##'});
-
-  doc.save('liste_partants.pdf');
-  toast('✅ PDF généré et téléchargé !');
-}catch(err){
-  console.error('Erreur génération PDF:', err);
-  toast('⚠️ PDF complet impossible — génération simple…','warn');
-  try{
-    await genSimplePDF();
-  }catch(simpleErr){
-    console.error('Erreur génération PDF simple:', simpleErr);
-    toast('❌ Erreur génération PDF','err');
-  }
-}
-}
-
-async function genSimplePDF(){
-  if(!window.jspdf || !window.jspdf.jsPDF){
-    toast('❌ Librairie PDF non chargée','err');
-    return;
-  }
-  const pdfLogo = await preparePDFLogo(3000);
-  const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  const W=297, H=210, margin=10;
-  const rowH=10.5, startY=52;
-  const cols=[
-    ['PROPRIETAIRES',34],['NUM',10],['CHEVAUX',38],['*',8],
-    ['JOCKEYS',28],['PDS',12],['SRB-AGE',20],['ORIGINES',38],
-    ['ELEVEURS',28],['ENTRAINEURS',30],['PERFORMANCES',31]
-  ];
-  let x=margin;
-  const c=cols.map(([label,w])=>{const o={label,w,x};x+=w;return o});
-
-  function txt(v,max=25){
-    let s=String(v||'').replace(/[^\x20-\x7EÀ-ÿ]/g,'').trim();
-    return s.length>max?s.slice(0,max-3)+'...':s;
-  }
-  function fit(v,w){
-    let s=txt(v,80);
-    while(s.length>1 && doc.getTextWidth(s)>w) s=s.slice(0,-1);
-    return s.length<txt(v,80).length?s+'...':s;
-  }
-  function pageHeader(page){
-    doc.setFillColor(255,253,248); doc.rect(0,0,W,H,'F');
-    if(watermarkLogo||copyrightLogo||pdfLogo){
-      try{
-        if(!watermarkLogo && doc.GState && doc.setGState){
-          doc.setGState(new doc.GState({opacity:0.08}));
-        }
-        doc.addImage(watermarkLogo||copyrightLogo||pdfLogo,'PNG',W/2-68,H/2-68,136,136);
-        if(!watermarkLogo && doc.GState && doc.setGState){
-          doc.setGState(new doc.GState({opacity:1}));
-        }
-      }catch(e){}
-    }
-    if(copyrightLogo||pdfLogo){
-      try{
-        const baseLogo = pdfLogo || copyrightLogo;
-        doc.addImage(baseLogo,'PNG',margin,4,22,16);
-        doc.addImage(baseLogo,'PNG',W-margin-22,4,22,16);
-      }catch(e){}
-    }
-    doc.setFont('helvetica','bold'); doc.setFontSize(14); doc.setTextColor(31,41,51);
-    doc.text(txt(gv('L_mainTitle'),45),W/2,18,{align:'center'});
-    doc.setFontSize(8); doc.setTextColor(143,91,34);
-    doc.text(txt(gv('L_subTitle'),60),W/2,23,{align:'center'});
-    doc.setFontSize(9); doc.setTextColor(31,41,51);
-    doc.text(`COURSE N ${txt(gv('L_raceNum'),8)} (${txt(gv('L_raceDist'),8)} m)`,margin,34);
-    doc.setTextColor(143,91,34);
-    doc.text(txt(gv('L_raceName'),70),margin,39);
-    if(gv('L_allocation')){
-      doc.setTextColor(101,114,126);
-      doc.text(`ALLOCATION : ${txt(gv('L_allocation'),35)}`,W/2,43,{align:'center'});
-    }
-    doc.setFillColor(239,227,207); doc.rect(margin-1,startY-8,W-2*margin+2,9,'F');
-    doc.setDrawColor(181,106,45); doc.rect(margin-1,startY-8,W-2*margin+2,9);
-    doc.setFontSize(6.8); doc.setFont('helvetica','bold'); doc.setTextColor(143,91,34);
-    c.forEach(col=>doc.text(fit(col.label,col.w-2),col.x+1,startY-2));
-    doc.setFontSize(7); doc.setTextColor(101,114,126);
-    doc.text(`Page ${page}`,W-margin-12,9);
-  }
-
-  let y=startY+2, page=1;
-  pageHeader(page);
-  horses.forEach((h,i)=>{
-    if(y+rowH>H-10){doc.addPage();page++;pageHeader(page);y=startY+2}
-    if(i%2===0){doc.setFillColor(247,240,228);doc.rect(margin-1,y,W-2*margin+2,rowH,'F')}
-    doc.setDrawColor(200,170,125);doc.line(margin-1,y,W-margin+1,y);doc.line(margin-1,y+rowH,W-margin+1,y+rowH);
-    doc.setFont('helvetica','normal');doc.setFontSize(6.8);doc.setTextColor(74,52,36);
-    const vals=[h.proprietaire,h.num,h.cheval,h.corde,h.jockey,h.pds,[h.srba,h.age].filter(Boolean).join(' / '),h.origines,h.eleveur,h.entraineur,h.perf];
-    vals.forEach((v,idx)=>{
-      const col=c[idx];
-      doc.text(fit(v,col.w-2),col.x+1,y+6);
-    });
-    y+=rowH;
-  });
-  doc.setFontSize(6.5);doc.setTextColor(101,114,126);
-  doc.text(`Generee le ${new Date().toLocaleString('fr-FR')}`,margin,H-3);
-  doc.save('liste_partants.pdf');
-  toast('✅ PDF généré en version simple !');
-}
-
-function drawSimpleTunisiaFlag(doc,x,y,w,h){
-  doc.setFillColor(214,0,28);doc.rect(x,y,w,h,'F');
-  doc.setFillColor(255,255,255);doc.circle(x+w/2,y+h/2,h*.32,'F');
-  doc.setFillColor(214,0,28);doc.circle(x+w/2-1,y+h/2,h*.16,'F');
-  doc.setFillColor(255,255,255);doc.circle(x+w/2+.3,y+h/2,h*.14,'F');
-  doc.setFillColor(214,0,28);doc.circle(x+w/2+2.2,y+h/2,1,'F');
-}
-
-// ── EXPORT LIST PNG ──
-async function exportListPNGCanvas(){
-  if(!horses.length){toast('⚠️ Aucun cheval !','warn');return}
-  const W = 1280;
-  const rowH = 64;
-  const H = 208 + horses.length * rowH + 28;
-  const canvas = document.createElement('canvas');
-  canvas.width = W * 2;
-  canvas.height = H * 2;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(2,2);
-
-  ctx.fillStyle = '#FFFDF8';
-  ctx.fillRect(0,0,W,H);
-
-  const logoData = copyrightLogo || await preparePDFLogo(3000);
-  const watermarkImg = await loadCanvasImage(logoData);
-  const leftLogoImg = await loadCanvasImage(logoL || logoData);
-  const rightLogoImg = await loadCanvasImage(logoR || logoData);
-
-  ctx.fillStyle = '#15110D';
-  ctx.fillRect(0,0,W,116);
-  ctx.fillStyle = '#B56A2D';
-  ctx.fillRect(0,0,W,4);
-  if(leftLogoImg) ctx.drawImage(leftLogoImg, 28, 18, 96, 76);
-  if(rightLogoImg) ctx.drawImage(rightLogoImg, W-124, 18, 96, 76);
-
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#F8F1E8';
-  ctx.font = '900 30px Georgia, serif';
-  ctx.fillText(gv('L_mainTitle') || '', W/2, 40);
-  ctx.fillStyle = '#C9A646';
-  ctx.font = '800 16px Arial, sans-serif';
-  ctx.fillText(gv('L_subTitle') || '', W/2, 66);
-  ctx.fillStyle = '#8C8377';
-  ctx.font = '700 13px Arial, sans-serif';
-  ctx.fillText(`${gv('L_raceDate')} | ${gv('L_hippodrome')}`, W/2, 90);
-
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#1B1510';
-  ctx.fillRect(0,116,W,58);
-  ctx.fillStyle = '#F8F1E8';
-  ctx.font = '900 20px Arial, sans-serif';
-  ctx.fillText(`COURSE N°${gv('L_raceNum')}  (${gv('L_raceDist')} m)`, 28, 142);
-  ctx.fillStyle = '#C9A646';
-  ctx.font = '800 15px Arial, sans-serif';
-  ctx.fillText(gv('L_raceName') || '', 28, 164);
-  if(gv('L_allocation')){
-    ctx.textAlign = 'center';
-    ctx.fillText(`Allocation : ${gv('L_allocation')}`, W/2, 164);
-    ctx.textAlign = 'left';
-  }
-
-  const cols = [
-    ['PROPRIETAIRES', 150],
-    ['COULEUR', 80],
-    ['NUM', 54],
-    ['CHEVAUX', 170],
-    ['*', 42],
-    ['JOCKEYS', 145],
-    ['PDS', 58],
-    ['SRB-AGE', 88],
-    ['ORIGINES', 170],
-    ['ELEVEURS', 135],
-    ['ENTRAINEURS', 145],
-    ['PERFORMANCES', 135],
-  ];
-  let x = 24;
-  const colMeta = cols.map(([label,w])=>{const c={label,w,x}; x += w; return c;});
-
-  if(watermarkImg){
-    const contentTop = 174;
-    const contentH   = H - contentTop;
-    const size       = Math.min(contentH * 0.75, 500);
-    const cx         = W / 2 - size / 2;
-    const cy         = contentTop + (contentH - size) / 2;
-    ctx.save();
-    ctx.globalAlpha  = 0.07;
-    ctx.drawImage(watermarkImg, cx, cy, size, size);
-    ctx.restore();
-  }
-
-  ctx.fillStyle = '#2A2118';
-  ctx.fillRect(20,174,W-40,34);
-  ctx.strokeStyle = '#B56A2D';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(20,174,W-40,34);
-  ctx.fillStyle = '#C9A646';
-  ctx.font = '900 13px Arial, sans-serif';
-  colMeta.forEach(c=>ctx.fillText(c.label, c.x+4, 196));
-
-  let y = 208;
-  for(let i=0;i<horses.length;i++){
-    const h = horses[i];
-    ctx.fillStyle = i%2===0 ? '#F7F0E4' : '#FFFDF8';
-    ctx.fillRect(20,y,W-40,rowH);
-    ctx.strokeStyle = '#D5B98F';
-    ctx.beginPath(); ctx.moveTo(20,y); ctx.lineTo(W-20,y); ctx.stroke();
-    ctx.strokeStyle = '#E3CDA7';
-    colMeta.forEach(c=>{
-      ctx.beginPath();
-      ctx.moveTo(c.x-4,y);
-      ctx.lineTo(c.x-4,y+rowH);
-      ctx.stroke();
-    });
-
-    const silkImg = await loadCanvasImage(h.silk);
-    ctx.fillStyle = '#E8DBC4';
-    ctx.fillRect(colMeta[1].x+16,y+11,42,42);
-    ctx.strokeStyle = '#B56A2D';
-    ctx.strokeRect(colMeta[1].x+16,y+11,42,42);
-    if(silkImg) ctx.drawImage(silkImg,colMeta[1].x+16,y+11,42,42);
-    else {
-      ctx.font = '20px Arial';
-      ctx.fillText(EMOJIS[i%10], colMeta[1].x+25, y+38);
-    }
-
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#2A2118';
-    ctx.font = '700 14px Arial, sans-serif';
-    const vals = [h.proprietaire,'',h.num,h.cheval,h.corde,h.jockey,h.pds,[h.srba,h.age].filter(Boolean).join(' / '),h.origines,h.eleveur,h.entraineur,h.perf];
-    vals.forEach((v,idx)=>{
-      if(idx===1)return;
-      const c = colMeta[idx];
-      if(idx===2){
-        ctx.fillStyle = '#B56A2D'; ctx.font = '900 22px Georgia, serif';
-      }else if(idx===11){
-        ctx.fillStyle = '#B56A2D'; ctx.font = '900 21px Consolas, monospace';
-      }else if(idx===3){
-        ctx.fillStyle = '#2A2118'; ctx.font = '900 16px Arial, sans-serif';
-      }else{
-        ctx.fillStyle = idx===4 || idx===6 || idx===7 ? '#B56A2D' : '#4A3424';
-        ctx.font = '800 14px Arial, sans-serif';
-      }
-      const text = String(v||'');
-      let s = text;
-      while(s.length > 1 && ctx.measureText(s).width > c.w-8) s = s.slice(0,-1);
-      if(s.length < text.length) s = s.slice(0,Math.max(0,s.length-3)) + '...';
-      ctx.fillText(s, c.x+4, y+38);
-    });
-    y += rowH;
-  }
-
-  downloadPNGDataURL(canvas.toDataURL('image/png'),'liste_partants.png');
-  toast('✅ PNG téléchargé !');
-}
-
-async function exportListPNG(){
-try{
-  const card=document.getElementById('preview-list');
-  if(!horses.length){toast('⚠️ Aucun cheval !','warn');return}
-  renderList();
-  if(card.querySelector('.empty')){toast('⚠️ Générez d\'abord la liste','warn');return}
-  toast('⏳ Export PNG…');
-  await exportListPNGCanvas();
-}catch(err){
-  console.error('Erreur export PNG:', err);
-  exportListPNGCanvas();
-}
-}
-
-function exportElementPNGNative(element, filename){
-  const rect = element.getBoundingClientRect();
-  const w = Math.max(1, Math.ceil(rect.width || element.offsetWidth));
-  const h = Math.max(1, Math.ceil(rect.height || element.offsetHeight));
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-      <foreignObject width="100%" height="100%">
-        <div xmlns="http://www.w3.org/1999/xhtml">${element.outerHTML}</div>
-      </foreignObject>
-    </svg>`;
-  const img = new Image();
-  const url = URL.createObjectURL(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));
-  img.onload = () => {
-    try{
-      const canvas = document.createElement('canvas');
-      canvas.width = w * 2;
-      canvas.height = h * 2;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#FFFDF8';
-      ctx.fillRect(0,0,canvas.width,canvas.height);
-      ctx.scale(2,2);
-      ctx.drawImage(img,0,0);
-      URL.revokeObjectURL(url);
-      document.body.removeChild(element);
-      const a=document.createElement('a');
-      a.download=filename;
-      a.href=canvas.toDataURL('image/png');
-      a.click();
-      toast('✅ PNG téléchargé !');
-    }catch(err){
-      URL.revokeObjectURL(url);
-      document.body.removeChild(element);
-      console.error(err);
-      toast('❌ Export PNG impossible sans html2canvas','err');
-    }
-  };
-  img.onerror = () => {
-    URL.revokeObjectURL(url);
-    document.body.removeChild(element);
-    toast('❌ Export PNG impossible sans html2canvas','err');
-  };
-  img.src = url;
-}
-
-// ══════════════════════
-// PAGE 2 — RANKING
-// ══════════════════════
-const dz2 = document.getElementById('dz2');
-dz2.addEventListener('dragover', e=>{e.preventDefault();dz2.classList.add('ov')});
-dz2.addEventListener('dragleave', ()=>dz2.classList.remove('ov'));
-dz2.addEventListener('drop', e=>{e.preventDefault();dz2.classList.remove('ov');if(e.dataTransfer.files[0])readPDF(e.dataTransfer.files[0])});
-document.getElementById('fi2').addEventListener('change', e=>{if(e.target.files[0])readPDF(e.target.files[0])});
-
-function readPDF(file) {
-  const r = new FileReader();
-  r.onload = e => {
-    try {
-      const bytes = new Uint8Array(e.target.result);
-      let str = '';
-      
-      // Try multiple decodings to extract text reliably
-      try {
-        str = new TextDecoder('utf-8').decode(bytes);
-      } catch {
-        str = new TextDecoder('latin1').decode(bytes);
-      }
-      
-      // Look for Base64 encoded data (more reliable)
-      let start = str.indexOf('##B64##');
-      let end = str.indexOf('##END##');
-      
-      // Fallback to old format for backward compatibility
-      if(start === -1) {
-        start = str.indexOf('##COURSES_DATA##');
-        if(start !== -1) {
-          end = str.indexOf('##END##');
-          if(end !== -1) {
-            const json = str.substring(start + 16, end).trim();
-            return processRankingData(json);
-          }
-        }
-      }
-      
-      if(start === -1 || end === -1) {
-        console.error('Data markers not found');
-        toast('❌ Ce PDF ne contient pas les données de course — utilisez le PDF généré par cet outil','err');
-        return;
-      }
-      
-      // Decode Base64
-      const b64String = str.substring(start + 7, end).trim();
-      let json = '';
-      try {
-        json = decodeURIComponent(escape(atob(b64String)));
-      } catch(decErr) {
-        console.error('Base64 decode error:', decErr);
-        toast('❌ Impossible de décoder les données du PDF','err');
-        return;
-      }
-      
-      processRankingData(json);
-      
-    } catch(err) {
-      console.error('PDF parsing error:', err);
-      toast('❌ Erreur lecture PDF — essayez de régénérer','err');
-    }
-  };
-  r.readAsArrayBuffer(file);
-}
-
-function processRankingData(jsonStr) {
-  try {
-    // Validate JSON before parsing
-    if(!jsonStr.startsWith('{') || !jsonStr.includes('"horses"')) {
-      console.error('Invalid JSON format detected');
-      toast('❌ Format invalide dans le PDF','err');
-      return;
-    }
-    
-    const data = JSON.parse(jsonStr);
-    
-    // Validate required data
-    if(!data.horses || !Array.isArray(data.horses) || data.horses.length === 0) {
-      toast('❌ Aucun cheval trouvé dans le PDF','err');
-      return;
-    }
-
-    // Populate ranking page from PDF data
-    rankHorses = data.horses.map(h=>({...h, status:h.status||'partant', gap:'', open:false}));
-
-    // Copy course info to ranking fields
-    if(data.title) document.getElementById('L_mainTitle').value=data.title;
-    if(data.subtitle) document.getElementById('L_subTitle').value=data.subtitle;
-    if(data.raceName) document.getElementById('R_raceName').value=data.raceName;
-    if(data.raceDist) document.getElementById('R_dist').value=data.raceDist;
-    if(data.allocation) document.getElementById('L_allocation').value=data.allocation;
-
-    renderRkList();
-    document.getElementById('r_ist').textContent=`✔ ${rankHorses.length} chevaux chargés depuis le PDF`;
-    document.getElementById('rmsg').textContent=`${rankHorses.length} chevaux — réordonnez selon l'arrivée`;
-    toast(`✅ ${rankHorses.length} chevaux importés !`);
-    
-  } catch(err) {
-    console.error('JSON processing error:', err);
-    toast('❌ Données JSON invalides dans le PDF','err');
-  }
-}
-
-// ── RANKING LIST ──
-function renderRkList(){
-  const list=document.getElementById('rklist');
-  list.innerHTML='';
-  if(!rankHorses.length){list.innerHTML='<div style="font-size:12px;color:var(--dim);text-align:center;padding:10px">Importez le PDF pour voir les chevaux</div>';return}
-  rankHorses.forEach((h,i)=>list.appendChild(makeRkItem(h,i)));
-}
-
-let rkDragSrc=null;
-
-function makeRkItem(h,i){
-  const div=document.createElement('div');
-  div.className='rk-item'+(h.open?' open':'');
-  div.draggable=true;
-
-  const silkC=h.silk?`<img src="${h.silk}" alt="">`:`<span style="font-size:16px">${EMOJIS[i%10]}</span>`;
-  const status = h.status || 'partant';
-  const statusLabel = status === 'non_partant' ? 'Non partant' : 'Partant';
-  const statusClass = status === 'non_partant' ? ' np' : '';
-
-  div.innerHTML=`
-    <div class="rk-item-hdr" onclick="toggleRk(${i},event)">
-      <div class="rk-hdl" title="Glisser pour réordonner">⠿</div>
-      <div class="rk-pos">${i+1}</div>
-      <div class="rk-thumb">${silkC}</div>
-      <div class="rk-sum">
-        <div class="rk-horse-name">N°${h.num} &nbsp;${xss(h.cheval)||'—'}</div>
-        <div class="rk-horse-sub">${xss(h.proprietaire)||''} · ${xss(h.jockey)||''}</div>
-        <span class="rk-status-badge${statusClass}">${statusLabel}</span>
-      </div>
-      <div class="rk-gap-wrap">
-        <select class="rk-status"
-          onclick="event.stopPropagation()"
-          onchange="rankHorses[${i}].status=this.value;renderRkList();if(!document.getElementById('preview-rank').querySelector('.empty'))renderRank();">
-          <option value="partant"${status==='partant'?' selected':''}>Partant</option>
-          <option value="non_partant"${status==='non_partant'?' selected':''}>Non partant</option>
-        </select>
-      </div>
-      <div class="rk-gap-wrap">
-        <input class="rk-gap-inp" value="${xss(h.gap)}" placeholder="Durée"
-          onclick="event.stopPropagation()"
-          oninput="rankHorses[${i}].gap=this.value"
-          onkeydown="event.stopPropagation()">
-      </div>
-      <div class="rk-exp-btn">▼</div>
-    </div>
-    <div class="rk-detail">
-      <div class="rk-detail-row">
-        <div class="field"><label>Nom du cheval</label>
-          <input value="${xss(h.cheval)}" oninput="rankHorses[${i}].cheval=this.value;updRk(${i})"></div>
-        <div class="field"><label>Propriétaire</label>
-          <input value="${xss(h.proprietaire)}" oninput="rankHorses[${i}].proprietaire=this.value;updRk(${i})"></div>
-        <div class="field"><label>Éleveur</label>
-          <input value="${xss(h.eleveur)}" oninput="rankHorses[${i}].eleveur=this.value;updRk(${i})"></div>
-        <div class="field"><label>Origines</label>
-          <input value="${xss(h.origines)}" oninput="rankHorses[${i}].origines=this.value;updRk(${i})"></div>
-        <div class="field"><label>Jockey</label>
-          <input value="${xss(h.jockey)}" oninput="rankHorses[${i}].jockey=this.value;updRk(${i})"></div>
-        <div class="field"><label>Entraîneur</label>
-          <input value="${xss(h.entraineur)}" oninput="rankHorses[${i}].entraineur=this.value"></div>
-      </div>
-    </div>
-  `;
-
-  div.addEventListener('dragstart', e=>{
-    rkDragSrc=i; e.dataTransfer.effectAllowed='move';
-    setTimeout(()=>div.classList.add('dragging'),0);
-  });
-  div.addEventListener('dragend', ()=>{
-    div.classList.remove('dragging');
-    document.querySelectorAll('.rk-item').forEach(el=>el.classList.remove('dot','dob'));
-    rkDragSrc=null;
-  });
-  div.addEventListener('dragover', e=>{
-    e.preventDefault();
-    if(rkDragSrc===null||rkDragSrc===i)return;
-    const mid=div.getBoundingClientRect().top+div.getBoundingClientRect().height/2;
-    document.querySelectorAll('.rk-item').forEach(el=>el.classList.remove('dot','dob'));
-    div.classList.add(e.clientY<mid?'dot':'dob');
-  });
-  div.addEventListener('drop', e=>{
-    e.preventDefault();
-    if(rkDragSrc===null||rkDragSrc===i)return;
-    const mid=div.getBoundingClientRect().top+div.getBoundingClientRect().height/2;
-    const before=e.clientY<mid;
-    const moved=rankHorses.splice(rkDragSrc,1)[0];
-    const dest=rkDragSrc<i?(before?i-1:i):(before?i:i+1);
-    rankHorses.splice(Math.max(0,Math.min(dest,rankHorses.length)),0,moved);
-    renderRkList();
-    toast('↕ Ordre mis à jour !');
-  });
-
-  return div;
-}
-
-function toggleRk(i,e){
-  if(e.target.closest('.rk-gap-wrap')||e.target.closest('.rk-hdl')||e.target.closest('.rk-status'))return;
-  rankHorses[i].open=!rankHorses[i].open;
-  document.querySelectorAll('.rk-item')[i]?.classList.toggle('open',rankHorses[i].open);
-}
-
-function updRk(i){
-  const items=document.querySelectorAll('.rk-item');
-  if(!items[i])return;
-  items[i].querySelector('.rk-horse-name').textContent=`N°${rankHorses[i].num}  ${rankHorses[i].cheval||'—'}`;
-  items[i].querySelector('.rk-horse-sub').textContent=(rankHorses[i].proprietaire||'')+' · '+(rankHorses[i].jockey||'');
-}
-
-// ── RENDER RANKING CARD ──
-function renderRank(){
-  if(!rankHorses.length){toast('⚠️ Importez d\'abord le PDF','warn');return}
-
-  const rName = gv('R_raceName')||gv('L_raceName');
-  const rDist = gv('R_dist')||gv('L_raceDist');
-  const rNum  = gv('L_raceNum');
-  const rDate = gv('L_raceDate');
-  const rhipp = gv('L_hippodrome');
-  const t1    = gv('L_mainTitle');
-  const t2    = gv('L_subTitle');
-  const duree = gv('R_duree');
-  const allocation = gv('L_allocation');
-
-  const logoLeftC = `<img src="${logoL || 'logo.png'}" alt="">`;
-  const logoRightC= `<img src="${logoR || 'logo.png'}" alt="">`;
-
-  const activeHorses = rankHorses.filter(h=>(h.status||'partant')!=='non_partant');
-  const nonRunners = rankHorses.filter(h=>(h.status||'partant')==='non_partant');
-
-  let rows='';
-  activeHorses.slice(0, 5).forEach((h,i)=>{
-    const sfx=i===0?'er':'ème';
-    const silkC=h.silk?`<img src="${h.silk}" alt="" style="width:100%;height:100%;object-fit:cover">`:`<span style="font-size:22px">${EMOJIS[i%10]}</span>`;
-    const gapDisp=i===0&&duree?`<span style="color:var(--gold);font-size:12px">${xss(duree)}</span>`:(h.gap?xss(h.gap):'');
-    const originText = h.origines ? ` <span class="rk-origin">( ${xss(h.origines)} )</span>` : '';
-    rows+=`
-      <div class="rk-row">
-        <div class="rk-place"><span class="rk-place-num">${i+1}</span><span class="rk-place-sfx">${sfx}</span></div>
-        <div class="rk-silk">${silkC}</div>
-        <div class="rk-info">
-          <div class="rk-ig compact">
-            <div class="rk-line"><span class="rk-il">Cheval:</span></div>
-            <div class="rk-line horse"><span class="rk-num">N°${xss(h.num)}</span>${xss(h.cheval)||'—'}</div>
-            <div class="rk-line"><span class="rk-il">Propriétaire:</span>${xss(h.proprietaire)||'—'}${originText} / <span class="rk-il">Éleveur:</span>${xss(h.eleveur)||'—'}</div>
-            <div class="rk-line"><span class="rk-il">Jockey:</span>${xss(h.jockey)||'—'} / <span class="rk-il">Entraîneur:</span>${xss(h.entraineur)||'—'}</div>
+        <div class="cas-row">
+          ${cas}
+          <div>
+            <button class="btn btn-out btn-sm" onclick="pickCas(${i})">📁 Casaque (image/PDF)</button>
+            ${h2.cas?`<button class="btn btn-out btn-sm" style="margin-left:4px" onclick="clrCas(${i})">✕</button>`:''}
           </div>
         </div>
-        <div class="rk-gap">${gapDisp}</div>
-      </div>`;
+        <div class="card-acts"><button class="btn btn-danger btn-sm" onclick="remH(${i})">🗑 Supprimer</button></div>
+      </div>
+    </div>`;
   });
-  if(nonRunners.length){
-    rows+=`<div class="rk-np-list"><strong>Non partants :</strong> ${nonRunners.map(h=>`<span class="rk-np-chip">N°${xss(h.num)} ${xss(h.cheval)||'—'}</span>`).join('')}</div>`;
-  }
+  ec.innerHTML=h;
+}
 
-  document.getElementById('preview-rank').innerHTML=`
-    <div class="rk-wrapper" style="position:relative">
-      ${copyrightLogo ? `<img src="${copyrightLogo}" alt="" class="watermark-logo">` : ''}
-      <div class="rk-hdr">
-        <div class="pl-hdr-img">${logoLeftC}<div class="ih">🖼<br>Logo</div><input type="file" accept="image/*" onchange="upLogo('L',this);renderRank()"></div>
-        <div class="rk-hdr-mid">
-          <div class="t1">${xss(t1)}</div>
-          <div class="t2">${xss(t2)}</div>
-          <div class="t3">${xss(rDate)} &nbsp;|&nbsp; ${xss(rhipp)}</div>
-        </div>
-        <div class="pl-hdr-emb">${logoRightC}<div class="ih">🖼<br>Logo</div><input type="file" accept="image/*" onchange="upLogo('R',this);renderRank()"></div>
+function togCard(i){const c=document.getElementById('hc'+i);c.classList.toggle('exp');document.getElementById('hb'+i).style.display=c.classList.contains('exp')?'block':'none'}
+function e(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
+function sH(i,f,v){AC[AI].chevaux[i][f]=v;upPV()}
+function remH(i){AC[AI].chevaux.splice(i,1);renderEd();upPV()}
+function addH(){
+  if(!AC[AI])return;
+  const ch=AC[AI].chevaux;
+  const n=ch.length?Math.max(...ch.map(h=>parseInt(h.num)||0))+1:1;
+  ch.push({num:n,nom:'Nouveau cheval',prop:'',elev:'',coul:'',jok:'',entr:'',orig:'',pds:'',s:'',rb:'',age:3,corde:n,perf:'',cas:null});
+  renderEd();upPV();setTimeout(()=>togCard(ch.length-1),50);
+}
+
+// ═══════════════════════
+// CASAQUE
+// ═══════════════════════
+document.getElementById('casin').addEventListener('change',function(ev){
+  const f=ev.target.files[0];if(!f||_CAS<0)return;
+  if(f.name.toLowerCase().endsWith('.pdf'))pdftoCas(f,_CAS);
+  else{const r=new FileReader();r.onload=e=>{AC[AI].chevaux[_CAS].cas=e.target.result;renderEd();upPV()};r.readAsDataURL(f)}
+  ev.target.value='';
+});
+function pickCas(i){_CAS=i;document.getElementById('casin').click()}
+function clrCas(i){AC[AI].chevaux[i].cas=null;renderEd();upPV()}
+function pdftoCas(file,idx){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const r=new FileReader();
+  r.onload=async ev=>{
+    try{
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(ev.target.result)}).promise;
+      const pg=await pdf.getPage(1);const vp=pg.getViewport({scale:2});
+      const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;
+      await pg.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+      AC[AI].chevaux[idx].cas=cv.toDataURL('image/png');
+      renderEd();upPV();toast('✅ PDF → casaque OK');
+    }catch(err){toast('❌ Erreur PDF: '+err.message)}
+  };
+  r.readAsArrayBuffer(file);
+}
+
+// ═══════════════════════
+// LOGO
+// ═══════════════════════
+function hdlLogo(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    LOGO=ev.target.result;
+    document.getElementById('limg').src=LOGO;document.getElementById('limg').style.display='block';
+    document.getElementById('lph').style.display='none';upPV();
+  };r.readAsDataURL(f);
+}
+function clrLogo(){LOGO=null;document.getElementById('limg').style.display='none';document.getElementById('lph').style.display='';upPV()}
+
+// ═══════════════════════
+// PREVIEW
+// ═══════════════════════
+function pchips(str){
+  if(!str)return'';
+  return str.split(/\s+/).map(p=>{
+    const v=p.trim().toLowerCase();
+    if(!v||v==='.')return`<span class="pc pcd">·</span>`;
+    if(v==='1')return`<span class="pc pc1">1</span>`;
+    if(v==='2')return`<span class="pc pc2">2</span>`;
+    if(v==='3')return`<span class="pc pc3">3</span>`;
+    if(v==='0')return`<span class="pc pc0">0</span>`;
+    if(/^[456789]/.test(v))return`<span class="pc pc4">${v}</span>`;
+    if(/^[ined]/i.test(v))return`<span class="pc pci">${p.toUpperCase()}</span>`;
+    return`<span class="pc pc4">${p}</span>`;
+  }).join('');
+}
+
+function upPV(){
+  document.getElementById('dht').textContent=document.getElementById('f-title').value;
+  document.getElementById('dhippo').textContent=document.getElementById('f-hippo').value;
+  document.getElementById('djournee').textContent=document.getElementById('f-journee').value;
+  document.getElementById('ddate').textContent=document.getElementById('f-date').value;
+  // Logo
+  const dls=document.getElementById('dls');
+  dls.innerHTML=LOGO?`<img src="${LOGO}" style="width:100%;height:100%;object-fit:contain">`:`<div class="ph">LOGO</div>`;
+  const wm=document.getElementById('docwm');
+  if(LOGO){wm.src=LOGO;wm.classList.add('vis')}else wm.classList.remove('vis');
+
+  if(!AC.length)return;
+  const c=AC[AI];
+  const num=document.getElementById('f-num').value||c.num;
+  const heure=document.getElementById('f-heure').value||c.heure;
+  const prix=document.getElementById('f-prix').value||('PRIX '+c.prix);
+  const dist=document.getElementById('f-dist').value||c.dist;
+  const alloc=document.getElementById('f-alloc').value||c.alloc;
+  const cond=document.getElementById('f-cond').value||c.cond;
+
+  document.getElementById('mtitle').textContent=`Course ${num} — ${prix} — ${c.chevaux.length} chevaux`;
+  document.getElementById('dprog').textContent=`${c.chevaux.length} PARTANTS`;
+
+  // Sort by num (numéro de dossard)
+  const sorted=[...c.chevaux].sort((a,b)=>(parseInt(a.num)||99)-(parseInt(b.num)||99));
+  let rows='';
+  sorted.forEach(h=>{
+    const ci=c.chevaux.indexOf(h);
+    const cas=h.cas?`<img src="${h.cas}" class="hcas" onclick="pickCas(${ci})">`:`<div class="hcas-ph" onclick="pickCas(${ci})">🎽</div>`;
+    rows+=`<tr>
+      <td class="c">${cas}</td>
+      <td class="c"><div class="hnum-bd">${h.num}</div></td>
+      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${h.nom}</strong><br><span style="font-size:9px;color:#6a5040">${h.prop||''}</span></td>
+      <td class="c"><div class="corde-bd">${h.corde||''}</div></td>
+      <td style="font-size:10px">${h.jok||''}</td>
+      <td class="c">${h.pds||''}</td>
+      <td class="c srb-cell">${h.s||''}</td>
+      <td class="c srb-cell">${h.rb||''}</td>
+      <td class="c">${h.age||''}</td>
+      <td style="font-size:9px;max-width:110px;color:#5a4030">${h.orig||''}</td>
+      <td style="font-size:9px;color:#7a5030;max-width:90px">${h.elev||''}</td>
+      <td style="font-size:9.5px;white-space:nowrap">${h.entr||''}</td>
+      <td style="white-space:nowrap">${pchips(h.perf)}</td>
+    </tr>`;
+  });
+
+  document.getElementById('dbody').innerHTML=`
+    <div class="cb">
+      <div class="cb-hd">
+        <div style="display:flex;align-items:center"><span class="cb-num">${num}e COURSE</span><span class="cb-prix">${prix}</span></div>
+        <div class="cb-pills"><span class="cb-pill">⏰ ${heure}</span><span class="cb-pill">📏 ${dist} m</span><span class="cb-pill g">💰 ${alloc} DT</span></div>
       </div>
-      <div class="rk-race-info">
-        <div class="rn">COURSE N°${xss(rNum)} &nbsp;(${xss(rDist)} m)</div>
-        <div class="rnm">${xss(rName)}</div>
-        ${allocation ? `<div class="rnm">Allocation : ${xss(allocation)}</div>` : ''}
-      </div>
-      ${rows}
-    </div>
-  `;
-  document.getElementById('rmsg').textContent='✅ Classement généré !';
-  toast('✅ Classement généré !');
+      ${cond?`<div class="cb-cond">${cond}</div>`:''}
+      <table class="ht">
+        <thead><tr>
+          <th class="c"><strong>Casaques</strong></th><th class="c"><strong>N°</strong></th><th><strong>Chevaux / Propriétaires</strong></th>
+          <th class="c"><strong>Cordes</strong></th><th><strong>Jockeys</strong></th>
+          <th class="c"><strong>Pds</strong></th><th class="c"><strong>S</strong></th><th class="c"><strong>RB</strong></th>
+          <th class="c"><strong>Âges</strong></th><th><strong>Origines</strong></th><th><strong>Éleveurs</strong></th><th><strong>Entraîneurs</strong></th><th><strong>Perfs.</strong></th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
 }
 
-// ── EXPORT RANK PNG ──
-async function preparePNGClone(clone){
-  clone.querySelectorAll('input[type=file], .ih').forEach(el=>el.remove());
-  const baseLogo = await preparePDFLogo(3000);
-  if(baseLogo){
-    clone.querySelectorAll('img').forEach(img=>{
-      const src = img.getAttribute('src') || '';
-      if(src === 'logo.png' || src.endsWith('/logo.png')) img.src = baseLogo;
-    });
-  }
-  await Promise.all(Array.from(clone.querySelectorAll('img')).map(img=>{
-    if(img.complete && img.naturalWidth !== 0) return Promise.resolve();
-    return new Promise(resolve=>{
-      img.onload = resolve;
-      img.onerror = resolve;
-      setTimeout(resolve, 1500);
-    });
-  }));
+// ═══════════════════════
+// WATERMARK helper
+// ═══════════════════════
+function addWM(canvas){
+  if(!LOGO)return Promise.resolve(canvas);
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const ctx=canvas.getContext('2d');
+      const maxW=canvas.width*.32,maxH=canvas.height*.32;
+      const sc=Math.min(maxW/img.naturalWidth,maxH/img.naturalHeight);
+      const w=img.naturalWidth*sc,h=img.naturalHeight*sc;
+      ctx.save();ctx.globalAlpha=0.07;
+      ctx.drawImage(img,(canvas.width-w)/2,(canvas.height-h)/2,w,h);
+      ctx.restore();res(canvas);
+    };
+    img.onerror=()=>res(canvas);
+    img.src=LOGO;
+  });
 }
 
-function downloadPNGDataURL(dataUrl, filename){
-  const a=document.createElement('a');
-  a.download=filename;
-  a.href=dataUrl;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+// ═══════════════════════
+// EXPORT PDF — JSON stored as invisible white text layer
+// The key fix: split b64 into short chunks to avoid PDF renderer joining/breaking characters
+// ═══════════════════════
+function mkPayload(){return{courses:AC,meta:{title:document.getElementById('f-title').value,hippo:document.getElementById('f-hippo').value,journee:document.getElementById('f-journee').value,date:document.getElementById('f-date').value},logo:LOGO}}
+
+function expPDF(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  html2canvas(document.getElementById('pvdoc'),{scale:2,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+    await addWM(cv);
+    const img=cv.toDataURL('image/jpeg',.92);
+    const pw=297,ph=210,ratio=cv.width/cv.height;
+    let iw=pw-16,ih=iw/ratio;if(ih>ph-16){ih=ph-16;iw=ih*ratio}
+    doc.addImage(img,'JPEG',8,8,iw,ih);
+    // Store JSON: embed as subject property AND as tiny white text
+    const payload=mkPayload();
+    const b64=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const marker='RACING_DATA::';
+    doc.setProperties({subject:marker+b64,keywords:marker+b64});
+    // Write as 1pt white text — chunked to 80 chars to avoid PDF line breaks corrupting b64
+    doc.setFontSize(1);doc.setTextColor(255,255,255);
+    const full=marker+b64;
+    const chunk=100;
+    for(let k=0;k<full.length;k+=chunk){
+      doc.text(full.substring(k,k+chunk),2,2+k*0.001,{angle:0});
+    }
+    // Also write on page as a single invisible annotation
+    doc.text(full,1,1);
+    doc.save(`course_${document.getElementById('f-num').value}_${Date.now()}.pdf`);
+    toast('✅ PDF exporté avec données embarquées');
+  });
 }
 
-function getInlineStylesForExport(){
-  return Array.from(document.querySelectorAll('style')).map(s=>s.textContent||'').join('\n');
+function expPNG(){
+  html2canvas(document.getElementById('pvdoc'),{scale:2,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+    await addWM(cv);
+    const a=document.createElement('a');a.download=`course_${document.getElementById('f-num').value}_${Date.now()}.png`;a.href=cv.toDataURL('image/png');a.click();
+    toast('✅ PNG exporté');
+  });
 }
 
-function exportElementPNGStyled(element, filename, fallback){
-  return new Promise(resolve=>{
-    const rect = element.getBoundingClientRect();
-    const w = Math.max(1, Math.ceil(rect.width || element.offsetWidth || element.scrollWidth));
-    const h = Math.max(1, Math.ceil(rect.height || element.offsetHeight || element.scrollHeight));
-    const html = `
-      <style>${getInlineStylesForExport()}</style>
-      <div xmlns="http://www.w3.org/1999/xhtml" style="width:${w}px;background:#FFFDF8">
-        ${element.outerHTML}
-      </div>`;
-    const svg = `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-        <foreignObject width="100%" height="100%">${html}</foreignObject>
-      </svg>`;
-    const url = URL.createObjectURL(new Blob([svg],{type:'image/svg+xml;charset=utf-8'}));
-    const img = new Image();
-    img.onload = () => {
+// ═══════════════════════
+// PAGE 2 — PDF IMPORT (robust extraction)
+// ═══════════════════════
+function procP2PDF(file){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const r=new FileReader();
+  r.onload=async ev=>{
+    try{
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(ev.target.result)}).promise;
+      // 1) Try to get metadata (subject property)
       try{
-        const canvas = document.createElement('canvas');
-        canvas.width = w * 2;
-        canvas.height = h * 2;
-        const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#FFFDF8';
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        ctx.scale(2,2);
-        ctx.drawImage(img,0,0);
-        URL.revokeObjectURL(url);
-        if(element.parentNode) document.body.removeChild(element);
-        downloadPNGDataURL(canvas.toDataURL('image/png'), filename);
-        toast('✅ PNG téléchargé !');
-        resolve(true);
-      }catch(err){
-        URL.revokeObjectURL(url);
-        console.error('Export HTML stylé impossible:', err);
-        resolve(false);
+        const meta=await pdf.getMetadata();
+        const subj=(meta&&meta.info&&meta.info.Subject)||'';
+        const marker='RACING_DATA::';
+        if(subj.startsWith(marker)){
+          const b64=subj.substring(marker.length).replace(/\s/g,'');
+          const parsed=JSON.parse(decodeURIComponent(escape(atob(b64))));
+          p2Loaded(parsed);return;
+        }
+      }catch(e){}
+      // 2) Scan all page text
+      let fullText='';
+      for(let p=1;p<=pdf.numPages;p++){
+        const pg=await pdf.getPage(p);
+        const tc=await pg.getTextContent();
+        fullText+=tc.items.map(i=>i.str).join('');
       }
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      resolve(false);
-    };
-    img.src = url;
-    setTimeout(()=>resolve(false), 2500);
-  }).then(async ok=>{
-    if(!ok){
-      if(element.parentNode) document.body.removeChild(element);
-      if(fallback) await fallback();
-    }
-  });
+      const marker='RACING_DATA::';
+      const idx=fullText.indexOf(marker);
+      if(idx>=0){
+        // Remove ALL whitespace after marker — PDF renderer sometimes inserts spaces inside b64
+        const raw=fullText.substring(idx+marker.length).replace(/\s/g,'');
+        // Take only valid base64 chars
+        const b64=raw.match(/^[A-Za-z0-9+/=]+/)?.[0]||'';
+        if(b64.length>100){
+          try{
+            const parsed=JSON.parse(decodeURIComponent(escape(atob(b64))));
+            p2Loaded(parsed);return;
+          }catch(e){toast('⚠️ Erreur décodage: '+e.message);return}
+        }
+      }
+      toast('⚠️ Données non trouvées dans ce PDF.\nUtilisez « Données Page 1 » à la place.');
+    }catch(e){toast('❌ Erreur: '+e.message)}
+  };
+  r.readAsArrayBuffer(file);
 }
 
-function loadCanvasImage(src){
-  return new Promise(resolve=>{
-    if(!src){resolve(null);return}
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
-    img.src = src;
-  });
+function p2Loaded(payload){
+  P2C=payload.courses||[];
+  if(payload.logo)LOGO=payload.logo;
+  if(payload.meta){
+    if(payload.meta.title)document.getElementById('f-title').value=payload.meta.title;
+    if(payload.meta.hippo)document.getElementById('f-hippo').value=payload.meta.hippo;
+    if(payload.meta.date)document.getElementById('f-date').value=payload.meta.date;
+  }
+  setupP2();toast('✅ '+P2C.length+' courses extraites du PDF');
 }
 
-function wrapCanvasText(ctx, text, x, y, maxW, lineH, maxLines=2){
-  const words = String(text||'').split(/\s+/).filter(Boolean);
-  let line = '';
-  let lines = 0;
-  for(let i=0;i<words.length;i++){
-    const test = line ? line + ' ' + words[i] : words[i];
-    if(ctx.measureText(test).width > maxW && line){
-      ctx.fillText(line, x, y);
-      y += lineH;
-      lines++;
-      line = words[i];
-      if(lines >= maxLines-1) break;
-    }else{
-      line = test;
-    }
-  }
-  if(line) ctx.fillText(line, x, y);
-  return y + lineH;
+function useP1(){
+  if(!AC.length){toast('⚠️ Aucune donnée en Page 1');return}
+  P2C=JSON.parse(JSON.stringify(AC));setupP2();toast('✅ Données Page 1 chargées');
 }
 
-async function exportRankPNGCanvas(){
-  const W = 900;
-  const activeHorses = rankHorses.filter(h=>(h.status||'partant')!=='non_partant').slice(0,5);
-  const nonRunners = rankHorses.filter(h=>(h.status||'partant')==='non_partant');
-  const rowH = 104;
-  const npH = nonRunners.length ? 66 + Math.ceil(nonRunners.length/3)*28 : 0;
-  const H = 168 + activeHorses.length * rowH + npH + 18;
-  const canvas = document.createElement('canvas');
-  canvas.width = W * 2;
-  canvas.height = H * 2;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(2,2);
+function setupP2(){
+  const sel=document.getElementById('p2sel');
+  sel.innerHTML='';
+  P2C.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=(i+1)+'e — PRIX '+(c.prix||c.num);sel.appendChild(o)});
+  document.getElementById('p2csel').style.display='block';
+  P2I=0;loadP2C();
+}
 
-  ctx.fillStyle = '#FFFDF8';
-  ctx.fillRect(0,0,W,H);
+function loadP2C(){
+  P2I=parseInt(document.getElementById('p2sel').value||0);
+  const c=P2C[P2I];if(!c)return;
+  c.chevaux.forEach((h,i)=>{if(!h._st)h._st='ok';if(h._rk===undefined)h._rk=i;if(!h._gap)h._gap=''});
+  const pt=c.chevaux.filter(h=>h._st!=='np').sort((a,b)=>a._rk-b._rk);
+  const np=c.chevaux.filter(h=>h._st==='np');
+  document.getElementById('p2sum').innerHTML=`<div style="margin-bottom:4px">Total : <strong style="color:var(--or)">${c.chevaux.length}</strong></div><div style="margin-bottom:4px">Partants : <strong style="color:var(--ok)">${pt.length}</strong></div><div>Non-partants : <strong style="color:var(--danger)">${np.length}</strong></div>`;
+  renderCl(c,pt,np);renderClPV(c,pt,np);
+}
 
-  const logoData  = copyrightLogo || await preparePDFLogo(3000);
-  const logoImg   = await loadCanvasImage(logoData);
-  const logoImgL  = await loadCanvasImage(logoL) || logoImg;
-  const logoImgR  = await loadCanvasImage(logoR) || logoImg;
-
-  // ── FILIGRANE centré sur la zone de contenu ──
-  if(logoImg){
-    const contentTop = 150;
-    const contentH   = H - contentTop;
-    const size       = Math.min(contentH * 0.75, 340);
-    const cx         = W / 2 - size / 2;
-    const cy         = contentTop + (contentH - size) / 2;
-    ctx.save();
-    ctx.globalAlpha  = 0.07;
-    ctx.drawImage(logoImg, cx, cy, size, size);
-    ctx.restore();
-  }
-
-  // ── HEADER FONCÉ ──
-  ctx.fillStyle = '#15110D';
-  ctx.fillRect(0,0,W,92);
-  ctx.fillStyle = '#B56A2D';
-  ctx.fillRect(0,0,W,4);
-
-  // ── LOGOS sur le header ──
-  if(logoImgL) ctx.drawImage(logoImgL, 24, 14, 80, 64);
-  if(logoImgR) ctx.drawImage(logoImgR, W-104, 14, 80, 64);
-
-  ctx.textAlign = 'center';
-  ctx.fillStyle = '#F8F1E8';
-  ctx.font = '900 22px Georgia, serif';
-  ctx.fillText(gv('L_mainTitle') || '', W/2, 34);
-  ctx.fillStyle = '#C9A646';
-  ctx.font = '700 12px Arial, sans-serif';
-  ctx.fillText(gv('L_subTitle') || '', W/2, 54);
-  ctx.fillStyle = '#8C8377';
-  ctx.font = '600 10px Arial, sans-serif';
-  ctx.fillText(`${gv('L_raceDate')} | ${gv('L_hippodrome')}`, W/2, 72);
-
-  ctx.textAlign = 'left';
-  ctx.fillStyle = '#1B1510';
-  ctx.fillRect(0,92,W,58);
-  ctx.fillStyle = '#F8F1E8';
-  ctx.font = '800 16px Arial, sans-serif';
-  ctx.fillText(`COURSE N°${gv('L_raceNum')}  (${gv('R_dist')||gv('L_raceDist')} m)`, 24, 116);
-  ctx.fillStyle = '#C9A646';
-  ctx.font = '700 13px Arial, sans-serif';
-  ctx.fillText(gv('R_raceName')||gv('L_raceName')||'', 24, 138);
-
-  let y = 150;
-  for(let i=0;i<activeHorses.length;i++){
-    const h = activeHorses[i];
-    ctx.fillStyle = i%2===0 ? '#F7F0E4' : '#FFFDF8';
-    ctx.fillRect(0,y,W,rowH);
-    ctx.strokeStyle = '#D5B98F';
-    ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
-
-    ctx.fillStyle = '#2A2118';
-    ctx.font = '700 38px Georgia, serif';
-    ctx.fillText(String(i+1), 28, y+58);
-    ctx.fillStyle = '#8C8377';
-    ctx.font = '700 12px Arial, sans-serif';
-    ctx.fillText(i===0?'er':'ème', 54, y+37);
-
-    const silkImg = await loadCanvasImage(h.silk);
-    ctx.fillStyle = '#E8DBC4';
-    ctx.fillRect(84,y+22,58,58);
-    ctx.strokeStyle = '#B56A2D';
-    ctx.strokeRect(84,y+22,58,58);
-    if(silkImg) ctx.drawImage(silkImg,84,y+22,58,58);
-    else {
-      ctx.font = '22px Arial';
-      ctx.fillText(EMOJIS[i%10], 101, y+57);
-    }
-
-    const x = 162;
-    ctx.fillStyle = '#B56A2D';
-    ctx.font = '800 10px Arial, sans-serif';
-    ctx.fillText('CHEVAL:', x, y+22);
-    ctx.fillStyle = '#2A2118';
-    ctx.font = '900 15px Arial, sans-serif';
-    ctx.fillText(`N°${h.num}  ${h.cheval||'—'}`, x, y+43);
-
-    ctx.font = '700 13px Arial, sans-serif';
-    ctx.fillStyle = '#2A2118';
-    wrapCanvasText(ctx, `Propriétaire: ${h.proprietaire||'—'}${h.origines?` ( ${h.origines} )`:''} / Éleveur: ${h.eleveur||'—'}`, x, y+65, 650, 16, 2);
-    ctx.fillText(`Jockey: ${h.jockey||'—'} / Entraîneur: ${h.entraineur||'—'}`, x, y+94);
-
-    const gap = i===0 && gv('R_duree') ? gv('R_duree') : (h.gap||'');
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#8C8377';
-    ctx.font = '800 13px Arial, sans-serif';
-    ctx.fillText(gap, W-24, y+56);
-    ctx.textAlign = 'left';
-    y += rowH;
-  }
-
-  if(nonRunners.length){
-    y += 10;
-    ctx.fillStyle = '#FFF1EA';
-    ctx.fillRect(22,y,W-44,npH-18);
-    ctx.strokeStyle = '#C0392B';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(22,y,W-44,npH-18);
-    ctx.fillStyle = '#C0392B';
-    ctx.fillRect(22,y,7,npH-18);
-    ctx.fillStyle = '#C0392B';
-    ctx.font = '900 16px Arial, sans-serif';
-    ctx.fillText('NON PARTANTS :', 40, y+28);
-    ctx.fillStyle = '#6B2C24';
-    ctx.font = '800 14px Arial, sans-serif';
-    let cx = 40, cy = y+56;
-    nonRunners.forEach(h=>{
-      const t = `N°${h.num} ${h.cheval||'—'}`;
-      const tw = Math.min(ctx.measureText(t).width + 18, 255);
-      if(cx + tw > W-40){ cx = 40; cy += 28; }
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(cx, cy-18, tw, 23);
-      ctx.strokeStyle = '#D8897E';
-      ctx.strokeRect(cx, cy-18, tw, 23);
-      ctx.fillStyle = '#6B2C24';
-      ctx.fillText(t, cx+8, cy-2);
-      cx += tw + 8;
+// ═══════════════════════
+// CLASSEMENT
+// ═══════════════════════
+function renderCl(c,pt,np){
+  const w=document.getElementById('p2wrap');
+  w.innerHTML=`<div style="font-family:Cinzel,serif;font-size:11px;color:var(--or);letter-spacing:.1em;margin-bottom:14px;max-width:800px;margin-left:auto;margin-right:auto">COURSE ${c.num} — PRIX ${c.prix} — ${c.dist}m</div>`;
+  const list=document.createElement('ul');list.className='cl-list';list.id='cll';
+  pt.forEach((h,i)=>list.appendChild(mkClItem(h,i+1,c)));
+  w.appendChild(list);
+  if(np.length){
+    const nb=document.createElement('div');nb.className='np-block';
+    nb.innerHTML=`<div class="np-hd">🚫 NON-PARTANTS (${np.length})</div>`;
+    np.forEach(h=>{
+      const it=document.createElement('div');it.className='np-it';
+      it.innerHTML=`<div class="hnum" style="width:20px;height:20px;font-size:10px;background:var(--danger)">${h.num}</div>
+        <span style="flex:1;font-family:Cinzel,serif;font-size:11px">${h.nom}</span>
+        <select class="st-sel" onchange="chSt(${h.num},this.value)">
+          <option value="ok">✅ Partant</option><option value="np" selected>🚫 Non-partant</option>
+        </select>`;
+      nb.appendChild(it);
     });
-  }
-
-  downloadPNGDataURL(canvas.toDataURL('image/png'),'classement_arrivee.png');
-  toast('✅ PNG téléchargé !');
-}
-
-async function exportRankPNG(){
-  try{
-    if(!rankHorses.length){toast('⚠️ Importez d\'abord le PDF','warn');return}
-    toast('⏳ Export PNG…');
-    await new Promise(r=>setTimeout(r,150));
-    await exportRankPNGCanvas();
-  }catch(err){
-    console.error('Erreur export classement PNG:', err);
-    toast('❌ Erreur export PNG','err');
+    w.appendChild(nb);
   }
 }
 
-// ── LIVE UPDATE ──
-['L_mainTitle','L_subTitle','L_raceNum','L_raceDist','L_raceName','L_allocation','L_raceDate','L_hippodrome'].forEach(id=>{
-  document.getElementById(id)?.addEventListener('input',()=>{
-    if(!document.getElementById('preview-list').querySelector('.empty'))renderList();
-    if(!document.getElementById('preview-rank').querySelector('.empty'))renderRank();
-  });
-});
-['R_duree','R_dist','R_raceName'].forEach(id=>{
-  document.getElementById(id)?.addEventListener('input',()=>{
-    if(!document.getElementById('preview-rank').querySelector('.empty'))renderRank();
-  });
-});
-
-// ── HELPERS ──
-function xss(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
-function toast(msg,type){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.background=type==='err'?'#da3633':type==='warn'?'#9e6a03':'#238636';
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t=setTimeout(()=>t.classList.remove('show'),3500);
+function mkClItem(h,rank,c){
+  const li=document.createElement('li');li.className='cl-item';li.draggable=true;li.dataset.hn=h.num;
+  const rk=rank<=3?'rk'+rank:'rk-o';
+  const cas=h.cas?`<img src="${h.cas}" class="cl-cas">`:`<div class="cl-cas-ph">🎽</div>`;
+  li.innerHTML=`<span class="cl-hdl">⠿</span>
+    <div class="rk ${rk}">${rank}</div>${cas}
+    <div style="flex:1"><div class="cl-name">${h.nom}</div><div class="cl-sub">${h.prop||''} · ${h.jok||''}</div></div>
+    <input class="gap-in" placeholder="${rank===1?'Temps total':'Écart'}" value="${h._gap||''}" oninput="updGap(${h.num},this.value)">
+    <select class="st-sel" onchange="chSt(${h.num},this.value)">
+      <option value="ok" selected>✅ Partant</option><option value="np">🚫 Non-partant</option>
+    </select>`;
+  li.addEventListener('dragstart',e=>{_DS=li;li.classList.add('dragging');e.dataTransfer.effectAllowed='move'});
+  li.addEventListener('dragend',()=>{li.classList.remove('dragging');document.querySelectorAll('.cl-item').forEach(x=>x.classList.remove('over'));rebRanks(c);loadP2C()});
+  li.addEventListener('dragover',e=>{e.preventDefault();if(li!==_DS)li.classList.add('over')});
+  li.addEventListener('dragleave',()=>li.classList.remove('over'));
+  li.addEventListener('drop',e=>{e.preventDefault();if(_DS&&_DS!==li){const a=[...li.parentNode.children];const si=a.indexOf(_DS);const di=a.indexOf(li);li.parentNode.insertBefore(_DS,si<di?li.nextSibling:li)}});
+  return li;
 }
+
+function rebRanks(c){
+  const list=document.getElementById('cll');if(!list)return;
+  [...list.querySelectorAll('.cl-item')].forEach((el,i)=>{const h=c.chevaux.find(x=>x.num==el.dataset.hn);if(h)h._rk=i});
+}
+function updGap(num,val){const c=P2C[P2I];const h=c.chevaux.find(x=>x.num==num);if(h){h._gap=val;const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);const np=c.chevaux.filter(x=>x._st==='np');renderClPV(c,pt,np)}}
+function chSt(num,st){const c=P2C[P2I];const h=c.chevaux.find(x=>x.num==num);if(h)h._st=st;loadP2C()}
+
+function buildClRows(pt, allRows){
+  const ords=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
+  const sups=['er','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème'];
+  let rows='';
+  pt.forEach((h,i)=>{
+    const cas=h.cas?`<img class="cl-pv-cas" src="${h.cas}">`:`<div class="cl-pv-cas-ph">🎽</div>`;
+    const gapTxt=i===0?(h._gap||''):(h._gap?'+'+h._gap:'');
+    // Format compact : Cheval: N°X NOM ( ORIG )  Propriétaire:XXX / Éleveur:XXX  Jockey:XXX / Entraîneur:XXX
+    const origPart = h.orig ? ` <span style="color:#9A7A28;font-style:italic;font-size:11px">( ${h.orig} )</span>` : '';
+    const propPart = h.prop ? `<span class="cl-info-item-lbl">Propriétaire :</span><span class="cl-info-item-val">${h.prop}</span>` : '';
+    const elevPart = h.elev ? `<span class="cl-info-sep"> / </span><span class="cl-info-item-lbl">Éleveur :</span><span class="cl-info-item-val">${h.elev}</span>` : '';
+    const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">Jockey :</span><span class="cl-info-item-val">${h.jok}</span>` : '';
+    const entrPart = h.entr ? `<span class="cl-info-sep"> / </span><span class="cl-info-item-lbl">Entraîneur :</span><span class="cl-info-item-val">${h.entr}</span>` : '';
+    rows+=`<div class="cl-row${!allRows&&i>=5?' cl-row-hidden':''}">
+      <div class="cl-rank-col">
+        <span class="cl-rank-num">${ords[i]}</span><span class="cl-rank-sup">${sups[i]}</span>
+      </div>
+      <div class="cl-cas-col">${cas}</div>
+      <div class="cl-info-col">
+        <div class="cl-info-compact">
+          <span class="cl-info-label-inline">Cheval :</span>
+          <span class="cl-info-num">N°${h.num}</span>
+          <span class="cl-info-name">${h.nom}</span>${origPart}
+        </div>
+        <div class="cl-info-line1">${propPart}${elevPart}</div>
+        <div class="cl-info-line2">${jokPart}${entrPart}</div>
+      </div>
+      ${gapTxt?`<div class="cl-gap-col"><span class="cl-gap-val">${gapTxt}</span></div>`:''}
+    </div>`;
+  });
+  return rows;
+}
+
+function renderClPV(c,pt,np){
+  const pv=document.getElementById('cl-pv');pv.style.display='block';
+  const hippo=document.getElementById('f-hippo')?.value||'';
+  const date=document.getElementById('f-date')?.value||'';
+  const logo2=LOGO?`<div class="cp-logo"><img src="${LOGO}"></div>`:'<div class="cp-logo"></div>';
+
+  const rows=buildClRows(pt, true);
+  const npH=np.length?`<div class="cp-np"><div class="cp-np-t">NON PARTANTS :</div><div class="cp-np-tags">${np.map(h=>`<span class="np-tag">N°${h.num} ${h.nom}</span>`).join('')}</div></div>`:'';
+
+  pv.innerHTML=`
+    <img class="cpwm${LOGO?' vis':''}" src="${LOGO||''}">
+    <div class="cp-hband">
+      ${logo2}
+      <div class="cp-htxt">
+        <div class="cp-t1">${document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL'}</div>
+        <div class="cp-t2">Arabian Purebred Classic Series</div>
+        <div class="cp-t3">${date} | ${hippo}</div>
+      </div>
+      ${logo2}
+    </div>
+    <div class="cp-course-hd">
+      <div class="cp-course-hd-num">COURSE N°${c.num} (${c.dist} m)</div>
+      <div class="cp-course-hd-prix">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</div>
+    </div>
+    <div class="cp-body">
+      <div>${rows}</div>
+      ${npH}
+    </div>`;
+}
+
+function buildExportPreview(c,pt,np){
+  const hippo=document.getElementById('f-hippo')?.value||'';
+  const date=document.getElementById('f-date')?.value||'';
+  const title=document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL';
+  const top5=pt.slice(0,5);
+
+  // Build rows with inline styles — exact same look as page 1 table
+  const ords=['1','2','3','4','5'];
+  const sups=['er','ème','ème','ème','ème'];
+  const medal=['#C9A84C','#A8A8A8','#CD7F32','#7A6A50','#7A6A50'];
+  const medalTxt=['#3D2B1F','#fff','#fff','#fff','#fff'];
+
+  let rowsHtml='';
+  top5.forEach((h,i)=>{
+    const bg = i%2===0 ? '#ffffff' : '#fdf8f0';
+    const cas=h.cas
+      ?`<img src="${h.cas}" style="width:54px;height:54px;object-fit:contain;border-radius:4px;border:1px solid #d4c090;background:#f5edd8">`
+      :`<div style="width:54px;height:54px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px">🎽</div>`;
+    const gapTxt=i===0?(h._gap||''):(h._gap?'+'+h._gap:'');
+    const origPart=h.orig?` <span style="color:#9A7A28;font-style:italic;font-size:10px">( ${h.orig} )</span>`:'';
+    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Propriétaire :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.prop}</span>`:'';
+    const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Éleveur :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.elev}</span>`:'';
+    const jokLine=h.jok?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Jockey :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.jok}</span>`:'';
+    const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Entraîneur :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.entr}</span>`:'';
+
+    rowsHtml+=`
+    <div style="display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:${bg};min-height:82px">
+      <div style="width:70px;min-width:70px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px 6px;border-right:3px solid #C9A84C;background:linear-gradient(180deg,#fdf3d8,#f9edd0);gap:2px">
+        <div style="width:36px;height:36px;border-radius:50%;background:${medal[i]};color:${medalTxt[i]};font-family:Cinzel,serif;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2)">${ords[i]}</div>
+        <span style="font-family:Cinzel,serif;font-size:9px;font-weight:600;color:#7A5A3A">${sups[i]}</span>
+      </div>
+      <div style="width:74px;min-width:74px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8">${cas}</div>
+      <div style="flex:1;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px">
+        <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
+          <span style="font-size:9px;color:#9A7A50;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Cheval :</span>
+          <span style="font-size:11px;color:#7A5A20;font-weight:700">N°${h.num}</span>
+          <span style="font-family:Cinzel,serif;font-size:16px;font-weight:900;color:#1A0F08;letter-spacing:.02em">${h.nom}</span>${origPart}
+        </div>
+        <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.6">${propLine}${elevLine}</div>
+        <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.6">${jokLine}${entrLine}</div>
+      </div>
+      ${gapTxt?`<div style="width:110px;min-width:110px;display:flex;align-items:center;justify-content:center;padding:8px 12px;border-left:2px solid #C9A84C;background:#fdf8e8"><span style="font-size:15px;color:#2D5016;font-weight:800;font-style:italic">${gapTxt}</span></div>`:''}
+    </div>`;
+  });
+
+  // Non-partants
+  const npH=np.length?`
+    <div style="background:#fff8f7;border:1.5px solid #f1948a;border-radius:4px;padding:10px 18px;margin:12px 18px 4px">
+      <div style="font-family:Cinzel,serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700">NON PARTANTS :</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">${np.map(h=>`<span style="background:#fadbd8;color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:Cinzel,serif;border:1px solid #f1948a">N°${h.num} ${h.nom}</span>`).join('')}</div>
+    </div>`:'';
+
+  // Logo
+  const logoHtml=LOGO
+    ?`<div style="width:80px;height:80px;flex-shrink:0;border:2px solid #C9A84C;border-radius:6px;overflow:hidden;background:rgba(201,168,76,.08)"><img src="${LOGO}" style="width:100%;height:100%;object-fit:contain"></div>`
+    :`<div style="width:80px;height:80px;flex-shrink:0"></div>`;
+
+  const tmp=document.createElement('div');
+  tmp.id='cl-pv-export';
+  tmp.style.cssText='position:fixed;left:-9999px;top:0;width:980px;background:#F5EDD8;color:#1A0F08;border-radius:6px;overflow:hidden;font-family:Inter,sans-serif;box-shadow:none;';
+
+  tmp.innerHTML=`
+    <div style="background:linear-gradient(135deg,#3D2B1F 0%,#5A3E2B 50%,#3D2B1F 100%);padding:20px 28px;display:flex;align-items:center;gap:18px;border-bottom:3px solid #C9A84C">
+      ${logoHtml}
+      <div style="flex:1;text-align:center">
+        <div style="font-family:Cinzel,serif;font-size:24px;font-weight:900;color:#E8C97A;letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,.4)">${title}</div>
+        <div style="font-family:Cinzel,serif;font-size:11px;color:#E8D8B8;letter-spacing:.18em;margin-top:3px;text-transform:uppercase">Arabian Purebred Classic Series</div>
+        <div style="font-size:10px;color:#D4C098;margin-top:4px;letter-spacing:.04em">${date}${date&&hippo?' | ':''}${hippo}</div>
+      </div>
+      ${logoHtml}
+    </div>
+    <div style="background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.3)">
+      <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em">COURSE N°${c.num} &nbsp;·&nbsp; ${c.dist} M</span>
+      <span style="font-family:Cinzel,serif;font-size:12px;color:#D4C098;letter-spacing:.1em">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+    </div>
+    <div style="background:#ffffff;border:1.5px solid #C9A84C;border-radius:4px;margin:14px 14px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08)">
+      <div style="background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:7px 14px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #C9A84C">
+        <span style="font-family:Cinzel,serif;font-size:10px;color:#E8C97A;letter-spacing:.12em;font-weight:700">🏆 CLASSEMENT OFFICIEL — TOP 5</span>
+      </div>
+      ${rowsHtml}
+    </div>
+    ${npH}
+    <div style="padding:10px 14px 14px;text-align:center">
+      <span style="font-family:Cinzel,serif;font-size:9px;color:#9A7A50;letter-spacing:.12em">SOCIÉTÉ DES COURSES HIPPIQUES — HIPPODROME DE KASSAR-SAÏD</span>
+    </div>`;
+
+  document.body.appendChild(tmp);
+  return tmp;
+}
+
+function expClPNG(){
+  const pv=document.getElementById('cl-pv');
+  if(pv.style.display==='none'){toast('⚠️ Aucun classement');return}
+  const c=P2C[P2I];
+  const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);
+  const np=c.chevaux.filter(x=>x._st==='np');
+  const tmp=buildExportPreview(c,pt,np);
+  html2canvas(tmp,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(async cv=>{
+    document.body.removeChild(tmp);
+    await addWM(cv);
+    const a=document.createElement('a');a.download=`classement_c${P2I+1}_${Date.now()}.png`;a.href=cv.toDataURL('image/png');a.click();
+    toast('✅ PNG classement exporté (Top 5)');
+  });
+}
+function expClPDF(){
+  const pv=document.getElementById('cl-pv');
+  if(pv.style.display==='none'){toast('⚠️ Aucun classement');return}
+  const c=P2C[P2I];
+  const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);
+  const np=c.chevaux.filter(x=>x._st==='np');
+  const tmp=buildExportPreview(c,pt,np);
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  html2canvas(tmp,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(async cv=>{
+    document.body.removeChild(tmp);
+    await addWM(cv);
+    const img=cv.toDataURL('image/jpeg',.92);
+    const pw=297,ph=210,ratio=cv.width/cv.height;
+    let iw=pw-16,ih=iw/ratio;if(ih>ph-16){ih=ph-16;iw=ih*ratio}
+    doc.addImage(img,'JPEG',(pw-iw)/2,(ph-ih)/2,iw,ih);
+    doc.save(`classement_c${P2I+1}.pdf`);toast('✅ PDF classement exporté (Top 5)');
+  });
+}
+
+// ═══════════════════════
+// INIT
+// ═══════════════════════
+window.onload=()=>{
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  loadDemo();
+};
 </script>
 </body>
 </html>
