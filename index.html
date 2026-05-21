@@ -125,26 +125,26 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
    DOCUMENT PREVIEW
 ══════════════════════════════════════ */
 #pvdoc{background:var(--beige);color:#1A0F08;max-width:1060px;margin:0 auto;font-family:'Inter',sans-serif;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.3);overflow:hidden;position:relative}
-.doc-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:320px;opacity:0;transition:opacity .3s}
-.doc-wm.vis{opacity:.07}
+.doc-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:480px;opacity:0;transition:opacity .3s;filter:brightness(0) invert(1)}
+.doc-wm.vis{opacity:.10}
 .doc-hband{background:linear-gradient(135deg,var(--brun) 0%,var(--brun-m) 50%,var(--brun) 100%);padding:18px 28px;display:flex;align-items:center;gap:18px;position:relative;z-index:1;border-bottom:3px solid var(--or)}
-.doc-logo-slot{width:80px;height:80px;flex-shrink:0;border:2px solid var(--or-d);border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;background:rgba(201,168,76,.08)}
-.doc-logo-slot img{width:100%;height:100%;object-fit:contain}
+.doc-logo-slot{width:80px;height:80px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;background:transparent}
+.doc-logo-slot img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
 .doc-logo-slot .ph{font-size:10px;color:var(--or-d);text-align:center;font-family:'Cinzel',serif;letter-spacing:.05em}
 .doc-hctr{flex:1;text-align:center}
 .doc-ht{font-family:'Cinzel',serif;font-size:21px;font-weight:900;color:var(--or-l);letter-spacing:.05em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
 .doc-hippo{font-family:'Cinzel',serif;font-size:13px;color:var(--beige-d);letter-spacing:.12em;margin-top:4px}
 .doc-journee{font-size:11px;color:var(--beige-m);font-style:italic;margin-top:3px}
-.doc-datebar{background:linear-gradient(90deg,var(--vert),var(--vert-m));padding:7px 28px;display:flex;justify-content:space-between;align-items:center;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;color:var(--beige);border-bottom:1px solid rgba(201,168,76,.3);position:relative;z-index:1}
+.doc-datebar{background:linear-gradient(90deg,var(--vert),var(--vert-m));padding:9px 28px;display:flex;justify-content:space-between;align-items:center;font-family:'Cinzel',serif;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--beige);border-bottom:1px solid rgba(201,168,76,.3);position:relative;z-index:1}
 .doc-body{padding:18px 22px;position:relative;z-index:1}
 
 /* Course block */
 .cb{border:1.5px solid var(--or);border-radius:var(--r);margin-bottom:20px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.1)}
 .cb-hd{background:linear-gradient(135deg,var(--brun),var(--brun-m));padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
 .cb-num{font-family:'Cinzel',serif;font-size:17px;font-weight:900;color:var(--or-l)}
-.cb-prix{font-family:'Cinzel',serif;font-size:14px;font-weight:700;color:var(--beige);margin-left:12px}
+.cb-prix{font-family:'Cinzel',serif;font-size:17px;font-weight:900;color:var(--beige);margin-left:14px}
 .cb-pills{display:flex;gap:7px;align-items:center}
-.cb-pill{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--or-l);padding:2px 8px;border-radius:12px;font-family:'Cinzel',serif;font-size:9px;letter-spacing:.06em}
+.cb-pill{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--or-l);padding:4px 12px;border-radius:12px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.06em}
 .cb-pill.g{background:rgba(45,80,22,.3);border-color:rgba(45,80,22,.5);color:#90c050}
 .cb-cond{background:#f7f2e8;padding:5px 14px;font-size:10px;color:var(--brun-m);border-bottom:1px solid var(--beige-d);font-style:italic}
 
@@ -156,9 +156,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .ht td.c{text-align:center}
 .ht tr:nth-child(even) td{background:#fdf8f0}
 .ht tr:hover td{background:#fef4d8}
-.hcas{width:36px;height:36px;object-fit:contain;border-radius:3px;cursor:pointer;border:1px solid #d4c090}
-.hcas-ph{width:36px;height:36px;background:#f0e8d0;border:1.5px dashed var(--or);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
-.hcas-ph:hover{background:#e8d8b0}
+.hcas{width:36px;height:36px;object-fit:contain;border-radius:0;cursor:pointer;border:none;background:transparent}
+.hcas-ph{width:36px;height:36px;background:transparent;border:none;border-radius:0;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
 .hnum-bd{width:20px;height:20px;border-radius:50%;background:var(--brun);color:var(--beige);font-family:'Cinzel',serif;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
 .corde-bd{width:18px;height:18px;border-radius:3px;background:var(--vert);color:white;font-family:'Cinzel',serif;font-size:8px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
 .srb-cell{font-size:10px;color:#5a3e2b;font-weight:600;text-align:center}
@@ -386,7 +385,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="mtoolbar">
       <span class="mtitle" id="mtitle">Programme officiel — Liste des partants</span>
       <button class="btn btn-gold btn-sm" onclick="expPDF()">📄 PDF</button>
-      <button class="btn btn-out btn-sm" onclick="expPNG()">🖼️ PNG</button>
+      <button class="btn btn-out btn-sm" onclick="expPNG()">🖼️ ER</button>
     </div>
     <div class="mbody">
       <div class="ed-col" id="edcol"><div class="notice">Chargez le <strong>programme démo</strong> ou importez un fichier Excel.</div></div>
@@ -400,6 +399,7 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
               <div class="doc-hippo" id="dhippo">HIPPODROME DE KASSAR-SAÏD</div>
               <div class="doc-journee" id="djournee">25ème Journée</div>
             </div>
+            <div class="doc-logo-slot" id="dls2" onclick="document.getElementById('li').click()"><div class="ph">LOGO</div></div>
           </div>
           <div class="doc-datebar">
             <span id="ddate">DIMANCHE 10 MAI 2026</span>
@@ -801,7 +801,7 @@ function renderEd(){
           <div class="ef full" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--bdr);margin-top:4px">
             <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;color:var(--txt-m);font-weight:600;margin:0">
               <input type="checkbox" id="irm-${i}" ${h2.irm?'checked':''} onchange="sH(${i},'irm',this.checked)" style="width:15px;height:15px;accent-color:var(--or);cursor:pointer">
-              <span>IRM</span>
+              <span>👁️ Œil</span>
             </label>
             ${h2.irm?'<span style="font-size:10px;color:var(--or);font-family:Cinzel,serif;letter-spacing:.05em">→ (*) affiché devant le nom</span>':''}
           </div>
@@ -898,7 +898,10 @@ function upPV(){
   document.getElementById('ddate').textContent=document.getElementById('f-date').value;
   // Logo
   const dls=document.getElementById('dls');
-  dls.innerHTML=LOGO?`<img src="${LOGO}" style="width:100%;height:100%;object-fit:contain">`:`<div class="ph">LOGO</div>`;
+  const dls2=document.getElementById('dls2');
+  const logoHtml=LOGO?`<img src="${LOGO}" style="width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)">`:`<div class="ph">LOGO</div>`;
+  dls.innerHTML=logoHtml;
+  dls2.innerHTML=logoHtml;
   const wm=document.getElementById('docwm');
   if(LOGO){wm.src=LOGO;wm.classList.add('vis')}else wm.classList.remove('vis');
 
@@ -923,7 +926,7 @@ function upPV(){
     rows+=`<tr>
       <td class="c">${cas}</td>
       <td class="c"><div class="hnum-bd">${h.num}</div></td>
-      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${h.nom}${h.irm?' <span style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#6a5040">${h.prop||''}</span></td>
+      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${h.nom}${h.irm?' <span class="irm-marker" style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#6a5040">${h.prop||''}</span></td>
       <td class="c"><div class="corde-bd">${h.corde||''}</div></td>
       <td style="font-size:10px">${h.jok||''}</td>
       <td class="c">${h.pds||''}</td>
@@ -953,7 +956,7 @@ function upPV(){
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
-      ${sorted.some(h=>h.irm)?`<div class="arr-line" style="text-align:left;padding:5px 14px"><span style="color:#c0392b;font-weight:700;font-size:10px">(*) IRM</span></div>`:''}
+
     </div>`;
 }
 
@@ -966,11 +969,15 @@ function addWM(canvas){
     const img=new Image();
     img.onload=()=>{
       const ctx=canvas.getContext('2d');
-      const maxW=canvas.width*.32,maxH=canvas.height*.32;
+      const maxW=canvas.width*.38,maxH=canvas.height*.38;
       const sc=Math.min(maxW/img.naturalWidth,maxH/img.naturalHeight);
       const w=img.naturalWidth*sc,h=img.naturalHeight*sc;
-      ctx.save();ctx.globalAlpha=0.07;
-      ctx.drawImage(img,(canvas.width-w)/2,(canvas.height-h)/2,w,h);
+      const cx=canvas.width/2,cy=canvas.height/2;
+      ctx.save();
+      ctx.globalAlpha=0.10;
+      ctx.translate(cx,cy);
+      ctx.rotate(-8*Math.PI/180);
+      ctx.drawImage(img,-w/2,-h/2,w,h);
       ctx.restore();res(canvas);
     };
     img.onerror=()=>res(canvas);
@@ -1013,11 +1020,15 @@ function expPDF(){
 }
 
 function expPNG(){
+  // Masquer les (*) IRM pendant l'export
+  const irmSpans=document.querySelectorAll('#pvdoc .irm-marker');
+  irmSpans.forEach(s=>s.style.display='none');
   html2canvas(document.getElementById('pvdoc'),{scale:2,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+    irmSpans.forEach(s=>s.style.display='');
     await addWM(cv);
     const a=document.createElement('a');a.download=`course_${document.getElementById('f-num').value}_${Date.now()}.png`;a.href=cv.toDataURL('image/png');a.click();
     toast('✅ PNG exporté');
-  });
+  }).catch(()=>irmSpans.forEach(s=>s.style.display=''));
 }
 
 // ═══════════════════════
