@@ -210,50 +210,67 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 .np-it{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(192,57,43,.12);font-size:11px}
 .np-it:last-child{border-bottom:none}
 
-/* Classement preview — light beige theme */
-#cl-pv{max-width:960px;margin:20px auto 0;background:#F5EDD8;color:#1A0F08;border-radius:6px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.4);font-family:'Inter',sans-serif;position:relative;display:none}
-.cpwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:280px;opacity:0}
+/* ══ CLASSEMENT PREVIEW — rendu fidèle à l'image cible ══ */
+#cl-pv{max-width:980px;margin:20px auto 0;background:#F5EDD8;color:#1A0F08;border-radius:6px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.4);font-family:'Inter',sans-serif;position:relative;display:none}
+.cpwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:300px;opacity:0}
 .cpwm.vis{opacity:.07}
-/* Header band — same gradient as doc-hband */
-.cp-hband{background:linear-gradient(135deg,var(--brun) 0%,var(--brun-m) 50%,var(--brun) 100%);padding:18px 28px 12px;border-bottom:3px solid var(--or);display:flex;align-items:center;gap:14px;position:relative;z-index:1}
-.cp-logo{width:72px;height:72px;flex-shrink:0}
-.cp-logo img{width:100%;height:100%;object-fit:contain}
+
+/* Header brun foncé */
+.cp-hband{background:linear-gradient(135deg,#3D2B1F 0%,#5A3E2B 50%,#3D2B1F 100%);padding:20px 28px;border-bottom:3px solid #C9A84C;display:flex;align-items:center;gap:18px;position:relative;z-index:1}
+.cp-logo{width:80px;height:80px;flex-shrink:0;overflow:hidden;background:transparent}
+.cp-logo img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
+.cp-logo-ph{width:80px;height:80px;flex-shrink:0}
 .cp-htxt{flex:1;text-align:center}
-.cp-t1{font-family:'Cinzel',serif;font-size:22px;font-weight:900;color:var(--or-l);letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
-.cp-t2{font-family:'Cinzel',serif;font-size:11px;color:var(--beige-d);letter-spacing:.14em;margin-top:2px;text-transform:uppercase}
-.cp-t3{font-size:10px;color:var(--beige-m);margin-top:3px;letter-spacing:.04em}
-/* Course sub-header — green bar like doc-datebar */
-.cp-course-hd{background:linear-gradient(90deg,var(--vert),var(--vert-m));padding:8px 28px;border-bottom:1px solid rgba(201,168,76,.3)}
-.cp-course-hd-num{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--beige);letter-spacing:.06em}
-.cp-course-hd-prix{font-family:'Cinzel',serif;font-size:11px;color:var(--beige-m);margin-top:2px;letter-spacing:.08em}
+.cp-t1{font-family:'Cinzel',serif;font-size:24px;font-weight:900;color:#E8C97A;letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+.cp-t2{font-family:'Cinzel',serif;font-size:11px;color:#E8D8B8;letter-spacing:.18em;margin-top:3px;text-transform:uppercase}
+.cp-t3{font-size:10px;color:#D4C098;margin-top:4px;letter-spacing:.04em}
+
+/* Barre verte course — 1 seule ligne, num à gauche, prix à droite */
+.cp-course-hd{background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.3)}
+.cp-course-hd-num{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em}
+.cp-course-hd-prix{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#D4C098;letter-spacing:.1em}
+
+/* Titre section classement */
+.cp-section-hd{background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:2px solid #C9A84C}
+.cp-section-hd span{font-family:'Cinzel',serif;font-size:10px;color:#E8C97A;letter-spacing:.12em;font-weight:700}
+
 .cp-body{padding:0 0 16px;position:relative;z-index:1;background:#F5EDD8}
 
-/* Row-style classement */
-.cl-row{display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:#F5EDD8;min-height:80px}
-.cl-row:nth-child(even){background:#EDE2C8}
-.cl-row:hover{background:#fdf3d8}
-.cl-rank-col{width:68px;min-width:68px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px 6px;border-right:1px solid #C9A84C;flex-shrink:0;background:linear-gradient(180deg,#fdf3d8,#f9edd0)}
-.cl-rank-num{font-family:'Cinzel',serif;font-size:26px;font-weight:900;line-height:1;color:#7A5A20}
-.cl-rank-sup{font-family:'Cinzel',serif;font-size:11px;font-weight:600;color:#9A7A28}
-.cl-cas-col{width:72px;min-width:72px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8;flex-shrink:0}
-.cl-pv-cas{width:54px;height:54px;object-fit:contain;border-radius:4px;border:1px solid #C9A84C;background:#fdf8f0}
-.cl-pv-cas-ph{width:54px;height:54px;background:#fdf8f0;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px}
-.cl-info-col{flex:1;padding:10px 14px;display:flex;flex-direction:column;justify-content:center;gap:3px}
-.cl-info-label{font-size:8px;color:#8A7060;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:1px}
-.cl-info-name{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#1A0F08}
-.cl-info-num{font-size:11px;color:#9A7A28;font-weight:600}
-.cl-info-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:2px}
-.cl-info-item{display:flex;flex-direction:column}
-.cl-info-item-lbl{font-size:8px;color:#9A7A28;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
-.cl-info-item-val{font-size:10px;color:#5A3E2B;font-weight:500}
-.cl-gap-col{width:100px;min-width:100px;display:flex;align-items:center;justify-content:center;padding:8px 10px;border-left:1px solid #C9A84C;flex-shrink:0;background:#fdf8e8}
-.cl-gap-val{font-size:13px;color:#2D5016;font-weight:700;font-style:italic;text-align:center}
+/* ── Ligne de classement ── */
+.cl-row{display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;min-height:88px}
+.cl-row:nth-child(odd){background:#ffffff}
+.cl-row:nth-child(even){background:#fdf8f0}
+.cl-row:hover{background:#fef4d8}
 
-/* Compact info line styles */
-.cl-info-compact{display:flex;align-items:baseline;gap:5px;margin-bottom:3px}
-.cl-info-label-inline{font-size:8px;color:#8A7060;letter-spacing:.1em;text-transform:uppercase;font-weight:600;flex-shrink:0}
-.cl-info-line1,.cl-info-line2{display:flex;align-items:baseline;flex-wrap:wrap;gap:3px;margin-top:2px;font-size:11px;color:#3D2B1F}
-.cl-info-sep{color:#9A7A28;font-weight:700;margin:0 2px}
+/* Colonne médaille */
+.cl-rank-col{width:74px;min-width:74px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px 6px;border-right:3px solid #C9A84C;flex-shrink:0;background:linear-gradient(180deg,#fdf3d8,#f9edd0);gap:3px}
+.cl-medal{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:17px;font-weight:900;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.cl-medal-1{background:linear-gradient(135deg,#C9A84C,#E8C97A);color:#3D2B1F}
+.cl-medal-2{background:linear-gradient(135deg,#A8A8A8,#D0D0D0);color:#fff}
+.cl-medal-3{background:linear-gradient(135deg,#CD7F32,#E8A060);color:#fff}
+.cl-medal-o{background:linear-gradient(135deg,#7A6A50,#9A8A70);color:#fff}
+.cl-rank-sup{font-family:'Cinzel',serif;font-size:10px;font-weight:600;color:#7A5A3A}
+
+/* Colonne casaque */
+.cl-cas-col{width:80px;min-width:80px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8;flex-shrink:0}
+.cl-pv-cas{width:60px;height:60px;object-fit:contain;border-radius:4px;border:1px solid #d4c090;background:#fdf8f0}
+.cl-pv-cas-ph{width:60px;height:60px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:24px}
+
+/* Colonne infos cheval */
+.cl-info-col{flex:1;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.cl-info-compact{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-bottom:1px}
+.cl-info-label-inline{font-size:9px;color:#9A7A50;letter-spacing:.1em;text-transform:uppercase;font-weight:600;flex-shrink:0}
+.cl-info-num{font-size:11px;color:#7A5A20;font-weight:700}
+.cl-info-name{font-family:'Cinzel',serif;font-size:16px;font-weight:900;color:#1A0F08;letter-spacing:.02em}
+.cl-info-orig{color:#9A7A28;font-style:italic;font-size:11px}
+.cl-info-line1,.cl-info-line2{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.7}
+.cl-info-item-lbl{font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.cl-info-item-val{font-size:10px;color:#3D2B1F;font-weight:500;margin-left:2px}
+.cl-info-sep{color:#9A7A28;font-weight:700;margin:0 4px}
+
+/* Colonne écart */
+.cl-gap-col{width:116px;min-width:116px;display:flex;align-items:center;justify-content:center;padding:8px 12px;border-left:2px solid #C9A84C;flex-shrink:0;background:#fdf8e8}
+.cl-gap-val{font-size:15px;color:#2D5016;font-weight:800;font-style:italic;text-align:center}
 
 /* Non-partants block */
 .cp-np{background:rgba(192,57,43,.08);border:1.5px solid rgba(192,57,43,.35);border-radius:4px;padding:10px 18px;margin:14px 18px 4px}
@@ -346,6 +363,15 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
         <button class="btn btn-gold btn-sm btn-full" onclick="expPDF()">📄 Export PDF (données embarquées)</button>
         <button class="btn btn-out btn-sm btn-full" onclick="expPNG()">🖼️ Export PNG haute résolution</button>
         <button class="btn btn-out btn-sm btn-full" onclick="window.print()">🖨️ Imprimer</button>
+      </div>
+
+      <div class="sec">
+        <div class="sec-hd">Reprendre un PDF</div>
+        <div class="dz" id="dz-p1pdf" onclick="document.getElementById('fi-p1pdf').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="(e=>{e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f)procP1PDF(f)})(event)">
+          <div class="dz-ic">📄</div>
+          <p>Glissez ou cliquez pour importer un <strong>PDF exporté</strong> et reprendre la liste des partants</p>
+        </div>
+        <input type="file" id="fi-p1pdf" accept=".pdf" style="display:none" onchange="if(event.target.files[0])procP1PDF(event.target.files[0]);event.target.value=''">
       </div>
 
       <div class="sec">
@@ -636,6 +662,84 @@ function loadDemo(){
   toast('✅ Programme 10 mai 2026 — 7 courses');
 }
 
+// ═══════════════════════
+// PAGE 1 — IMPORT PDF (restaurer liste des partants)
+// ═══════════════════════
+function procP1PDF(file){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const r=new FileReader();
+  r.onload=async ev=>{
+    try{
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(ev.target.result)}).promise;
+      // 1) Métadonnées subject
+      try{
+        const meta=await pdf.getMetadata();
+        const subj=(meta&&meta.info&&meta.info.Subject)||'';
+        const marker='RACING_DATA::';
+        if(subj.startsWith(marker)){
+          const b64=subj.substring(marker.length).replace(/\s/g,'');
+          const parsed=JSON.parse(decodeURIComponent(escape(atob(b64))));
+          p1Loaded(parsed);return;
+        }
+      }catch(e){}
+      // 2) Scan texte de toutes les pages
+      let fullText='';
+      for(let p=1;p<=pdf.numPages;p++){
+        const pg=await pdf.getPage(p);
+        const tc=await pg.getTextContent();
+        fullText+=tc.items.map(i=>i.str).join('');
+      }
+      const marker='RACING_DATA::';
+      const idx=fullText.indexOf(marker);
+      if(idx>=0){
+        const raw=fullText.substring(idx+marker.length).replace(/\s/g,'');
+        const b64=raw.match(/^[A-Za-z0-9+/=]+/)?.[0]||'';
+        if(b64.length>100){
+          try{
+            const parsed=JSON.parse(decodeURIComponent(escape(atob(b64))));
+            p1Loaded(parsed);return;
+          }catch(e){toast('⚠️ Erreur décodage: '+e.message);return}
+        }
+      }
+      toast('⚠️ Données non trouvées dans ce PDF.');
+    }catch(e){toast('❌ Erreur: '+e.message)}
+  };
+  r.readAsArrayBuffer(file);
+}
+
+function p1Loaded(payload){
+  AC=payload.courses||[];
+  AI=0;
+  if(payload.logo){
+    LOGO=payload.logo;
+    document.getElementById('limg').src=LOGO;
+    document.getElementById('limg').style.display='block';
+    document.getElementById('lph').style.display='none';
+  }
+  if(payload.meta){
+    if(payload.meta.title)document.getElementById('f-title').value=payload.meta.title;
+    if(payload.meta.hippo)document.getElementById('f-hippo').value=payload.meta.hippo;
+    if(payload.meta.journee)document.getElementById('f-journee').value=payload.meta.journee;
+    if(payload.meta.date)document.getElementById('f-date').value=payload.meta.date;
+  }
+  setupCourses();
+  toast('✅ '+AC.length+' courses restaurées depuis le PDF');
+}
+
+// Sauvegarde les champs course dans AC[AI] avant de changer de course
+function saveFormToAC(){
+  if(!AC.length||!AC[AI])return;
+  const c=AC[AI];
+  c.num=document.getElementById('f-num').value||c.num;
+  c.heure=document.getElementById('f-heure').value||'';
+  // Le champ f-prix contient "PRIX NOM" — on extrait le nom
+  const prixVal=document.getElementById('f-prix').value||'';
+  c.prix=prixVal.replace(/^PRIX\s*/i,'').trim()||c.prix;
+  c.dist=document.getElementById('f-dist').value||'';
+  c.alloc=document.getElementById('f-alloc').value||'';
+  c.cond=document.getElementById('f-cond').value||'';
+}
+
 function setupCourses(){
   document.getElementById('tb-badge').textContent=AC.length+' COURSES';
   const wrap=document.getElementById('csel');
@@ -645,7 +749,7 @@ function setupCourses(){
     const b=document.createElement('button');
     b.className='ctab'+(i===AI?' active':'');
     b.textContent=(i+1)+'e';
-    b.onclick=()=>{AI=i;setupCourses()};
+    b.onclick=()=>{saveFormToAC();AI=i;setupCourses()};
     tabs.appendChild(b);
   });
   loadAC();
@@ -694,6 +798,13 @@ function renderEd(){
           <div class="ef"><label>Corde</label><input value="${h2.corde||''}" oninput="sH(${i},'corde',this.value)"></div>
           <div class="ef full"><label>Performances</label><input value="${e(h2.perf)}" oninput="sH(${i},'perf',this.value)"></div>
           <div class="ef full"><label>Couleurs casaque</label><input value="${e(h2.coul)}" oninput="sH(${i},'coul',this.value)"></div>
+          <div class="ef full" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--bdr);margin-top:4px">
+            <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;color:var(--txt-m);font-weight:600;margin:0">
+              <input type="checkbox" id="irm-${i}" ${h2.irm?'checked':''} onchange="sH(${i},'irm',this.checked)" style="width:15px;height:15px;accent-color:var(--or);cursor:pointer">
+              <span>IRM</span>
+            </label>
+            ${h2.irm?'<span style="font-size:10px;color:var(--or);font-family:Cinzel,serif;letter-spacing:.05em">→ (*) affiché devant le nom</span>':''}
+          </div>
         </div>
         <div class="cas-row">
           ${cas}
@@ -717,7 +828,7 @@ function addH(){
   if(!AC[AI])return;
   const ch=AC[AI].chevaux;
   const n=ch.length?Math.max(...ch.map(h=>parseInt(h.num)||0))+1:1;
-  ch.push({num:n,nom:'Nouveau cheval',prop:'',elev:'',coul:'',jok:'',entr:'',orig:'',pds:'',s:'',rb:'',age:3,corde:n,perf:'',cas:null});
+  ch.push({num:n,nom:'Nouveau cheval',prop:'',elev:'',coul:'',jok:'',entr:'',orig:'',pds:'',s:'',rb:'',age:3,corde:n,perf:'',cas:null,irm:false});
   renderEd();upPV();setTimeout(()=>togCard(ch.length-1),50);
 }
 
@@ -812,7 +923,7 @@ function upPV(){
     rows+=`<tr>
       <td class="c">${cas}</td>
       <td class="c"><div class="hnum-bd">${h.num}</div></td>
-      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${h.nom}</strong><br><span style="font-size:9px;color:#6a5040">${h.prop||''}</span></td>
+      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${h.nom}${h.irm?' <span style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#6a5040">${h.prop||''}</span></td>
       <td class="c"><div class="corde-bd">${h.corde||''}</div></td>
       <td style="font-size:10px">${h.jok||''}</td>
       <td class="c">${h.pds||''}</td>
@@ -842,6 +953,7 @@ function upPV(){
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
+      ${sorted.some(h=>h.irm)?`<div class="arr-line" style="text-align:left;padding:5px 14px"><span style="color:#c0392b;font-weight:700;font-size:10px">(*) IRM</span></div>`:''}
     </div>`;
 }
 
@@ -1043,19 +1155,20 @@ function chSt(num,st){const c=P2C[P2I];const h=c.chevaux.find(x=>x.num==num);if(
 function buildClRows(pt, allRows){
   const ords=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
   const sups=['er','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème'];
+  const medalClass=['cl-medal-1','cl-medal-2','cl-medal-3','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o'];
   let rows='';
   pt.forEach((h,i)=>{
     const cas=h.cas?`<img class="cl-pv-cas" src="${h.cas}">`:`<div class="cl-pv-cas-ph">🎽</div>`;
-    const gapTxt=i===0?(h._gap||''):(h._gap?'+'+h._gap:'');
-    // Format compact : Cheval: N°X NOM ( ORIG )  Propriétaire:XXX / Éleveur:XXX  Jockey:XXX / Entraîneur:XXX
-    const origPart = h.orig ? ` <span style="color:#9A7A28;font-style:italic;font-size:11px">( ${h.orig} )</span>` : '';
+    const gapTxt=h._gap||'';
+    const origPart = h.orig ? ` <span class="cl-info-orig">( ${h.orig} )</span>` : '';
     const propPart = h.prop ? `<span class="cl-info-item-lbl">Propriétaire :</span><span class="cl-info-item-val">${h.prop}</span>` : '';
-    const elevPart = h.elev ? `<span class="cl-info-sep"> / </span><span class="cl-info-item-lbl">Éleveur :</span><span class="cl-info-item-val">${h.elev}</span>` : '';
+    const elevPart = h.elev ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">Éleveur :</span><span class="cl-info-item-val">${h.elev}</span>` : '';
     const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">Jockey :</span><span class="cl-info-item-val">${h.jok}</span>` : '';
-    const entrPart = h.entr ? `<span class="cl-info-sep"> / </span><span class="cl-info-item-lbl">Entraîneur :</span><span class="cl-info-item-val">${h.entr}</span>` : '';
+    const entrPart = h.entr ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">Entraîneur :</span><span class="cl-info-item-val">${h.entr}</span>` : '';
     rows+=`<div class="cl-row${!allRows&&i>=5?' cl-row-hidden':''}">
       <div class="cl-rank-col">
-        <span class="cl-rank-num">${ords[i]}</span><span class="cl-rank-sup">${sups[i]}</span>
+        <div class="cl-medal ${medalClass[i]}">${ords[i]}</div>
+        <span class="cl-rank-sup">${sups[i]}</span>
       </div>
       <div class="cl-cas-col">${cas}</div>
       <div class="cl-info-col">
@@ -1077,7 +1190,10 @@ function renderClPV(c,pt,np){
   const pv=document.getElementById('cl-pv');pv.style.display='block';
   const hippo=document.getElementById('f-hippo')?.value||'';
   const date=document.getElementById('f-date')?.value||'';
-  const logo2=LOGO?`<div class="cp-logo"><img src="${LOGO}"></div>`:'<div class="cp-logo"></div>';
+  const title=document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL';
+  const logoHtml=LOGO
+    ?`<div class="cp-logo"><img src="${LOGO}"></div>`
+    :`<div class="cp-logo-ph"></div>`;
 
   const rows=buildClRows(pt, true);
   const npH=np.length?`<div class="cp-np"><div class="cp-np-t">NON PARTANTS :</div><div class="cp-np-tags">${np.map(h=>`<span class="np-tag">N°${h.num} ${h.nom}</span>`).join('')}</div></div>`:'';
@@ -1085,21 +1201,23 @@ function renderClPV(c,pt,np){
   pv.innerHTML=`
     <img class="cpwm${LOGO?' vis':''}" src="${LOGO||''}">
     <div class="cp-hband">
-      ${logo2}
+      ${logoHtml}
       <div class="cp-htxt">
-        <div class="cp-t1">${document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL'}</div>
+        <div class="cp-t1">${title}</div>
         <div class="cp-t2">Arabian Purebred Classic Series</div>
-        <div class="cp-t3">${date} | ${hippo}</div>
+        <div class="cp-t3">${date}${date&&hippo?' | ':''}${hippo}</div>
       </div>
-      ${logo2}
+      ${logoHtml}
     </div>
     <div class="cp-course-hd">
-      <div class="cp-course-hd-num">COURSE N°${c.num} (${c.dist} m)</div>
-      <div class="cp-course-hd-prix">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</div>
+      <span class="cp-course-hd-num">COURSE N°${c.num} &nbsp;·&nbsp; ${c.dist} M</span>
+      <span class="cp-course-hd-prix">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div class="cp-body">
+      <div class="cp-section-hd"><span>🏆 CLASSEMENT OFFICIEL — TOP 5</span></div>
       <div>${rows}</div>
       ${npH}
+      <div style="padding:10px 14px 4px;text-align:center"><span style="font-family:'Cinzel',serif;font-size:9px;color:#9A7A50;letter-spacing:.12em">SOCIÉTÉ DES COURSES HIPPIQUES — HIPPODROME DE KASSAR-SAÏD</span></div>
     </div>`;
 }
 
@@ -1112,16 +1230,16 @@ function buildExportPreview(c,pt,np){
   // Build rows with inline styles — exact same look as page 1 table
   const ords=['1','2','3','4','5'];
   const sups=['er','ème','ème','ème','ème'];
-  const medal=['#C9A84C','#A8A8A8','#CD7F32','#7A6A50','#7A6A50'];
+  const medal=['linear-gradient(135deg,#C9A84C,#E8C97A)','linear-gradient(135deg,#A8A8A8,#D0D0D0)','linear-gradient(135deg,#CD7F32,#E8A060)','linear-gradient(135deg,#7A6A50,#9A8A70)','linear-gradient(135deg,#7A6A50,#9A8A70)'];
   const medalTxt=['#3D2B1F','#fff','#fff','#fff','#fff'];
 
   let rowsHtml='';
   top5.forEach((h,i)=>{
     const bg = i%2===0 ? '#ffffff' : '#fdf8f0';
     const cas=h.cas
-      ?`<img src="${h.cas}" style="width:54px;height:54px;object-fit:contain;border-radius:4px;border:1px solid #d4c090;background:#f5edd8">`
-      :`<div style="width:54px;height:54px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px">🎽</div>`;
-    const gapTxt=i===0?(h._gap||''):(h._gap?'+'+h._gap:'');
+      ?`<img src="${h.cas}" style="width:60px;height:60px;object-fit:contain;border-radius:4px;border:1px solid #d4c090;background:#f5edd8">`
+      :`<div style="width:60px;height:60px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:24px">🎽</div>`;
+    const gapTxt=h._gap||'';
     const origPart=h.orig?` <span style="color:#9A7A28;font-style:italic;font-size:10px">( ${h.orig} )</span>`:'';
     const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Propriétaire :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.prop}</span>`:'';
     const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Éleveur :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.elev}</span>`:'';
@@ -1129,12 +1247,12 @@ function buildExportPreview(c,pt,np){
     const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Entraîneur :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.entr}</span>`:'';
 
     rowsHtml+=`
-    <div style="display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:${bg};min-height:82px">
-      <div style="width:70px;min-width:70px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px 6px;border-right:3px solid #C9A84C;background:linear-gradient(180deg,#fdf3d8,#f9edd0);gap:2px">
-        <div style="width:36px;height:36px;border-radius:50%;background:${medal[i]};color:${medalTxt[i]};font-family:Cinzel,serif;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2)">${ords[i]}</div>
-        <span style="font-family:Cinzel,serif;font-size:9px;font-weight:600;color:#7A5A3A">${sups[i]}</span>
+    <div style="display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:${bg};min-height:88px">
+      <div style="width:74px;min-width:74px;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:10px 6px;border-right:3px solid #C9A84C;background:linear-gradient(180deg,#fdf3d8,#f9edd0);gap:3px">
+        <div style="width:38px;height:38px;border-radius:50%;background:${medal[i]};color:${medalTxt[i]};font-family:Cinzel,serif;font-size:17px;font-weight:900;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2)">${ords[i]}</div>
+        <span style="font-family:Cinzel,serif;font-size:10px;font-weight:600;color:#7A5A3A">${sups[i]}</span>
       </div>
-      <div style="width:74px;min-width:74px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8">${cas}</div>
+      <div style="width:80px;min-width:80px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8">${cas}</div>
       <div style="flex:1;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px">
         <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
           <span style="font-size:9px;color:#9A7A50;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Cheval :</span>
@@ -1157,7 +1275,7 @@ function buildExportPreview(c,pt,np){
 
   // Logo
   const logoHtml=LOGO
-    ?`<div style="width:80px;height:80px;flex-shrink:0;border:2px solid #C9A84C;border-radius:6px;overflow:hidden;background:rgba(201,168,76,.08)"><img src="${LOGO}" style="width:100%;height:100%;object-fit:contain"></div>`
+    ?`<div style="width:80px;height:80px;flex-shrink:0;overflow:hidden;background:transparent"><img src="${LOGO}" style="width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)"></div>`
     :`<div style="width:80px;height:80px;flex-shrink:0"></div>`;
 
   const tmp=document.createElement('div');
@@ -1176,7 +1294,7 @@ function buildExportPreview(c,pt,np){
     </div>
     <div style="background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.3)">
       <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em">COURSE N°${c.num} &nbsp;·&nbsp; ${c.dist} M</span>
-      <span style="font-family:Cinzel,serif;font-size:12px;color:#D4C098;letter-spacing:.1em">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+      <span style="font-family:Cinzel,serif;font-size:12px;font-weight:700;color:#D4C098;letter-spacing:.1em">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div style="background:#ffffff;border:1.5px solid #C9A84C;border-radius:4px;margin:14px 14px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08)">
       <div style="background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:7px 14px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #C9A84C">
