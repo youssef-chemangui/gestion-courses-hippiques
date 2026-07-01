@@ -29,7 +29,29 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 ::-webkit-scrollbar-track{background:var(--surf)}
 ::-webkit-scrollbar-thumb{background:var(--bdr-or);border-radius:3px}
 
-/* ── TOPBAR ── */
+/* ── RTL / ARABIC ── */
+body.ar{direction:rtl;font-family:'Tajawal',sans-serif}
+body.ar .tb-name{font-family:'Tajawal',sans-serif;letter-spacing:0}
+body.ar .tb-brand{margin-right:0;margin-left:28px}
+body.ar .tb-right{margin-left:0;margin-right:auto}
+body.ar .ntab{font-family:'Tajawal',sans-serif;letter-spacing:0}
+body.ar .sidebar{border-right:none;border-left:1px solid var(--bdr)}
+body.ar .sb-inner{direction:rtl}
+body.ar .sec-hd{font-family:'Tajawal',sans-serif;letter-spacing:0}
+body.ar .fl{font-family:'Tajawal',sans-serif}
+body.ar .btn{font-family:'Tajawal',sans-serif;letter-spacing:0}
+body.ar .ed-col{direction:rtl}
+body.ar .card-hd{direction:rtl}
+body.ar .pv-col{direction:ltr} /* preview always LTR */
+body.ar #p2-sb{border-right:none;border-left:1px solid var(--bdr)}
+body.ar .p2-sb-inner{direction:rtl}
+body.ar .p2-sb-inner .btn{font-family:'Tajawal',sans-serif}
+body.ar .cl-item{direction:rtl}
+#lang-btn{background:linear-gradient(135deg,var(--or-d),var(--cuivre-d));color:var(--beige);border:none;padding:5px 14px;border-radius:14px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em;transition:all .2s;margin-left:8px}
+#lang-btn:hover{background:linear-gradient(135deg,var(--or),var(--cuivre));transform:scale(1.04)}
+body.ar #lang-btn{margin-left:0;margin-right:8px}
+
+
 #topbar{height:52px;background:var(--surf);border-bottom:1px solid var(--bdr-or);display:flex;align-items:center;padding:0 20px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.4)}
 .tb-brand{display:flex;align-items:center;gap:10px;margin-right:28px}
 .tb-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--or),var(--cuivre));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px}
@@ -125,8 +147,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
    DOCUMENT PREVIEW
 ══════════════════════════════════════ */
 #pvdoc{background:var(--beige);color:#1A0F08;max-width:1060px;margin:0 auto;font-family:'Inter',sans-serif;border-radius:6px;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.3);overflow:hidden;position:relative}
-.doc-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:480px;opacity:0;transition:opacity .3s;filter:brightness(0) invert(1)}
-.doc-wm.vis{opacity:.10}
+.doc-wm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:5;width:480px;opacity:0;transition:opacity .3s}
+.doc-wm.vis{opacity:.16}
 .doc-hband{background:linear-gradient(135deg,var(--brun) 0%,var(--brun-m) 50%,var(--brun) 100%);padding:18px 28px;display:flex;align-items:center;gap:18px;position:relative;z-index:1;border-bottom:3px solid var(--or)}
 .doc-logo-slot{width:80px;height:80px;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;background:transparent}
 .doc-logo-slot img{width:100%;height:100%;object-fit:contain;filter:brightness(0) invert(1)}
@@ -211,8 +233,8 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 
 /* ══ CLASSEMENT PREVIEW — rendu fidèle à l'image cible ══ */
 #cl-pv{max-width:980px;margin:20px auto 0;background:#F5EDD8;color:#1A0F08;border-radius:6px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 0 1px rgba(201,168,76,.4);font-family:'Inter',sans-serif;position:relative;display:none}
-.cpwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:0;width:300px;opacity:0}
-.cpwm.vis{opacity:.07}
+.cpwm{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-8deg);pointer-events:none;z-index:5;width:300px;opacity:0}
+.cpwm.vis{opacity:.14}
 
 /* Header brun foncé */
 .cp-hband{background:linear-gradient(135deg,#3D2B1F 0%,#5A3E2B 50%,#3D2B1F 100%);padding:20px 28px;border-bottom:3px solid #C9A84C;display:flex;align-items:center;gap:18px;position:relative;z-index:1}
@@ -300,9 +322,9 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div><div class="tb-name">RACING MANAGER</div><div class="tb-sub">KASSAR-SAÏD · TUNIS</div></div>
   </div>
   <div class="nav-sep"></div>
-  <div class="ntab active" id="tab1" onclick="switchPage(1)"><span>📋</span> Liste des Partants</div>
-  <div class="ntab" id="tab2" onclick="switchPage(2)"><span>🏆</span> Classement Arrivée</div>
-  <div class="tb-right"><div class="tb-badge" id="tb-badge">7 COURSES</div></div>
+  <div class="ntab active" id="tab1" onclick="switchPage(1)"><span>📋</span> <span data-i18n="tab1">Liste des Partants</span></div>
+  <div class="ntab" id="tab2" onclick="switchPage(2)"><span>🏆</span> <span data-i18n="tab2">Classement Arrivée</span></div>
+  <div class="tb-right"><div class="tb-badge" id="tb-badge">7 COURSES</div><button id="lang-btn" onclick="toggleLang()">🌐 عربي</button></div>
 </div>
 
 <!-- PAGE 1 -->
@@ -311,71 +333,80 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
     <div class="sb-inner">
 
       <div class="sec">
-        <div class="sec-hd">Import données</div>
+        <div class="sec-hd" data-i18n="impData">Import données</div>
         <div class="dz" id="dz1" onclick="document.getElementById('fi1').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="ddr(event)">
           <div class="dz-ic">⬆️</div>
-          <p>Glissez un <strong>.xlsx / .xls / .csv</strong><br>ou cliquez pour sélectionner</p>
+          <p data-i18n="dzXLS">Glissez un <strong>.xlsx / .xls / .csv</strong><br>ou cliquez pour sélectionner</p>
         </div>
         <input type="file" id="fi1" accept=".xlsx,.xls,.csv" style="display:none" onchange="hdlFile(event)">
-        <button class="btn btn-out btn-sm btn-full" onclick="loadDemo()">📊 Programme 10 mai 2026</button>
+        <button class="btn btn-out btn-sm btn-full" onclick="loadDemo()"><span data-i18n="btnDemo">📊 Programme 10 mai 2026</span></button>
+      </div>
+
+      <div class="sec">
+        <div class="sec-hd" data-i18n="impPDFOff">Import PDF officiel</div>
+        <div class="dz" id="dz-offpdf" onclick="document.getElementById('fi-offpdf').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="(e=>{e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f)procOfficialPDF(f)})(event)">
+          <div class="dz-ic">🗂️</div>
+          <p data-i18n="dzPDFOff">Glissez ou cliquez pour importer le <strong>PDF programme officiel</strong> Kassar-Saïd</p>
+        </div>
+        <input type="file" id="fi-offpdf" accept=".pdf" style="display:none" onchange="if(event.target.files[0])procOfficialPDF(event.target.files[0]);event.target.value=''">
       </div>
 
       <div class="sec" id="csel" style="display:none">
-        <div class="sec-hd">Course active</div>
+        <div class="sec-hd" data-i18n="courseActive">Course active</div>
         <div class="ctabs" id="ctabs"></div>
       </div>
 
       <div class="sec">
-        <div class="sec-hd">Informations course</div>
-        <div class="fg"><label class="fl">Titre</label><input class="fi" id="f-title" value="SOCIETE DES COURSES" oninput="upPV()"></div>
-        <div class="fg"><label class="fl">Hippodrome</label><input class="fi" id="f-hippo" value="HIPPODROME DE KASSAR-SAÏD" oninput="upPV()"></div>
+        <div class="sec-hd" data-i18n="infoCourse">Informations course</div>
+        <div class="fg"><label class="fl" data-i18n="lTitre">Titre</label><input class="fi" id="f-title" value="SOCIETE DES COURSES" oninput="upPV()"></div>
+        <div class="fg"><label class="fl" data-i18n="lHippo">Hippodrome</label><input class="fi" id="f-hippo" value="HIPPODROME DE KASSAR-SAÏD" oninput="upPV()"></div>
         <div class="fr">
-          <div class="fg"><label class="fl">N° course</label><input class="fi" id="f-num" value="1" oninput="upPV()"></div>
-          <div class="fg"><label class="fl">Heure</label><input class="fi" id="f-heure" value="14:00" oninput="upPV()"></div>
+          <div class="fg"><label class="fl" data-i18n="lNum">N° course</label><input class="fi" id="f-num" value="1" oninput="upPV()"></div>
+          <div class="fg"><label class="fl" data-i18n="lHeure">Heure</label><input class="fi" id="f-heure" value="14:00" oninput="upPV()"></div>
         </div>
-        <div class="fg"><label class="fl">Nom du Prix</label><input class="fi" id="f-prix" value="PRIX BESBES" oninput="upPV()"></div>
+        <div class="fg"><label class="fl" data-i18n="lPrix">Nom du Prix</label><input class="fi" id="f-prix" value="PRIX BESBES" id="f-prix" oninput="upPV()"></div>
         <div class="fr">
-          <div class="fg"><label class="fl">Distance (m)</label><input class="fi" id="f-dist" value="1200" oninput="upPV()"></div>
-          <div class="fg"><label class="fl">Allocation (DT)</label><input class="fi" id="f-alloc" value="4250" oninput="upPV()"></div>
+          <div class="fg"><label class="fl" data-i18n="lDist">Distance (m)</label><input class="fi" id="f-dist" value="1200" oninput="upPV()"></div>
+          <div class="fg"><label class="fl" data-i18n="lAlloc">Allocation (DT)</label><input class="fi" id="f-alloc" value="4250" oninput="upPV()"></div>
         </div>
-        <div class="fg"><label class="fl">Date</label><input class="fi" id="f-date" value="DIMANCHE 10 MAI 2026" oninput="upPV()"></div>
-        <div class="fg"><label class="fl">Journée</label><input class="fi" id="f-journee" value="25ème Journée" oninput="upPV()"></div>
-        <div class="fg"><label class="fl">Conditions</label><input class="fi" id="f-cond" value="" oninput="upPV()"></div>
+        <div class="fg"><label class="fl" data-i18n="lDate">Date</label><input class="fi" id="f-date" value="DIMANCHE 10 MAI 2026" oninput="upPV()"></div>
+        <div class="fg"><label class="fl" data-i18n="lJournee">Journée</label><input class="fi" id="f-journee" value="25ème Journée" oninput="upPV()"></div>
+        <div class="fg"><label class="fl" data-i18n="lCond">Conditions</label><input class="fi" id="f-cond" value="" oninput="upPV()"></div>
       </div>
 
       <div class="sec">
-        <div class="sec-hd">Logo hippodrome</div>
+        <div class="sec-hd" data-i18n="logoHippo">Logo hippodrome</div>
         <div class="logo-row">
           <div class="logo-box" id="lbox" onclick="document.getElementById('li').click()">
             <span id="lph">🏟️</span><img id="limg" src="" style="display:none">
           </div>
           <div style="display:flex;flex-direction:column;gap:4px">
-            <button class="btn btn-out btn-sm" onclick="document.getElementById('li').click()">Choisir logo</button>
-            <button class="btn btn-out btn-sm" onclick="clrLogo()">✕ Effacer</button>
+            <button class="btn btn-out btn-sm" onclick="document.getElementById('li').click()"><span data-i18n="btnChoixLogo">Choisir logo</span></button>
+            <button class="btn btn-out btn-sm" onclick="clrLogo()"><span data-i18n="btnEffacer">✕ Effacer</span></button>
           </div>
         </div>
         <input type="file" id="li" accept="image/*" style="display:none" onchange="hdlLogo(event)">
       </div>
 
       <div class="sec">
-        <div class="sec-hd">Exports</div>
-        <button class="btn btn-gold btn-sm btn-full" onclick="expPDF()">📄 Export PDF (données embarquées)</button>
-        <button class="btn btn-out btn-sm btn-full" onclick="expPNG()">🖼️ Export PNG haute résolution</button>
-        <button class="btn btn-out btn-sm btn-full" onclick="window.print()">🖨️ Imprimer</button>
+        <div class="sec-hd" data-i18n="exports">Exports</div>
+        <button class="btn btn-gold btn-sm btn-full" onclick="expPDF()"><span data-i18n="btnExpPDF">📄 Export PDF (données embarquées)</span></button>
+        <button class="btn btn-out btn-sm btn-full" onclick="expPNG()"><span data-i18n="btnExpPNG">🖼️ Export PNG haute résolution</span></button>
+        <button class="btn btn-out btn-sm btn-full" onclick="window.print()"><span data-i18n="btnImprimer">🖨️ Imprimer</span></button>
       </div>
 
       <div class="sec">
-        <div class="sec-hd">Reprendre un PDF</div>
+        <div class="sec-hd" data-i18n="reprendPDF">Reprendre un PDF</div>
         <div class="dz" id="dz-p1pdf" onclick="document.getElementById('fi-p1pdf').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="(e=>{e.preventDefault();e.currentTarget.classList.remove('over');const f=e.dataTransfer.files[0];if(f)procP1PDF(f)})(event)">
           <div class="dz-ic">📄</div>
-          <p>Glissez ou cliquez pour importer un <strong>PDF exporté</strong> et reprendre la liste des partants</p>
+          <p data-i18n="dzPDFResume">Glissez ou cliquez pour importer un <strong>PDF exporté</strong> et reprendre la liste des partants</p>
         </div>
         <input type="file" id="fi-p1pdf" accept=".pdf" style="display:none" onchange="if(event.target.files[0])procP1PDF(event.target.files[0]);event.target.value=''">
       </div>
 
       <div class="sec">
-        <div class="sec-hd">Gestion</div>
-        <button class="btn btn-out btn-sm btn-full" onclick="addH()">➕ Ajouter un cheval</button>
+        <div class="sec-hd" data-i18n="gestion">Gestion</div>
+        <button class="btn btn-out btn-sm btn-full" onclick="addH()"><span data-i18n="btnAjouterCheval">➕ Ajouter un cheval</span></button>
       </div>
 
     </div>
@@ -403,10 +434,10 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
           </div>
           <div class="doc-datebar">
             <span id="ddate">DIMANCHE 10 MAI 2026</span>
-            <span>PROGRAMME OFFICIEL</span>
+            <span data-i18n="progOfficiel">PROGRAMME OFFICIEL</span>
             <span id="dprog"></span>
           </div>
-          <div class="doc-body" id="dbody"><div class="notice">Les données apparaîtront ici.</div></div>
+          <div class="doc-body" id="dbody"><div class="notice"><span data-i18n="noData">Les données apparaîtront ici.</span></div></div>
         </div>
       </div>
     </div>
@@ -416,37 +447,37 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 <!-- PAGE 2 -->
 <div class="page" id="page2">
   <div id="p2-topbar">
-    <div><div class="p2-title">🏆 Classement Arrivée</div><div class="p2-sub">Importez le PDF de la Page 1 ou utilisez les données courantes</div></div>
+    <div><div class="p2-title"><span data-i18n="tab2">🏆 Classement Arrivée</span></div><div class="p2-sub" data-i18n="p2Sub">Importez le PDF de la Page 1 ou utilisez les données courantes</div></div>
   </div>
   <div id="p2-layout">
     <div id="p2-sb">
       <div class="sb-inner">
         <div class="sec">
-          <div class="sec-hd">Import PDF liste</div>
+          <div class="sec-hd" data-i18n="impPDFliste">Import PDF liste</div>
           <div class="dz" id="dz2" onclick="document.getElementById('fi2').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="p2Drop(event)">
             <div class="dz-ic">📄</div>
-            <p>Importez le <strong>PDF</strong> généré depuis la Page 1</p>
+            <p data-i18n="dzPDFP1">Importez le <strong>PDF</strong> généré depuis la Page 1</p>
           </div>
           <input type="file" id="fi2" accept=".pdf" style="display:none" onchange="hdlP2PDF(event)">
-          <button class="btn btn-out btn-sm btn-full" onclick="useP1()">↩️ Utiliser données Page 1</button>
+          <button class="btn btn-out btn-sm btn-full" onclick="useP1()"><span data-i18n="btnUseP1">↩️ Utiliser données Page 1</span></button>
         </div>
         <div class="sec" id="p2csel" style="display:none">
-          <div class="sec-hd">Course</div>
+          <div class="sec-hd" data-i18n="course">Course</div>
           <select class="fi" id="p2sel" onchange="loadP2C()" style="font-family:'Inter',sans-serif"></select>
         </div>
         <div class="sec">
-          <div class="sec-hd">Résumé</div>
-          <div id="p2sum" style="font-size:11px;color:var(--txt-mu)">Aucune donnée</div>
+          <div class="sec-hd" data-i18n="resume">Résumé</div>
+          <div id="p2sum" style="font-size:11px;color:var(--txt-mu)" data-i18n="aucunDonnee">Aucune donnée</div>
         </div>
         <div class="sec">
-          <div class="sec-hd">Exports classement</div>
-          <button class="btn btn-gold btn-sm btn-full" onclick="expClPNG()">🖼️ Export PNG classement</button>
-          <button class="btn btn-out btn-sm btn-full" onclick="expClPDF()">📄 Export PDF classement</button>
+          <div class="sec-hd" data-i18n="exportsClass">Exports classement</div>
+          <button class="btn btn-gold btn-sm btn-full" onclick="expClPNG()"><span data-i18n="btnExpPNGCl">🖼️ Export PNG classement</span></button>
+          <button class="btn btn-out btn-sm btn-full" onclick="expClPDF()"><span data-i18n="btnExpPDFCl">📄 Export PDF classement</span></button>
         </div>
       </div>
     </div>
     <div id="p2-main">
-      <div id="p2wrap"><div class="notice"><strong>Importez le PDF</strong> ou utilisez les données de la Page 1.</div></div>
+      <div id="p2wrap"><div class="notice" data-i18n="p2notice"><strong>Importez le PDF</strong> ou utilisez les données de la Page 1.</div></div>
       <div id="cl-pv"></div>
     </div>
   </div>
@@ -457,8 +488,162 @@ body{background:var(--bg);color:var(--txt);font-family:'Inter',sans-serif;font-s
 
 <script>
 // ═══════════════════════
-// STATE
+// I18N — TRADUCTION FR / AR
 // ═══════════════════════
+let LANG = 'fr';
+
+const I18N = {
+  fr: {
+    tab1:'Liste des Partants', tab2:'Classement Arrivée',
+    p2Sub:'Importez le PDF de la Page 1 ou utilisez les données courantes',
+    impData:'Import données', impPDFOff:'Import PDF officiel',
+    courseActive:'Course active', infoCourse:'Informations course',
+    logoHippo:'Logo hippodrome', exports:'Exports', reprendPDF:'Reprendre un PDF',
+    gestion:'Gestion', impPDFliste:'Import PDF liste', course:'Course',
+    resume:'Résumé', exportsClass:'Exports classement',
+    lTitre:'Titre', lHippo:'Hippodrome', lNum:'N° course', lHeure:'Heure',
+    lPrix:'Nom du Prix', lDist:'Distance (m)', lAlloc:'Allocation (DT)',
+    lDate:'Date', lJournee:'Journée', lCond:'Conditions',
+    btnDemo:'📊 Programme 10 mai 2026',
+    btnChoixLogo:'Choisir logo', btnEffacer:'✕ Effacer',
+    btnExpPDF:'📄 Export PDF (données embarquées)',
+    btnExpPNG:'🖼️ Export PNG haute résolution', btnImprimer:'🖨️ Imprimer',
+    btnAjouterCheval:'➕ Ajouter un cheval',
+    btnUseP1:'↩️ Utiliser données Page 1',
+    btnExpPNGCl:'🖼️ Export PNG classement',
+    btnExpPDFCl:'📄 Export PDF classement',
+    progOfficiel:'PROGRAMME OFFICIEL',
+    noData:'Les données apparaîtront ici.',
+    dzXLS:'Glissez un <strong>.xlsx / .xls / .csv</strong><br>ou cliquez pour sélectionner',
+    dzPDFOff:'Glissez ou cliquez pour importer le <strong>PDF programme officiel</strong> Kassar-Saïd',
+    dzPDFResume:'Glissez ou cliquez pour importer un <strong>PDF exporté</strong> et reprendre la liste des partants',
+    dzPDFP1:'Importez le <strong>PDF</strong> généré depuis la Page 1',
+    // Card fields
+    cNom:'Nom', cNum:'N° dossard', cProp:'Propriétaire', cElev:'Éleveur',
+    cEntr:'Entraîneur', cJok:'Jockey', cOrig:'Origines', cPds:'Poids',
+    cSexe:'Sexe', cRB:'Robe', cAge:'Âge', cCorde:'Corde', cPerf:'Performances',
+    cCoul:'Couleurs casaque', cIRM:'Œil (IRM)',
+    cCas:'Casaque (image ou PDF)', btnDel:'🗑️ Supprimer',
+    // Preview doc
+    docProgOff:'PROGRAMME OFFICIEL',
+    colCasaque:'Casaques', colNum:'N°', colChev:'Chevaux / Propriétaires',
+    colCorde:'Cordes', colJok:'Jockeys', colPds:'Pds', colSexe:'S',
+    colRB:'RB', colAge:'Âges', colOrig:'Origines', colElev:'Éleveurs',
+    colEntr:'Entraîneurs', colPerf:'Perfs.',
+    // Page 2
+    clOfficiel:'CLASSEMENT OFFICIEL — TOP 5', npLabel:'NON PARTANTS',
+    rankSuf1:'ER', rankSufN:'ÈME',
+    cheval:'CHEVAL', proprio:'PROPRIÉTAIRE', eleveur:'ÉLEVEUR',
+    jockey:'JOCKEY', entraineur:'ENTRAÎNEUR', ecart:'Écart',
+    statut:'Statut', partant:'Partant', nonPartant:'Non Partant',
+    p2notice:'<strong>Importez le PDF</strong> ou utilisez les données de la Page 1.',
+    aucunDonnee:'Aucune donnée',
+    langBtn:'🌐 عربي',
+    tbSub:'KASSAR-SAÏD · TUNIS',
+    tbName:'RACING MANAGER',
+    // Document content
+    partants:'PARTANTS', prixPrefix:'PRIX',
+    courseLabel:'Course', chevauxLabel:'chevaux',
+    courseNum:'COURSE N°', distM:'M',
+    arabianSeries:'Arabian Purebred Classic Series',
+    footerDoc:'SOCIÉTÉ DES COURSES HIPPIQUES — HIPPODROME DE KASSAR-SAÏD',
+    npBlock:'🚫 NON-PARTANTS',
+    rankEr:'ER', rankEme:'ÈME',
+    courseLine:(num,prix,dist)=>`COURSE ${num} — PRIX ${prix} — ${dist}m`,
+    // Toast messages (not translated, left in French)
+  },
+  ar: {
+    tab1:'قائمة المشاركين', tab2:'ترتيب الوصول',
+    p2Sub:'استورد ملف PDF من الصفحة 1 أو استخدم البيانات الحالية',
+    impData:'استيراد البيانات', impPDFOff:'استيراد البرنامج الرسمي (PDF)',
+    courseActive:'السباق الحالي', infoCourse:'معلومات السباق',
+    logoHippo:'شعار الميدان', exports:'التصديرات', reprendPDF:'استئناف من PDF',
+    gestion:'إدارة', impPDFliste:'استيراد قائمة PDF', course:'السباق',
+    resume:'ملخص', exportsClass:'تصدير الترتيب',
+    lTitre:'العنوان', lHippo:'الميدان', lNum:'رقم السباق', lHeure:'التوقيت',
+    lPrix:'اسم الجائزة', lDist:'المسافة (م)', lAlloc:'المبلغ (دت)',
+    lDate:'التاريخ', lJournee:'الجولة', lCond:'الشروط',
+    btnDemo:'📊 برنامج 10 مايو 2026',
+    btnChoixLogo:'اختيار الشعار', btnEffacer:'✕ حذف',
+    btnExpPDF:'📄 تصدير PDF (مع البيانات)',
+    btnExpPNG:'🖼️ تصدير PNG عالي الجودة', btnImprimer:'🖨️ طباعة',
+    btnAjouterCheval:'➕ إضافة حصان',
+    btnUseP1:'↩️ استخدام بيانات الصفحة 1',
+    btnExpPNGCl:'🖼️ تصدير PNG للترتيب',
+    btnExpPDFCl:'📄 تصدير PDF للترتيب',
+    progOfficiel:'البرنامج الرسمي',
+    noData:'ستظهر البيانات هنا.',
+    dzXLS:'اسحب ملف <strong>.xlsx / .xls / .csv</strong><br>أو انقر للاختيار',
+    dzPDFOff:'اسحب أو انقر لاستيراد <strong>البرنامج الرسمي PDF</strong> لميدان قصر سعيد',
+    dzPDFResume:'اسحب أو انقر لاستيراد <strong>PDF مُصدَّر</strong> لاستئناف قائمة المشاركين',
+    dzPDFP1:'استورد ملف <strong>PDF</strong> المُنشأ من الصفحة 1',
+    // Card fields
+    cNom:'الاسم', cNum:'رقم الظهر', cProp:'المالك', cElev:'المربي',
+    cEntr:'المدرب', cJok:'الفارس', cOrig:'الأصول', cPds:'الوزن',
+    cSexe:'الجنس', cRB:'اللون', cAge:'العمر', cCorde:'الحبل', cPerf:'النتائج',
+    cCoul:'ألوان القميص', cIRM:'قناع (IRM)',
+    cCas:'القميص (صورة أو PDF)', btnDel:'🗑️ حذف',
+    // Preview doc
+    docProgOff:'البرنامج الرسمي',
+    colCasaque:'الأقمصة', colNum:'ر.', colChev:'الخيول / الملاك',
+    colCorde:'الحبال', colJok:'الفرسان', colPds:'الوزن', colSexe:'ج',
+    colRB:'اللون', colAge:'العمر', colOrig:'الأصول', colElev:'المربون',
+    colEntr:'المدربون', colPerf:'النتائج',
+    // Page 2
+    clOfficiel:'الترتيب الرسمي — أفضل 5', npLabel:'غير المشاركين',
+    rankSuf1:'', rankSufN:'',
+    cheval:'الحصان', proprio:'المالك', eleveur:'المربي',
+    jockey:'الفارس', entraineur:'المدرب', ecart:'الفارق',
+    statut:'الحالة', partant:'مشارك', nonPartant:'غير مشارك',
+    p2notice:'<strong>استورد ملف PDF</strong> أو استخدم بيانات الصفحة 1.',
+    aucunDonnee:'لا توجد بيانات',
+    langBtn:'🌐 Français',
+    tbSub:'قصر سعيد · تونس',
+    tbName:'مدير السباقات',
+    // Document content
+    partants:'مشارك', prixPrefix:'جائزة',
+    courseLabel:'السباق', chevauxLabel:'خيول',
+    courseNum:'السباق رقم', distM:'م',
+    arabianSeries:'سلسلة الخيول العربية الأصيلة',
+    footerDoc:'جمعية سباقات الخيل — ميدان قصر سعيد',
+    npBlock:'🚫 غير المشاركين',
+    rankEr:'', rankEme:'',
+    courseLine:(num,prix,dist)=>`السباق ${num} — جائزة ${prix} — ${dist}م`,
+  }
+};
+
+function t(key){ return (I18N[LANG]||I18N.fr)[key] || I18N.fr[key] || key; }
+
+function applyLang(){
+  const isAr = LANG==='ar';
+  document.documentElement.lang = LANG;
+  document.body.classList.toggle('ar', isAr);
+  // Apply all data-i18n text nodes
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    const val=t(key);
+    if(val.includes('<'))el.innerHTML=val; else el.textContent=val;
+  });
+  // Update language button
+  document.getElementById('lang-btn').innerHTML=t('langBtn');
+  // Topbar brand
+  document.querySelector('.tb-name').textContent=t('tbName');
+  document.querySelector('.tb-sub').textContent=t('tbSub');
+  // Update p2 summary placeholder
+  const p2sum=document.getElementById('p2sum');
+  if(p2sum&&p2sum.textContent==='Aucune donnée'||p2sum&&p2sum.textContent==='لا توجد بيانات')
+    p2sum.textContent=t('aucunDonnee');
+  // Refresh preview if data loaded
+  if(AC.length) upPV();
+  if(P2C.length) renderClPV(P2C[P2I], P2C[P2I].chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk), P2C[P2I].chevaux.filter(x=>x._st==='np'));
+}
+
+function toggleLang(){
+  LANG = LANG==='fr' ? 'ar' : 'fr';
+  applyLang();
+}
+
+
 let AC = []; // allCourses
 let AI = 0;  // activeCourseIdx
 let LOGO = null;
@@ -759,7 +944,7 @@ function loadAC(){
   const c=AC[AI];
   document.getElementById('f-num').value=c.num||(AI+1);
   document.getElementById('f-heure').value=c.heure||'';
-  document.getElementById('f-prix').value='PRIX '+(c.prix||'');
+  document.getElementById('f-prix').value=t('prixPrefix')+' '+(c.prix||'');
   document.getElementById('f-dist').value=c.dist||'';
   document.getElementById('f-alloc').value=c.alloc||'';
   document.getElementById('f-cond').value=c.cond||'';
@@ -784,20 +969,20 @@ function renderEd(){
       </div>
       <div class="hbody" id="hb${i}">
         <div class="eg">
-          <div class="ef"><label>Nom</label><input value="${e(h2.nom)}" oninput="sH(${i},'nom',this.value)"></div>
+          <div class="ef"><label>${t('cNom')}</label><input value="${e(h2.nom)}" oninput="sH(${i},'nom',this.value)"></div>
           <div class="ef"><label>N° dossard</label><input value="${h2.num}" oninput="sH(${i},'num',this.value)"></div>
-          <div class="ef"><label>Propriétaire</label><input value="${e(h2.prop)}" oninput="sH(${i},'prop',this.value)"></div>
-          <div class="ef"><label>Éleveur</label><input value="${e(h2.elev)}" oninput="sH(${i},'elev',this.value)"></div>
-          <div class="ef"><label>Entraîneur</label><input value="${e(h2.entr)}" oninput="sH(${i},'entr',this.value)"></div>
-          <div class="ef"><label>Jockey</label><input value="${e(h2.jok)}" oninput="sH(${i},'jok',this.value)"></div>
-          <div class="ef"><label>Origines</label><input value="${e(h2.orig)}" oninput="sH(${i},'orig',this.value)"></div>
-          <div class="ef"><label>Poids</label><input value="${h2.pds||''}" oninput="sH(${i},'pds',this.value)"></div>
+          <div class="ef"><label>${t('cProp')}</label><input value="${e(h2.prop)}" oninput="sH(${i},'prop',this.value)"></div>
+          <div class="ef"><label>${t('cElev')}</label><input value="${e(h2.elev)}" oninput="sH(${i},'elev',this.value)"></div>
+          <div class="ef"><label>${t('cEntr')}</label><input value="${e(h2.entr)}" oninput="sH(${i},'entr',this.value)"></div>
+          <div class="ef"><label>${t('cJok')}</label><input value="${e(h2.jok)}" oninput="sH(${i},'jok',this.value)"></div>
+          <div class="ef"><label>${t('cOrig')}</label><input value="${e(h2.orig)}" oninput="sH(${i},'orig',this.value)"></div>
+          <div class="ef"><label>${t('cPds')}</label><input value="${h2.pds||''}" oninput="sH(${i},'pds',this.value)"></div>
           <div class="ef"><label>S (sexe)</label><input value="${e(h2.s)}" oninput="sH(${i},'s',this.value)"></div>
           <div class="ef"><label>RB (race)</label><input value="${e(h2.rb)}" oninput="sH(${i},'rb',this.value)"></div>
-          <div class="ef"><label>Âge</label><input value="${h2.age||''}" oninput="sH(${i},'age',this.value)"></div>
-          <div class="ef"><label>Corde</label><input value="${h2.corde||''}" oninput="sH(${i},'corde',this.value)"></div>
-          <div class="ef full"><label>Performances</label><input value="${e(h2.perf)}" oninput="sH(${i},'perf',this.value)"></div>
-          <div class="ef full"><label>Couleurs casaque</label><input value="${e(h2.coul)}" oninput="sH(${i},'coul',this.value)"></div>
+          <div class="ef"><label>${t('cAge')}</label><input value="${h2.age||''}" oninput="sH(${i},'age',this.value)"></div>
+          <div class="ef"><label>${t('cCorde')}</label><input value="${h2.corde||''}" oninput="sH(${i},'corde',this.value)"></div>
+          <div class="ef full"><label>${t('cPerf')}</label><input value="${e(h2.perf)}" oninput="sH(${i},'perf',this.value)"></div>
+          <div class="ef full"><label>${t('cCoul')}</label><input value="${e(h2.coul)}" oninput="sH(${i},'coul',this.value)"></div>
           <div class="ef full" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--bdr);margin-top:4px">
             <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;color:var(--txt-m);font-weight:600;margin:0">
               <input type="checkbox" id="irm-${i}" ${h2.irm?'checked':''} onchange="sH(${i},'irm',this.checked)" style="width:15px;height:15px;accent-color:var(--or);cursor:pointer">
@@ -813,9 +998,8 @@ function renderEd(){
             ${h2.cas?`<button class="btn btn-out btn-sm" style="margin-left:4px" onclick="clrCas(${i})">✕</button>`:''}
           </div>
         </div>
-        <div class="card-acts"><button class="btn btn-danger btn-sm" onclick="remH(${i})">🗑 Supprimer</button></div>
-      </div>
-    </div>`;
+        <div class="card-acts"><button class="btn btn-danger btn-sm" onclick="remH(${i})">${t('btnDel')}</button></div>
+      </div>`;
   });
   ec.innerHTML=h;
 }
@@ -909,13 +1093,13 @@ function upPV(){
   const c=AC[AI];
   const num=document.getElementById('f-num').value||c.num;
   const heure=document.getElementById('f-heure').value||c.heure;
-  const prix=document.getElementById('f-prix').value||('PRIX '+c.prix);
+  const prix=document.getElementById('f-prix').value||(t('prixPrefix')+' '+c.prix);
   const dist=document.getElementById('f-dist').value||c.dist;
   const alloc=document.getElementById('f-alloc').value||c.alloc;
   const cond=document.getElementById('f-cond').value||c.cond;
 
-  document.getElementById('mtitle').textContent=`Course ${num} — ${prix} — ${c.chevaux.length} chevaux`;
-  document.getElementById('dprog').textContent=`${c.chevaux.length} PARTANTS`;
+  document.getElementById('mtitle').textContent=`${t('courseLabel')} ${num} — ${prix} — ${c.chevaux.length} ${t('chevauxLabel')}`;
+  document.getElementById('dprog').textContent=`${c.chevaux.length} ${t('partants')}`;
 
   // Sort by num (numéro de dossard)
   const sorted=[...c.chevaux].sort((a,b)=>(parseInt(a.num)||99)-(parseInt(b.num)||99));
@@ -949,10 +1133,10 @@ function upPV(){
       ${cond?`<div class="cb-cond">${cond}</div>`:''}
       <table class="ht">
         <thead><tr>
-          <th class="c"><strong>Casaques</strong></th><th class="c"><strong>N°</strong></th><th><strong>Chevaux / Propriétaires</strong></th>
-          <th class="c"><strong>Cordes</strong></th><th><strong>Jockeys</strong></th>
-          <th class="c"><strong>Pds</strong></th><th class="c"><strong>S</strong></th><th class="c"><strong>RB</strong></th>
-          <th class="c"><strong>Âges</strong></th><th><strong>Origines</strong></th><th><strong>Éleveurs</strong></th><th><strong>Entraîneurs</strong></th><th><strong>Perfs.</strong></th>
+          <th class="c"><strong>${t('colCasaque')}</strong></th><th class="c"><strong>${t('colNum')}</strong></th><th><strong>${t('colChev')}</strong></th>
+          <th class="c"><strong>${t('colCorde')}</strong></th><th><strong>${t('colJok')}</strong></th>
+          <th class="c"><strong>${t('colPds')}</strong></th><th class="c"><strong>${t('colSexe')}</strong></th><th class="c"><strong>${t('colRB')}</strong></th>
+          <th class="c"><strong>${t('colAge')}</strong></th><th><strong>${t('colOrig')}</strong></th><th><strong>${t('colElev')}</strong></th><th><strong>${t('colEntr')}</strong></th><th><strong>${t('colPerf')}</strong></th>
         </tr></thead>
         <tbody>${rows}</tbody>
       </table>
@@ -974,7 +1158,7 @@ function addWM(canvas){
       const w=img.naturalWidth*sc,h=img.naturalHeight*sc;
       const cx=canvas.width/2,cy=canvas.height/2;
       ctx.save();
-      ctx.globalAlpha=0.10;
+      ctx.globalAlpha=0.16;
       ctx.translate(cx,cy);
       ctx.rotate(-8*Math.PI/180);
       ctx.drawImage(img,-w/2,-h/2,w,h);
@@ -991,43 +1175,66 @@ function addWM(canvas){
 // ═══════════════════════
 function mkPayload(){return{courses:AC,meta:{title:document.getElementById('f-title').value,hippo:document.getElementById('f-hippo').value,journee:document.getElementById('f-journee').value,date:document.getElementById('f-date').value},logo:LOGO}}
 
+// Draw watermark on canvas after html2canvas capture (data:URL safe, bypasses DOM image issues)
+function applyLogoCanvas(canvas){
+  if(!LOGO)return Promise.resolve(canvas);
+  return new Promise(res=>{
+    const img=new Image();
+    img.onload=()=>{
+      const ctx=canvas.getContext('2d');
+      const W=canvas.width,H=canvas.height;
+      const wmMaxW=W*0.40,wmMaxH=H*0.40;
+      const wmSc=Math.min(wmMaxW/img.naturalWidth,wmMaxH/img.naturalHeight);
+      const wmW=img.naturalWidth*wmSc,wmH=img.naturalHeight*wmSc;
+      ctx.save();
+      ctx.globalAlpha=0.18;
+      ctx.translate(W/2,H/2);
+      ctx.rotate(-8*Math.PI/180);
+      ctx.drawImage(img,-wmW/2,-wmH/2,wmW,wmH);
+      ctx.restore();
+      res(canvas);
+    };
+    img.onerror=()=>res(canvas);
+    img.src=LOGO;
+  });
+}
+
 function expPDF(){
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  html2canvas(document.getElementById('pvdoc'),{scale:2,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
-    await addWM(cv);
+  const irmSpans=document.querySelectorAll('#pvdoc .irm-marker');
+  irmSpans.forEach(s=>s.style.display='none');
+  html2canvas(document.getElementById('pvdoc'),{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+    irmSpans.forEach(s=>s.style.display='');
+    await applyLogoCanvas(cv);
     const img=cv.toDataURL('image/jpeg',.92);
     const pw=297,ph=210,ratio=cv.width/cv.height;
     let iw=pw-16,ih=iw/ratio;if(ih>ph-16){ih=ph-16;iw=ih*ratio}
     doc.addImage(img,'JPEG',8,8,iw,ih);
-    // Store JSON: embed as subject property AND as tiny white text
     const payload=mkPayload();
     const b64=btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
     const marker='RACING_DATA::';
     doc.setProperties({subject:marker+b64,keywords:marker+b64});
-    // Write as 1pt white text — chunked to 80 chars to avoid PDF line breaks corrupting b64
     doc.setFontSize(1);doc.setTextColor(255,255,255);
     const full=marker+b64;
     const chunk=100;
     for(let k=0;k<full.length;k+=chunk){
       doc.text(full.substring(k,k+chunk),2,2+k*0.001,{angle:0});
     }
-    // Also write on page as a single invisible annotation
     doc.text(full,1,1);
     doc.save(`course_${document.getElementById('f-num').value}_${Date.now()}.pdf`);
-    toast('✅ PDF exporté avec données embarquées');
+    toast('\u2705 PDF export\u00e9 avec donn\u00e9es embarqu\u00e9es');
   });
 }
 
 function expPNG(){
-  // Masquer les (*) IRM pendant l'export
   const irmSpans=document.querySelectorAll('#pvdoc .irm-marker');
   irmSpans.forEach(s=>s.style.display='none');
-  html2canvas(document.getElementById('pvdoc'),{scale:2,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+  html2canvas(document.getElementById('pvdoc'),{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
     irmSpans.forEach(s=>s.style.display='');
-    await addWM(cv);
+    await applyLogoCanvas(cv);
     const a=document.createElement('a');a.download=`course_${document.getElementById('f-num').value}_${Date.now()}.png`;a.href=cv.toDataURL('image/png');a.click();
-    toast('✅ PNG exporté');
+    toast('\u2705 PNG export\u00e9');
   }).catch(()=>irmSpans.forEach(s=>s.style.display=''));
 }
 
@@ -1108,7 +1315,7 @@ function loadP2C(){
   c.chevaux.forEach((h,i)=>{if(!h._st)h._st='ok';if(h._rk===undefined)h._rk=i;if(!h._gap)h._gap=''});
   const pt=c.chevaux.filter(h=>h._st!=='np').sort((a,b)=>a._rk-b._rk);
   const np=c.chevaux.filter(h=>h._st==='np');
-  document.getElementById('p2sum').innerHTML=`<div style="margin-bottom:4px">Total : <strong style="color:var(--or)">${c.chevaux.length}</strong></div><div style="margin-bottom:4px">Partants : <strong style="color:var(--ok)">${pt.length}</strong></div><div>Non-partants : <strong style="color:var(--danger)">${np.length}</strong></div>`;
+  document.getElementById('p2sum').innerHTML=`<div style="margin-bottom:4px">Total : <strong style="color:var(--or)">${c.chevaux.length}</strong></div><div style="margin-bottom:4px">${t('partant')} : <strong style="color:var(--ok)">${pt.length}</strong></div><div>${t('nonPartant')} : <strong style="color:var(--danger)">${np.length}</strong></div>`;
   renderCl(c,pt,np);renderClPV(c,pt,np);
 }
 
@@ -1117,19 +1324,19 @@ function loadP2C(){
 // ═══════════════════════
 function renderCl(c,pt,np){
   const w=document.getElementById('p2wrap');
-  w.innerHTML=`<div style="font-family:Cinzel,serif;font-size:11px;color:var(--or);letter-spacing:.1em;margin-bottom:14px;max-width:800px;margin-left:auto;margin-right:auto">COURSE ${c.num} — PRIX ${c.prix} — ${c.dist}m</div>`;
+  w.innerHTML=`<div style="font-family:Cinzel,serif;font-size:11px;color:var(--or);letter-spacing:.1em;margin-bottom:14px;max-width:800px;margin-left:auto;margin-right:auto">${t('courseNum')}${c.num} — ${t('prixPrefix')} ${c.prix} — ${c.dist}${t('distM')}</div>`;
   const list=document.createElement('ul');list.className='cl-list';list.id='cll';
   pt.forEach((h,i)=>list.appendChild(mkClItem(h,i+1,c)));
   w.appendChild(list);
   if(np.length){
     const nb=document.createElement('div');nb.className='np-block';
-    nb.innerHTML=`<div class="np-hd">🚫 NON-PARTANTS (${np.length})</div>`;
+    nb.innerHTML=`<div class="np-hd">${t('npBlock')} (${np.length})</div>`;
     np.forEach(h=>{
       const it=document.createElement('div');it.className='np-it';
       it.innerHTML=`<div class="hnum" style="width:20px;height:20px;font-size:10px;background:var(--danger)">${h.num}</div>
         <span style="flex:1;font-family:Cinzel,serif;font-size:11px">${h.nom}</span>
         <select class="st-sel" onchange="chSt(${h.num},this.value)">
-          <option value="ok">✅ Partant</option><option value="np" selected>🚫 Non-partant</option>
+          <option value="ok">${t('partant')}</option><option value="np" selected>🚫 ${t('nonPartant')}</option>
         </select>`;
       nb.appendChild(it);
     });
@@ -1144,9 +1351,9 @@ function mkClItem(h,rank,c){
   li.innerHTML=`<span class="cl-hdl">⠿</span>
     <div class="rk ${rk}">${rank}</div>${cas}
     <div style="flex:1"><div class="cl-name">${h.nom}</div><div class="cl-sub">${h.prop||''} · ${h.jok||''}</div></div>
-    <input class="gap-in" placeholder="${rank===1?'Temps total':'Écart'}" value="${h._gap||''}" oninput="updGap(${h.num},this.value)">
+    <input class="gap-in" placeholder="${rank===1?t('ecart'):t('ecart')}" value="${h._gap||''}" oninput="updGap(${h.num},this.value)">
     <select class="st-sel" onchange="chSt(${h.num},this.value)">
-      <option value="ok" selected>✅ Partant</option><option value="np">🚫 Non-partant</option>
+      <option value="ok" selected>${t('partant')}</option><option value="np">🚫 ${t('nonPartant')}</option>
     </select>`;
   li.addEventListener('dragstart',e=>{_DS=li;li.classList.add('dragging');e.dataTransfer.effectAllowed='move'});
   li.addEventListener('dragend',()=>{li.classList.remove('dragging');document.querySelectorAll('.cl-item').forEach(x=>x.classList.remove('over'));rebRanks(c);loadP2C()});
@@ -1165,17 +1372,17 @@ function chSt(num,st){const c=P2C[P2I];const h=c.chevaux.find(x=>x.num==num);if(
 
 function buildClRows(pt, allRows){
   const ords=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
-  const sups=['er','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème','ème'];
+  const sups=Array.from({length:15},(_,i)=>i===0?t('rankEr'):t('rankEme'));
   const medalClass=['cl-medal-1','cl-medal-2','cl-medal-3','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o','cl-medal-o'];
   let rows='';
   pt.forEach((h,i)=>{
     const cas=h.cas?`<img class="cl-pv-cas" src="${h.cas}">`:`<div class="cl-pv-cas-ph">🎽</div>`;
     const gapTxt=h._gap||'';
     const origPart = h.orig ? ` <span class="cl-info-orig">( ${h.orig} )</span>` : '';
-    const propPart = h.prop ? `<span class="cl-info-item-lbl">Propriétaire :</span><span class="cl-info-item-val">${h.prop}</span>` : '';
-    const elevPart = h.elev ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">Éleveur :</span><span class="cl-info-item-val">${h.elev}</span>` : '';
-    const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">Jockey :</span><span class="cl-info-item-val">${h.jok}</span>` : '';
-    const entrPart = h.entr ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">Entraîneur :</span><span class="cl-info-item-val">${h.entr}</span>` : '';
+    const propPart = h.prop ? `<span class="cl-info-item-lbl">${t('proprio')} :</span><span class="cl-info-item-val">${h.prop}</span>` : '';
+    const elevPart = h.elev ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('eleveur')} :</span><span class="cl-info-item-val">${h.elev}</span>` : '';
+    const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">${t('jockey')} :</span><span class="cl-info-item-val">${h.jok}</span>` : '';
+    const entrPart = h.entr ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('entraineur')} :</span><span class="cl-info-item-val">${h.entr}</span>` : '';
     rows+=`<div class="cl-row${!allRows&&i>=5?' cl-row-hidden':''}">
       <div class="cl-rank-col">
         <div class="cl-medal ${medalClass[i]}">${ords[i]}</div>
@@ -1184,7 +1391,7 @@ function buildClRows(pt, allRows){
       <div class="cl-cas-col">${cas}</div>
       <div class="cl-info-col">
         <div class="cl-info-compact">
-          <span class="cl-info-label-inline">Cheval :</span>
+          <span class="cl-info-label-inline">${t('cheval')} :</span>
           <span class="cl-info-num">N°${h.num}</span>
           <span class="cl-info-name">${h.nom}</span>${origPart}
         </div>
@@ -1207,7 +1414,7 @@ function renderClPV(c,pt,np){
     :`<div class="cp-logo-ph"></div>`;
 
   const rows=buildClRows(pt, true);
-  const npH=np.length?`<div class="cp-np"><div class="cp-np-t">NON PARTANTS :</div><div class="cp-np-tags">${np.map(h=>`<span class="np-tag">N°${h.num} ${h.nom}</span>`).join('')}</div></div>`:'';
+  const npH=np.length?`<div class="cp-np"><div class="cp-np-t">${t('npLabel')} :</div><div class="cp-np-tags">${np.map(h=>`<span class="np-tag">N°${h.num} ${h.nom}</span>`).join('')}</div></div>`:'';
 
   pv.innerHTML=`
     <img class="cpwm${LOGO?' vis':''}" src="${LOGO||''}">
@@ -1215,20 +1422,20 @@ function renderClPV(c,pt,np){
       ${logoHtml}
       <div class="cp-htxt">
         <div class="cp-t1">${title}</div>
-        <div class="cp-t2">Arabian Purebred Classic Series</div>
+        <div class="cp-t2">${t('arabianSeries')}</div>
         <div class="cp-t3">${date}${date&&hippo?' | ':''}${hippo}</div>
       </div>
       ${logoHtml}
     </div>
     <div class="cp-course-hd">
-      <span class="cp-course-hd-num">COURSE N°${c.num} &nbsp;·&nbsp; ${c.dist} M</span>
-      <span class="cp-course-hd-prix">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+      <span class="cp-course-hd-num">${t('courseNum')}${c.num} &nbsp;·&nbsp; ${c.dist} ${t('distM')}</span>
+      <span class="cp-course-hd-prix">${t('prixPrefix')} ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div class="cp-body">
-      <div class="cp-section-hd"><span>🏆 CLASSEMENT OFFICIEL — TOP 5</span></div>
+      <div class="cp-section-hd"><span>🏆 ${t('clOfficiel')}</span></div>
       <div>${rows}</div>
       ${npH}
-      <div style="padding:10px 14px 4px;text-align:center"><span style="font-family:'Cinzel',serif;font-size:9px;color:#9A7A50;letter-spacing:.12em">SOCIÉTÉ DES COURSES HIPPIQUES — HIPPODROME DE KASSAR-SAÏD</span></div>
+      <div style="padding:10px 14px 4px;text-align:center"><span style="font-family:'Cinzel',serif;font-size:9px;color:#9A7A50;letter-spacing:.12em">${t('footerDoc')}</span></div>
     </div>`;
 }
 
@@ -1240,7 +1447,7 @@ function buildExportPreview(c,pt,np){
 
   // Build rows with inline styles — exact same look as page 1 table
   const ords=['1','2','3','4','5'];
-  const sups=['er','ème','ème','ème','ème'];
+  const sups=Array.from({length:5},(_,i)=>i===0?t('rankEr'):t('rankEme'));
   const medal=['linear-gradient(135deg,#C9A84C,#E8C97A)','linear-gradient(135deg,#A8A8A8,#D0D0D0)','linear-gradient(135deg,#CD7F32,#E8A060)','linear-gradient(135deg,#7A6A50,#9A8A70)','linear-gradient(135deg,#7A6A50,#9A8A70)'];
   const medalTxt=['#3D2B1F','#fff','#fff','#fff','#fff'];
 
@@ -1252,10 +1459,10 @@ function buildExportPreview(c,pt,np){
       :`<div style="width:60px;height:60px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:24px">🎽</div>`;
     const gapTxt=h._gap||'';
     const origPart=h.orig?` <span style="color:#9A7A28;font-style:italic;font-size:10px">( ${h.orig} )</span>`:'';
-    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Propriétaire :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.prop}</span>`:'';
-    const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Éleveur :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.elev}</span>`:'';
-    const jokLine=h.jok?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Jockey :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.jok}</span>`:'';
-    const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">Entraîneur :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.entr}</span>`:'';
+    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('proprio')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.prop}</span>`:'';
+    const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('eleveur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.elev}</span>`:'';
+    const jokLine=h.jok?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('jockey')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.jok}</span>`:'';
+    const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('entraineur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.entr}</span>`:'';
 
     rowsHtml+=`
     <div style="display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:${bg};min-height:88px">
@@ -1266,7 +1473,7 @@ function buildExportPreview(c,pt,np){
       <div style="width:80px;min-width:80px;display:flex;align-items:center;justify-content:center;padding:8px 6px;border-right:1px solid #e8dfc8">${cas}</div>
       <div style="flex:1;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px">
         <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
-          <span style="font-size:9px;color:#9A7A50;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Cheval :</span>
+          <span style="font-size:9px;color:#9A7A50;letter-spacing:.1em;text-transform:uppercase;font-weight:600">${t('cheval')} :</span>
           <span style="font-size:11px;color:#7A5A20;font-weight:700">N°${h.num}</span>
           <span style="font-family:Cinzel,serif;font-size:16px;font-weight:900;color:#1A0F08;letter-spacing:.02em">${h.nom}</span>${origPart}
         </div>
@@ -1280,7 +1487,7 @@ function buildExportPreview(c,pt,np){
   // Non-partants
   const npH=np.length?`
     <div style="background:#fff8f7;border:1.5px solid #f1948a;border-radius:4px;padding:10px 18px;margin:12px 18px 4px">
-      <div style="font-family:Cinzel,serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700">NON PARTANTS :</div>
+      <div style="font-family:Cinzel,serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700">${t('npLabel')} :</div>
       <div style="display:flex;flex-wrap:wrap;gap:5px">${np.map(h=>`<span style="background:#fadbd8;color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:Cinzel,serif;border:1px solid #f1948a">N°${h.num} ${h.nom}</span>`).join('')}</div>
     </div>`:'';
 
@@ -1298,24 +1505,25 @@ function buildExportPreview(c,pt,np){
       ${logoHtml}
       <div style="flex:1;text-align:center">
         <div style="font-family:Cinzel,serif;font-size:24px;font-weight:900;color:#E8C97A;letter-spacing:.06em;text-shadow:0 2px 8px rgba(0,0,0,.4)">${title}</div>
-        <div style="font-family:Cinzel,serif;font-size:11px;color:#E8D8B8;letter-spacing:.18em;margin-top:3px;text-transform:uppercase">Arabian Purebred Classic Series</div>
+        <div style="font-family:Cinzel,serif;font-size:11px;color:#E8D8B8;letter-spacing:.18em;margin-top:3px;text-transform:uppercase">${t('arabianSeries')}</div>
         <div style="font-size:10px;color:#D4C098;margin-top:4px;letter-spacing:.04em">${date}${date&&hippo?' | ':''}${hippo}</div>
       </div>
       ${logoHtml}
     </div>
     <div style="background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.3)">
-      <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em">COURSE N°${c.num} &nbsp;·&nbsp; ${c.dist} M</span>
-      <span style="font-family:Cinzel,serif;font-size:12px;font-weight:700;color:#D4C098;letter-spacing:.1em">PRIX ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+      <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em">${t('courseNum')}${c.num} &nbsp;·&nbsp; ${c.dist} ${t('distM')}</span>
+      <span style="font-family:Cinzel,serif;font-size:12px;font-weight:700;color:#D4C098;letter-spacing:.1em">${t('prixPrefix')} ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div style="background:#ffffff;border:1.5px solid #C9A84C;border-radius:4px;margin:14px 14px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08)">
       <div style="background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:7px 14px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #C9A84C">
-        <span style="font-family:Cinzel,serif;font-size:10px;color:#E8C97A;letter-spacing:.12em;font-weight:700">🏆 CLASSEMENT OFFICIEL — TOP 5</span>
+        <span style="font-family:Cinzel,serif;font-size:10px;color:#E8C97A;letter-spacing:.12em;font-weight:700">🏆 ${t('clOfficiel')}</span>
       </div>
       ${rowsHtml}
     </div>
     ${npH}
     <div style="padding:10px 14px 14px;text-align:center">
-      <span style="font-family:Cinzel,serif;font-size:9px;color:#9A7A50;letter-spacing:.12em">SOCIÉTÉ DES COURSES HIPPIQUES — HIPPODROME DE KASSAR-SAÏD</span>
+      <span style="font-family:Cinzel,serif;font-size:9px;color:#9A7A50;letter-spacing:.12em">${t('footerDoc')}</span>
+    </div>
     </div>`;
 
   document.body.appendChild(tmp);
@@ -1329,11 +1537,11 @@ function expClPNG(){
   const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);
   const np=c.chevaux.filter(x=>x._st==='np');
   const tmp=buildExportPreview(c,pt,np);
-  html2canvas(tmp,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(async cv=>{
+  html2canvas(tmp,{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
     document.body.removeChild(tmp);
-    await addWM(cv);
+    await applyLogoCanvas(cv);
     const a=document.createElement('a');a.download=`classement_c${P2I+1}_${Date.now()}.png`;a.href=cv.toDataURL('image/png');a.click();
-    toast('✅ PNG classement exporté (Top 5)');
+    toast('\u2705 PNG classement export\u00e9 (Top 5)');
   });
 }
 function expClPDF(){
@@ -1345,15 +1553,192 @@ function expClPDF(){
   const tmp=buildExportPreview(c,pt,np);
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  html2canvas(tmp,{scale:2,useCORS:true,backgroundColor:'#ffffff'}).then(async cv=>{
+  html2canvas(tmp,{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
     document.body.removeChild(tmp);
-    await addWM(cv);
+    await applyLogoCanvas(cv);
     const img=cv.toDataURL('image/jpeg',.92);
     const pw=297,ph=210,ratio=cv.width/cv.height;
     let iw=pw-16,ih=iw/ratio;if(ih>ph-16){ih=ph-16;iw=ih*ratio}
     doc.addImage(img,'JPEG',(pw-iw)/2,(ph-ih)/2,iw,ih);
     doc.save(`classement_c${P2I+1}.pdf`);toast('✅ PDF classement exporté (Top 5)');
   });
+}
+
+// ═══════════════════════
+// IMPORT PDF OFFICIEL KASSAR-SAÏD
+// Parses the standard printed race programme PDF (not a Racing Manager export)
+// Structure discovered: each horse spans 2-3 sub-rows at similar y positions.
+// Columns are x-based:
+//   Row A  x<120=PROP  x120-230=N°+NOM  x234=(*)  x288=CORDE  x300=JOCKEY  x621=ELEVEUR  x710=ENTRAINEUR  x770+=PERF
+//   Row B  x288=CORDE(dup) x368=PDS  x409=S+RB  x435=AGE  x444+=ORIGINES
+// ═══════════════════════
+function procOfficialPDF(file){
+  pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const r=new FileReader();
+  r.onload=async ev=>{
+    try{
+      const pdf=await pdfjsLib.getDocument({data:new Uint8Array(ev.target.result)}).promise;
+      // Collect all text items with x,y,page
+      let allWords=[];
+      for(let p=1;p<=pdf.numPages;p++){
+        const pg=await pdf.getPage(p);
+        const vp=pg.getViewport({scale:1});
+        const tc=await pg.getTextContent();
+        tc.items.forEach(it=>{
+          const s=it.str.trim();
+          if(!s)return;
+          const tx=it.transform;
+          allWords.push({str:s, x:Math.round(tx[4]), y:Math.round(vp.height-tx[5]), page:p});
+        });
+      }
+      const parsed=parseOfficialPDF(allWords);
+      if(!parsed.courses.length){toast('⚠️ Aucune course trouvée dans ce PDF officiel');return}
+      AC=parsed.courses; AI=0;
+      if(parsed.meta.title)document.getElementById('f-title').value=parsed.meta.title;
+      if(parsed.meta.hippo)document.getElementById('f-hippo').value=parsed.meta.hippo;
+      if(parsed.meta.date)document.getElementById('f-date').value=parsed.meta.date;
+      if(parsed.meta.journee)document.getElementById('f-journee').value=parsed.meta.journee;
+      setupCourses();
+      toast('✅ '+AC.length+' courses importées depuis PDF officiel');
+    }catch(err){toast('❌ Erreur PDF: '+err.message);console.error(err)}
+  };
+  r.readAsArrayBuffer(file);
+}
+
+function parseOfficialPDF(allWords){
+  const cl=s=>(s||'').replace(/\s+/g,' ').trim();
+
+  // Group words into lines (same page, same y)
+  const lineMap={};
+  allWords.forEach(w=>{
+    const key=w.page+'_'+w.y;
+    if(!lineMap[key])lineMap[key]={y:w.y,page:w.page,words:[]};
+    lineMap[key].words.push(w);
+  });
+  const lines=Object.values(lineMap)
+    .sort((a,b)=>a.page-b.page||a.y-b.y)
+    .map(l=>({...l,words:l.words.sort((a,b)=>a.x-b.x)}));
+
+  const meta={title:'SOCIETE DES COURSES',hippo:'HIPPODROME DE KASSAR-SAÏD',date:'',journee:''};
+  const courses=[];
+  let cur=null;
+  let inHorses=false;
+  let metaZoneDone=false; // stop scanning for date/journee once horses start
+
+  for(let li=0;li<lines.length;li++){
+    const line=lines[li];
+    const txt=cl(line.words.map(w=>w.str).join(' '));
+    if(!txt)continue;
+
+    // --- Meta: date / journée (only before first course header) ---
+    if(!metaZoneDone){
+      const mDate=txt.match(/(DIMANCHE|SAMEDI|VENDREDI|LUNDI|MARDI|MERCREDI|JEUDI)\s+\d{1,2}\s+\S+\s+20\d\d/i);
+      if(mDate&&!meta.date){
+        meta.date=mDate[0].trim();
+      }
+      const mJ=txt.match(/(\d+)\s*[eè]?me?\s*Journ[ée]/i);
+      if(mJ&&!meta.journee)meta.journee=mJ[0];
+    }
+
+    // --- Course header: line contains the word "COURSE" plus a small leading number and a HH:MM time ---
+    const hasCourseWord=line.words.some(w=>w.str==='COURSE');
+    if(hasCourseWord){
+      const numW=line.words.find(w=>/^\d{1,2}$/.test(w.str)&&w.x<40);
+      const heureW=line.words.find(w=>/^\d{1,2}:\d{2}$/.test(w.str));
+      if(numW&&heureW){
+        metaZoneDone=true;
+        if(cur&&cur.chevaux.length)courses.push(cur);
+        cur={num:numW.str,heure:heureW.str,prix:'',dist:'',alloc:'',cond:'',chevaux:[]};
+        inHorses=false;
+
+        const prixIdx=line.words.findIndex(w=>/^Prix\s*:?$/.test(w.str));
+        if(prixIdx>=0&&line.words[prixIdx+1]){
+          cur.prix=cl(line.words[prixIdx+1].str);
+        }
+        const allocIdx=line.words.findIndex(w=>/^ALLOCATION/i.test(w.str));
+        if(allocIdx>=0&&line.words[allocIdx+1]){
+          const m=line.words[allocIdx+1].str.match(/[\d\s]+/);
+          if(m)cur.alloc=m[0].replace(/\s/g,'');
+        }
+        const distIdx=line.words.findIndex(w=>/^DISTANCE/i.test(w.str));
+        if(distIdx>=0&&line.words[distIdx+1]){
+          const m=line.words[distIdx+1].str.match(/\d+/);
+          if(m)cur.dist=m[0];
+        }
+        continue;
+      }
+    }
+
+    if(!cur)continue;
+
+    // --- Conditions: line after "GAGNANT" starting with "Pour" ---
+    if(/^GAGNANT/i.test(txt)){
+      for(let k=li+1;k<Math.min(li+6,lines.length);k++){
+        const nt=cl(lines[k].words.map(w=>w.str).join(' '));
+        if(/^Pour /i.test(nt)){cur.cond=nt.substring(0,250);break;}
+        if(/^TRIO|^JUMELE|^PLACE|^PROPRIETAIRES/i.test(nt))break;
+      }
+      continue;
+    }
+
+    // --- PROPRIETAIRES header → start of horse rows ---
+    if(/^PROPRIETAIRES/i.test(txt)){inHorses=true;continue;}
+
+    // --- End of horse section ---
+    if(/^1er\s*\.{2,}/i.test(txt)||/LA PROCHAINE REUNION/i.test(txt)){
+      inHorses=false;continue;
+    }
+
+    if(!inHorses)continue;
+
+    // --- Horse row (single line, column positions by x) ---
+    const dossardW=line.words.find(w=>w.x>=115&&w.x<=140&&/^\d{1,2}$/.test(w.str));
+    if(!dossardW)continue;
+    const num=parseInt(dossardW.str);
+
+    const nomW=line.words.find(w=>w.x>125&&w.x<290&&w!==dossardW&&w.str!=='(*)'&&w.str!=='*');
+    if(!nomW)continue;
+    const nom=cl(nomW.str.replace(/\s*\(\*\)\s*$/,''));
+    const irm=line.words.some(w=>w.x>=230&&w.x<=245&&w.str==='(*)');
+
+    const prop=cl(line.words.filter(w=>w.x<116).map(w=>w.str).join(' '));
+
+    const cordeW=line.words.find(w=>w.x>=280&&w.x<=296&&/^\d{1,2}$/.test(w.str));
+    const corde=cordeW?parseInt(cordeW.str):num;
+
+    const jokWords=line.words.filter(w=>w.x>=298&&w.x<366);
+    const jok=cl(jokWords.map(w=>w.str).join(' '));
+
+    const pdsWords=line.words.filter(w=>w.x>=365&&w.x<405&&/^\d{2,3}\.\d$/.test(w.str));
+    const pds=pdsWords.length?pdsWords[0].str:'';
+
+    const sW=line.words.find(w=>w.x>=405&&w.x<414&&/^[MF]$/.test(w.str));
+    const S=sW?sW.str:'';
+
+    const rbW=line.words.find(w=>w.x>=414&&w.x<434&&w.str!=='M'&&w.str!=='F'&&!/^\d/.test(w.str));
+    const RB=rbW?rbW.str:'';
+
+    const ageW=line.words.find(w=>w.x>=432&&w.x<444&&/^\d{1,2}$/.test(w.str));
+    const age=ageW?parseInt(ageW.str):'';
+
+    const origWords=line.words.filter(w=>w.x>=444&&w.x<620);
+    const orig=cl(origWords.map(w=>w.str).join(' '));
+
+    const elevWords=line.words.filter(w=>w.x>=620&&w.x<710);
+    const elev=cl(elevWords.map(w=>w.str).join(' '));
+
+    const entrWords=line.words.filter(w=>w.x>=710&&w.x<770);
+    const entr=cl(entrWords.map(w=>w.str).join(' '));
+
+    const perfWords=line.words.filter(w=>w.x>=770);
+    const perf=cl(perfWords.map(w=>w.str).join(' '));
+
+    cur.chevaux.push({num,nom,prop,elev,coul:'',jok,entr,orig,
+      pds:pds?parseFloat(pds)||pds:'',s:S,rb:RB,age,corde,perf,irm,cas:null});
+  }
+
+  if(cur&&cur.chevaux.length)courses.push(cur);
+  return{courses,meta};
 }
 
 // ═══════════════════════
