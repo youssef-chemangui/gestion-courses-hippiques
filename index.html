@@ -531,7 +531,7 @@ const I18N = {
     colRB:'RB', colAge:'Âges', colOrig:'Origines', colElev:'Éleveurs',
     colEntr:'Entraîneurs', colPerf:'Perfs.',
     // Page 2
-    clOfficiel:'CLASSEMENT OFFICIEL — TOP 5', npLabel:'NON PARTANTS',
+    clOfficiel:'CLASSEMENT OFFICIEL — TOP 7', npLabel:'NON PARTANTS',
     rankSuf1:'ER', rankSufN:'ÈME',
     cheval:'CHEVAL', proprio:'PROPRIÉTAIRE', eleveur:'ÉLEVEUR',
     jockey:'JOCKEY', entraineur:'ENTRAÎNEUR', ecart:'Écart',
@@ -590,7 +590,7 @@ const I18N = {
     colRB:'اللون', colAge:'العمر', colOrig:'الأصول', colElev:'المربون',
     colEntr:'المدربون', colPerf:'النتائج',
     // Page 2
-    clOfficiel:'الترتيب الرسمي — أفضل 5', npLabel:'غير المشاركين',
+    clOfficiel:'الترتيب الرسمي — أفضل 7', npLabel:'غير المشاركين',
     rankSuf1:'', rankSufN:'',
     cheval:'الحصان', proprio:'المالك', eleveur:'المربي',
     jockey:'الفارس', entraineur:'المدرب', ecart:'الفارق',
@@ -1052,10 +1052,19 @@ function hdlLogo(e){
   r.onload=ev=>{
     LOGO=ev.target.result;
     document.getElementById('limg').src=LOGO;document.getElementById('limg').style.display='block';
-    document.getElementById('lph').style.display='none';upPV();
+    document.getElementById('lph').style.display='none';upPV();refreshClLogo();
   };r.readAsDataURL(f);
 }
-function clrLogo(){LOGO=null;document.getElementById('limg').style.display='none';document.getElementById('lph').style.display='';upPV()}
+function clrLogo(){LOGO=null;document.getElementById('limg').style.display='none';document.getElementById('lph').style.display='';upPV();refreshClLogo()}
+// Rafraîchit l'aperçu du classement d'arrivée (page 2) quand le logo change,
+// sans réinitialiser les rangs/écarts déjà saisis.
+function refreshClLogo(){
+  if(typeof P2C==='undefined'||!P2C.length)return;
+  const c=P2C[P2I];if(!c)return;
+  const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);
+  const np=c.chevaux.filter(x=>x._st==='np');
+  renderClPV(c,pt,np);
+}
 
 // ═══════════════════════
 // PREVIEW
@@ -1443,13 +1452,13 @@ function buildExportPreview(c,pt,np){
   const hippo=document.getElementById('f-hippo')?.value||'';
   const date=document.getElementById('f-date')?.value||'';
   const title=document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL';
-  const top5=pt.slice(0,5);
+  const top5=pt.slice(0,7);
 
   // Build rows with inline styles — exact same look as page 1 table
-  const ords=['1','2','3','4','5'];
-  const sups=Array.from({length:5},(_,i)=>i===0?t('rankEr'):t('rankEme'));
-  const medal=['linear-gradient(135deg,#C9A84C,#E8C97A)','linear-gradient(135deg,#A8A8A8,#D0D0D0)','linear-gradient(135deg,#CD7F32,#E8A060)','linear-gradient(135deg,#7A6A50,#9A8A70)','linear-gradient(135deg,#7A6A50,#9A8A70)'];
-  const medalTxt=['#3D2B1F','#fff','#fff','#fff','#fff'];
+  const ords=['1','2','3','4','5','6','7'];
+  const sups=Array.from({length:7},(_,i)=>i===0?t('rankEr'):t('rankEme'));
+  const medal=['linear-gradient(135deg,#C9A84C,#E8C97A)','linear-gradient(135deg,#A8A8A8,#D0D0D0)','linear-gradient(135deg,#CD7F32,#E8A060)','linear-gradient(135deg,#7A6A50,#9A8A70)','linear-gradient(135deg,#7A6A50,#9A8A70)','linear-gradient(135deg,#7A6A50,#9A8A70)','linear-gradient(135deg,#7A6A50,#9A8A70)'];
+  const medalTxt=['#3D2B1F','#fff','#fff','#fff','#fff','#fff','#fff'];
 
   let rowsHtml='';
   top5.forEach((h,i)=>{
@@ -1501,6 +1510,7 @@ function buildExportPreview(c,pt,np){
   tmp.style.cssText='position:fixed;left:-9999px;top:0;width:980px;background:#F5EDD8;color:#1A0F08;border-radius:6px;overflow:hidden;font-family:Inter,sans-serif;box-shadow:none;';
 
   tmp.innerHTML=`
+    <img class="cpwm${LOGO?' vis':''}" src="${LOGO||''}">
     <div style="background:linear-gradient(135deg,#3D2B1F 0%,#5A3E2B 50%,#3D2B1F 100%);padding:20px 28px;display:flex;align-items:center;gap:18px;border-bottom:3px solid #C9A84C">
       ${logoHtml}
       <div style="flex:1;text-align:center">
@@ -1537,11 +1547,10 @@ function expClPNG(){
   const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);
   const np=c.chevaux.filter(x=>x._st==='np');
   const tmp=buildExportPreview(c,pt,np);
-  html2canvas(tmp,{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+  html2canvas(tmp,{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(cv=>{
     document.body.removeChild(tmp);
-    await applyLogoCanvas(cv);
     const a=document.createElement('a');a.download=`classement_c${P2I+1}_${Date.now()}.png`;a.href=cv.toDataURL('image/png');a.click();
-    toast('\u2705 PNG classement export\u00e9 (Top 5)');
+    toast('\u2705 PNG classement export\u00e9 (Top 7)');
   });
 }
 function expClPDF(){
@@ -1553,14 +1562,13 @@ function expClPDF(){
   const tmp=buildExportPreview(c,pt,np);
   const {jsPDF}=window.jspdf;
   const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-  html2canvas(tmp,{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(async cv=>{
+  html2canvas(tmp,{scale:2,allowTaint:true,useCORS:true,backgroundColor:'#F5EDD8'}).then(cv=>{
     document.body.removeChild(tmp);
-    await applyLogoCanvas(cv);
     const img=cv.toDataURL('image/jpeg',.92);
     const pw=297,ph=210,ratio=cv.width/cv.height;
     let iw=pw-16,ih=iw/ratio;if(ih>ph-16){ih=ph-16;iw=ih*ratio}
     doc.addImage(img,'JPEG',(pw-iw)/2,(ph-ih)/2,iw,ih);
-    doc.save(`classement_c${P2I+1}.pdf`);toast('✅ PDF classement exporté (Top 5)');
+    doc.save(`classement_c${P2I+1}.pdf`);toast('✅ PDF classement exporté (Top 7)');
   });
 }
 
