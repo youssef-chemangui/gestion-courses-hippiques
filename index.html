@@ -247,9 +247,9 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 .cp-t3{font-size:10px;color:#D4C098;margin-top:4px;letter-spacing:.04em}
 
 /* Barre verte course — 1 seule ligne, num à gauche, prix à droite */
-.cp-course-hd{background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.3)}
-.cp-course-hd-num{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em}
-.cp-course-hd-prix{font-family:'Cinzel',serif;font-size:12px;font-weight:700;color:#D4C098;letter-spacing:.1em}
+.cp-course-hd{background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid rgba(201,168,76,.3)}
+.cp-course-hd-num{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em;justify-self:start}
+.cp-course-hd-prix{font-family:'Cinzel',serif;font-size:15px;font-weight:700;color:#D4C098;letter-spacing:.1em;justify-self:center}
 
 /* Titre section classement */
 .cp-section-hd{background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:8px 16px;display:flex;align-items:center;gap:8px;border-bottom:2px solid #C9A84C}
@@ -1520,9 +1520,9 @@ function buildExportPreview(c,pt,np){
       </div>
       ${logoHtml}
     </div>
-    <div style="background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,.3)">
-      <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em">${t('courseNum')}${c.num} &nbsp;·&nbsp; ${c.dist} ${t('distM')}</span>
-      <span style="font-family:Cinzel,serif;font-size:12px;font-weight:700;color:#D4C098;letter-spacing:.1em">${t('prixPrefix')} ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+    <div style="background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid rgba(201,168,76,.3)">
+      <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em;justify-self:start">${t('courseNum')}${c.num} &nbsp;·&nbsp; ${c.dist} ${t('distM')}</span>
+      <span style="font-family:Cinzel,serif;font-size:15px;font-weight:700;color:#D4C098;letter-spacing:.1em;justify-self:center">${t('prixPrefix')} ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div style="background:#ffffff;border:1.5px solid #C9A84C;border-radius:4px;margin:14px 14px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08)">
       <div style="background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:7px 14px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #C9A84C">
