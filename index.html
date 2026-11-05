@@ -8,7 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --or:#C9A84C; --or-l:#E8C97A; --or-d:#9A7A28;
@@ -49,6 +49,11 @@ body.ar .p2-sb-inner .btn{font-family:'Tajawal',sans-serif}
 body.ar .cl-item{direction:rtl}
 #lang-btn{background:linear-gradient(135deg,var(--or-d),var(--cuivre-d));color:var(--beige);border:none;padding:5px 14px;border-radius:14px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:.02em;transition:all .2s;margin-left:8px}
 #lang-btn:hover{background:linear-gradient(135deg,var(--or),var(--cuivre));transform:scale(1.04)}
+body.ar #pvdoc,body.ar #cl-pv,body.ar #cl-pv-export{direction:rtl}
+body.ar #pvdoc *,body.ar #cl-pv *,body.ar #cl-pv-export *{font-family:'Tajawal',sans-serif !important;letter-spacing:0 !important;text-transform:none !important}
+body.ar #pvdoc .ht th,body.ar #pvdoc .ht td{text-align:right}
+body.ar #pvdoc .ht th.c,body.ar #pvdoc .ht td.c{text-align:center}
+body.ar .doc-journee,body.ar .cb-cond{font-style:normal}
 body.ar #lang-btn{margin-left:0;margin-right:8px}
 
 
@@ -156,7 +161,7 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 .doc-hctr{flex:1;text-align:center}
 .doc-ht{font-family:'Cinzel',serif;font-size:21px;font-weight:900;color:var(--or-l);letter-spacing:.05em;text-shadow:0 2px 8px rgba(0,0,0,.4)}
 .doc-hippo{font-family:'Cinzel',serif;font-size:13px;color:var(--beige-d);letter-spacing:.12em;margin-top:4px}
-.doc-journee{font-size:11px;color:var(--beige-m);font-style:italic;margin-top:3px}
+.doc-journee{font-size:16px;color:var(--beige-m);font-style:italic;margin-top:4px}
 .doc-datebar{background:linear-gradient(90deg,var(--vert),var(--vert-m));padding:9px 28px;display:flex;justify-content:space-between;align-items:center;font-family:'Cinzel',serif;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--beige);border-bottom:1px solid rgba(201,168,76,.3);position:relative;z-index:1}
 .doc-body{padding:18px 22px;position:relative;z-index:1}
 
@@ -166,9 +171,9 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 .cb-num{font-family:'Cinzel',serif;font-size:17px;font-weight:900;color:var(--or-l)}
 .cb-prix{font-family:'Cinzel',serif;font-size:17px;font-weight:900;color:var(--beige);margin-left:14px}
 .cb-pills{display:flex;gap:7px;align-items:center}
-.cb-pill{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--or-l);padding:4px 12px;border-radius:12px;font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.06em}
+.cb-pill{background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--or-l);padding:5px 14px;border-radius:14px;font-family:'Cinzel',serif;font-size:15px;font-weight:700;letter-spacing:.06em}
 .cb-pill.g{background:rgba(45,80,22,.3);border-color:rgba(45,80,22,.5);color:#90c050}
-.cb-cond{background:#f7f2e8;padding:5px 14px;font-size:10px;color:var(--brun-m);border-bottom:1px solid var(--beige-d);font-style:italic}
+.cb-cond{background:#f7f2e8;padding:5px 14px;font-size:10px;color:#000;font-weight:700;border-bottom:1px solid var(--beige-d);font-style:italic}
 
 /* TABLE — colonnes : Casaque | N° | Cheval | Propriétaire | Éleveur | Corde | Jockey | Pds | S | RB | Âge | Origines | Entr. | Perf */
 .ht{width:100%;border-collapse:collapse;font-size:11px;background:white}
@@ -181,7 +186,7 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 .hcas{width:36px;height:36px;object-fit:contain;border-radius:0;cursor:pointer;border:none;background:transparent}
 .hcas-ph{width:36px;height:36px;background:transparent;border:none;border-radius:0;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
 .hnum-bd{width:20px;height:20px;border-radius:50%;background:var(--brun);color:var(--beige);font-family:'Cinzel',serif;font-size:9px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
-.corde-bd{width:18px;height:18px;border-radius:3px;background:var(--vert);color:white;font-family:'Cinzel',serif;font-size:8px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
+.corde-bd{width:18px;height:18px;border-radius:3px;background:#7FAE4F;color:white;font-family:'Cinzel',serif;font-size:8px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
 .srb-cell{font-size:10px;color:#5a3e2b;font-weight:600;text-align:center}
 .arr-line{background:#faf6ec;padding:6px 14px;text-align:center;font-size:9px;color:#8a7060;letter-spacing:.1em;border-top:1px solid var(--beige-d)}
 
@@ -419,7 +424,7 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
       <button class="btn btn-out btn-sm" onclick="expPNG()">🖼️ ER</button>
     </div>
     <div class="mbody">
-      <div class="ed-col" id="edcol"><div class="notice">Chargez le <strong>programme démo</strong> ou importez un fichier Excel.</div></div>
+      <div class="ed-col" id="edcol"><div class="notice" data-i18n="noticeLoad">Chargez le <strong>programme démo</strong> ou importez un fichier Excel.</div></div>
       <div class="pv-col">
         <div id="pvdoc">
           <img class="doc-wm" id="docwm" src="">
@@ -550,7 +555,10 @@ const I18N = {
     npBlock:'🚫 NON-PARTANTS',
     rankEr:'ER', rankEme:'ÈME',
     courseLine:(num,prix,dist)=>`COURSE ${num} — PRIX ${prix} — ${dist}m`,
-    // Toast messages (not translated, left in French)
+    nLbl:'N°', mUnit:'m', dt:'DT', total:'Total',
+    courseHd:(n)=>`${n}e COURSE`, edHd:(n,k)=>`COURSE ${n} — ${k} CHEVAUX`,
+    irmNote:'→ (*) affiché devant le nom', noHorse:'Aucun cheval.', badge:(n)=>n+' COURSES',
+    noticeLoad:'Chargez le <strong>programme démo</strong> ou importez un fichier Excel.',
   },
   ar: {
     tab1:'قائمة المشاركين', tab2:'ترتيب الوصول',
@@ -581,7 +589,7 @@ const I18N = {
     cNom:'الاسم', cNum:'رقم الظهر', cProp:'المالك', cElev:'المربي',
     cEntr:'المدرب', cJok:'الفارس', cOrig:'الأصول', cPds:'الوزن',
     cSexe:'الجنس', cRB:'اللون', cAge:'العمر', cCorde:'الحبل', cPerf:'النتائج',
-    cCoul:'ألوان القميص', cIRM:'قناع (IRM)',
+    cCoul:'ألوان القميص', cIRM:'قناع العين (*)',
     cCas:'القميص (صورة أو PDF)', btnDel:'🗑️ حذف',
     // Preview doc
     docProgOff:'البرنامج الرسمي',
@@ -609,10 +617,112 @@ const I18N = {
     npBlock:'🚫 غير المشاركين',
     rankEr:'', rankEme:'',
     courseLine:(num,prix,dist)=>`السباق ${num} — جائزة ${prix} — ${dist}م`,
+    nLbl:'رقم ', mUnit:'م', dt:'دينار', total:'المجموع',
+    courseHd:(n)=>`السباق ${n}`, edHd:(n,k)=>`السباق ${n} — ${k} خيول`,
+    irmNote:'← (*) يظهر أمام الاسم', noHorse:'لا توجد خيول.', badge:(n)=>n+' سباقات',
+    noticeLoad:'حمّل <strong>البرنامج التجريبي</strong> أو استورد ملف Excel.',
   }
 };
 
 function t(key){ return (I18N[LANG]||I18N.fr)[key] || I18N.fr[key] || key; }
+
+// ═══════════════════════════════════════════════
+// TRADUCTION AUTOMATIQUE DES DONNÉES → ARABE (translittération + lexique)
+// Les données restent en français en mémoire ; l'arabe est calculé à l'affichage.
+// En mode arabe, toute correction saisie dans une fiche est mémorisée dans h._ar.
+// ═══════════════════════════════════════════════
+const AR_WORDS={MED:'محمد',MOHAMED:'محمد',MOHAMMED:'محمد',HARAS:'مزرعة',ECURIE:'إسطبل',SOCIETE:'جمعية',COURSES:'سباقات',
+ HIPPODROME:'ميدان',KASSAR:'قصر',SAID:'سعيد',PRIX:'جائزة',ET:'و',DU:'دو',DE:'دو',DES:'دي',BEN:'بن',ABDEL:'عبد',
+ DIMANCHE:'الأحد',LUNDI:'الاثنين',MARDI:'الثلاثاء',MERCREDI:'الأربعاء',JEUDI:'الخميس',VENDREDI:'الجمعة',SAMEDI:'السبت',
+ JANVIER:'جانفي',FEVRIER:'فيفري',MARS:'مارس',AVRIL:'أفريل',MAI:'ماي',JUIN:'جوان',JUILLET:'جويلية',AOUT:'أوت',
+ SEPTEMBRE:'سبتمبر',OCTOBRE:'أكتوبر',NOVEMBRE:'نوفمبر',DECEMBRE:'ديسمبر',COURSE:'سباق',PROGRAMME:'برنامج',OFFICIEL:'الرسمي'};
+const AR_LET={A:'أ',B:'ب',C:'ك',D:'د',E:'إ',F:'ف',G:'ج',H:'ه',I:'ي',J:'ج',K:'ك',L:'ل',M:'م',N:'ن',O:'و',P:'ب',Q:'ق',R:'ر',S:'س',T:'ت',U:'و',V:'ف',W:'و',X:'كس',Y:'ي',Z:'ز'};
+const AR_DG={ch:'ش',kh:'خ',gh:'غ',sh:'ش',th:'ث',dh:'ض',ou:'و',oo:'و',ai:'اي',ay:'اي',ei:'اي',ey:'اي',ee:'ي',ie:'ي',aa:'ا',ph:'ف',qu:'ك',eu:'و',au:'و',oi:'وا'};
+const AR_CO={b:'ب',d:'د',f:'ف',j:'ج',k:'ك',l:'ل',m:'م',n:'ن',p:'ب',q:'ق',r:'ر',s:'س',t:'ت',v:'ف',w:'و',z:'ز',x:'كس'};
+function arWord(u){
+  if(AR_WORDS[u]!==undefined)return AR_WORDS[u];
+  if(u.length===1)return AR_LET[u]||u;
+  const s=u.toLowerCase(),V='aeiouy';let o='',i=0;
+  while(i<s.length){
+    const c=s[i],d=s.substr(i,2),first=i===0;
+    if(i>0&&s[i-1]===c&&!V.includes(c)){i++;continue}
+    if(AR_DG[d]!==undefined){o+=AR_DG[d];i+=2;continue}
+    if(AR_CO[c]){o+=AR_CO[c]}
+    else if(c==='c')o+='eiy'.includes(s[i+1]||'')?'س':'ك';
+    else if(c==='g')o+='eiy'.includes(s[i+1]||'')?'ج':'ق';
+    else if(c==='h')o+=first?'ح':'ه';
+    else if(c==='a')o+=first?'أ':'ا';
+    else if(c==='e'){if(first)o+='إ'}
+    else if(c==='i')o+=first?'إ':'ي';
+    else if(c==='o'||c==='u')o+=first?'أ':'و';
+    else if(c==='y')o+='ي';
+    i++;
+  }
+  return o;
+}
+const AR_PHR={'SOCIETE DES COURSES':'جمعية سباقات الخيل','SOCIETE DES COURSES HIPPIQUES':'جمعية سباقات الخيل',
+ 'HIPPODROME DE KASSAR-SAID':'ميدان قصر سعيد','HIPPODROME DE KASSAR SAID':'ميدان قصر سعيد','PROGRAMME OFFICIEL':'البرنامج الرسمي'};
+function arText(str){
+  if(str===null||str===undefined||str==='')return '';
+  const key=String(str).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+  if(AR_PHR[key])return AR_PHR[key];
+  const parts=String(str).normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[A-Za-z]+|[^A-Za-z]+/g)||[];
+  let o='',join=false;
+  parts.forEach(p=>{
+    if(/^[A-Za-z]+$/.test(p)){
+      const u=p.toUpperCase();
+      if(u==='EL'||u==='AL'){o+='ال';join=true;return}
+      o+=arWord(u);join=false;
+    }else{
+      if(join&&/^\s+$/.test(p)){join=false;return}
+      o+=p.replace(/&/g,' و ');join=false;
+    }
+  });
+  return o.replace(/['’]/g,'');
+}
+function arCond(c){
+  if(!c)return '';
+  let s=String(c);
+  [[/Pour poulains et pouliches/i,'للمهور والمهرات'],[/Pour poulains/i,'للمهور'],[/Pour pouliches/i,'للمهرات'],
+   [/Pour chevaux/i,'للخيول'],[/Pour juments/i,'للأفراس'],[/\bde (\d+) ans\b/gi,'بعمر $1 سنوات'],
+   [/\bde Pur Sang Arabe\b/i,'من فصيلة العربي الأصيل'],[/\bPur Sang Arabe\b/i,'العربي الأصيل'],
+   [/n['’]ayant pas gagné une course de groupes? ni ([\d.,\s]+?)\s*DT/i,'التي لم تفز بسباق مجموعات ولا بمبلغ $1 دينار'],
+   [/n['’]ayant pas gagné ([\d.,\s]+?)\s*DT/i,'التي لم تفز بمبلغ $1 دينار'],
+   [/Poids\s*(\d+(?:[.,]\d+)?)\s*kg/i,'الوزن $1 كغ'],[/\bet\b/gi,'و']
+  ].forEach(r=>{s=s.replace(r[0],r[1])});
+  return arText(s);
+}
+function arJournee(s){
+  if(!s)return '';
+  const m=String(s).match(/\d+/);
+  return (m&&/journ/i.test(s))?'الجولة '+m[0]:arText(s);
+}
+const AR_S={M:'ذ',F:'أ'};
+const AR_RB={B:'كميت',AL:'أشقر',GR:'أشهب','G.R.':'أشهب','B.B.':'كميت داكن',BB:'كميت داكن',NO:'أدهم',N:'أدهم'};
+function X(h,f){
+  if(LANG!=='ar')return h[f]||'';
+  if(h._ar&&h._ar[f]!==undefined)return h._ar[f];
+  const v=h[f];if(!v)return '';
+  if(f==='s')return AR_S[String(v).toUpperCase()]||arText(v);
+  if(f==='rb')return AR_RB[String(v).toUpperCase().replace(/\s/g,'')]||arText(v);
+  return arText(v);
+}
+const XT=v=>LANG==='ar'?arText(v):v;
+const XP=XT;
+function p2Opt(c,i){return LANG==='ar'?`${i+1} — جائزة ${arText(c.prix||c.num)}`:(i+1)+'e — PRIX '+(c.prix||c.num)}
+function toastAr(m){
+  if(LANG!=='ar')return m;
+  const R=[[/(\d+) courses importées depuis PDF officiel/,'✅ تم استيراد $1 سباقات من البرنامج الرسمي'],[/(\d+) courses importées/,'✅ تم استيراد $1 سباقات'],
+   [/(\d+) courses restaurées depuis le PDF/,'✅ تمت استعادة $1 سباقات من PDF'],[/(\d+) courses extraites du PDF/,'✅ تم استخراج $1 سباقات من PDF'],
+   [/Programme 10 mai 2026 — 7 courses/,'✅ برنامج 10 ماي 2026 — 7 سباقات'],[/Aucune course trouvée dans ce PDF officiel/,'⚠️ لم يتم العثور على سباقات في هذا الملف'],
+   [/Données non trouvées dans ce PDF[\s\S]*/,'⚠️ لم يتم العثور على بيانات في هذا الملف'],[/Données Page 1 chargées/,'✅ تم تحميل بيانات الصفحة 1'],
+   [/Aucune donnée en Page 1/,'⚠️ لا توجد بيانات في الصفحة 1'],[/Aucun classement/,'⚠️ لا يوجد ترتيب'],
+   [/PDF classement exporté \(Top 7\)/,'✅ تم تصدير PDF الترتيب (أفضل 7)'],[/PDF exporté avec données embarquées/,'✅ تم تصدير PDF مع البيانات'],
+   [/PNG exporté/,'✅ تم تصدير PNG'],[/Format non reconnu — programme intégré chargé/,'⚠️ صيغة غير معروفة — تم تحميل البرنامج المدمج'],
+   [/PDF → casaque OK/,'✅ تم تحويل PDF إلى قميص'],[/Erreur/,'❌ خطأ']];
+  for(const r of R)if(r[0].test(m))return m.replace(r[0],r[1]);
+  return m;
+}
 
 function applyLang(){
   const isAr = LANG==='ar';
@@ -634,8 +744,12 @@ function applyLang(){
   if(p2sum&&p2sum.textContent==='Aucune donnée'||p2sum&&p2sum.textContent==='لا توجد بيانات')
     p2sum.textContent=t('aucunDonnee');
   // Refresh preview if data loaded
-  if(AC.length) upPV();
-  if(P2C.length) renderClPV(P2C[P2I], P2C[P2I].chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk), P2C[P2I].chevaux.filter(x=>x._st==='np'));
+  if(AC.length){saveFormToAC();setupCourses();}
+  if(P2C.length){
+    const so=document.getElementById('p2sel');
+    [...so.options].forEach((o,i)=>{o.textContent=p2Opt(P2C[i],i)});
+    loadP2C();
+  }
 }
 
 function toggleLang(){
@@ -766,7 +880,7 @@ function switchPage(n){
   document.getElementById('page'+n).classList.add('active');
   document.getElementById('tab'+n).classList.add('active');
 }
-function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
+function toast(m){m=toastAr(m);const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800)}
 
 // ═══════════════════════
 // DRAG & DROP IMPORT
@@ -824,7 +938,7 @@ function parseXLS(rows){
       const perf=[];
       corde = s(r,10);
       jok   = s(r,11);
-      pds   = s(r,12);
+      pds   = /^\d{2,3}(\.\d)?$/.test(s(r,13)) ? s(r,13) : s(r,12); // 2ᵉ poids (col13) sinon col12
       S     = s(r,14)||'';
       RB    = s(r,15)||'';
       age   = s(r,16);
@@ -926,14 +1040,14 @@ function saveFormToAC(){
 }
 
 function setupCourses(){
-  document.getElementById('tb-badge').textContent=AC.length+' COURSES';
+  document.getElementById('tb-badge').textContent=t('badge')(AC.length);
   const wrap=document.getElementById('csel');
   const tabs=document.getElementById('ctabs');
   wrap.style.display='block'; tabs.innerHTML='';
   AC.forEach((c,i)=>{
     const b=document.createElement('button');
     b.className='ctab'+(i===AI?' active':'');
-    b.textContent=(i+1)+'e';
+    b.textContent=LANG==='ar'?String(i+1):(i+1)+'e';
     b.onclick=()=>{saveFormToAC();AI=i;setupCourses()};
     tabs.appendChild(b);
   });
@@ -944,7 +1058,7 @@ function loadAC(){
   const c=AC[AI];
   document.getElementById('f-num').value=c.num||(AI+1);
   document.getElementById('f-heure').value=c.heure||'';
-  document.getElementById('f-prix').value=t('prixPrefix')+' '+(c.prix||'');
+  document.getElementById('f-prix').value='PRIX '+(c.prix||'');
   document.getElementById('f-dist').value=c.dist||'';
   document.getElementById('f-alloc').value=c.alloc||'';
   document.getElementById('f-cond').value=c.cond||'';
@@ -956,29 +1070,29 @@ function loadAC(){
 // ═══════════════════════
 function renderEd(){
   const ec=document.getElementById('edcol'),c=AC[AI];
-  if(!c||!c.chevaux.length){ec.innerHTML='<div class="notice">Aucun cheval.</div>';return}
-  let h=`<div class="hcards-hd">COURSE ${c.num} — ${c.chevaux.length} CHEVAUX</div>`;
+  if(!c||!c.chevaux.length){ec.innerHTML='<div class="notice">'+t('noHorse')+'</div>';return}
+  let h=`<div class="hcards-hd">${t('edHd')(c.num,c.chevaux.length)}</div>`;
   c.chevaux.forEach((h2,i)=>{
     const cas=h2.cas?`<img src="${h2.cas}" class="cas-prev">`:`<div class="cas-ph" onclick="pickCas(${i})">🎽</div>`;
     h+=`<div class="hcard" id="hc${i}">
       <div class="hcard-hd" onclick="togCard(${i})">
         <div class="hnum">${h2.num}</div>
-        <div style="flex:1"><div class="hname">${h2.nom||'—'}</div><div class="hsub">${h2.prop||''}</div></div>
+        <div style="flex:1"><div class="hname">${X(h2,'nom')||'—'}</div><div class="hsub">${X(h2,'prop')}</div></div>
         ${h2.cas?`<img src="${h2.cas}" style="width:24px;height:24px;object-fit:contain;border-radius:2px;border:1px solid var(--bdr-or)">`:`<span style="font-size:17px;opacity:.35">🎽</span>`}
         <span style="color:var(--txt-d);font-size:12px;margin-left:4px">▾</span>
       </div>
       <div class="hbody" id="hb${i}">
         <div class="eg">
-          <div class="ef"><label>${t('cNom')}</label><input value="${e(h2.nom)}" oninput="sH(${i},'nom',this.value)"></div>
-          <div class="ef"><label>N° dossard</label><input value="${h2.num}" oninput="sH(${i},'num',this.value)"></div>
-          <div class="ef"><label>${t('cProp')}</label><input value="${e(h2.prop)}" oninput="sH(${i},'prop',this.value)"></div>
-          <div class="ef"><label>${t('cElev')}</label><input value="${e(h2.elev)}" oninput="sH(${i},'elev',this.value)"></div>
-          <div class="ef"><label>${t('cEntr')}</label><input value="${e(h2.entr)}" oninput="sH(${i},'entr',this.value)"></div>
-          <div class="ef"><label>${t('cJok')}</label><input value="${e(h2.jok)}" oninput="sH(${i},'jok',this.value)"></div>
-          <div class="ef"><label>${t('cOrig')}</label><input value="${e(h2.orig)}" oninput="sH(${i},'orig',this.value)"></div>
+          <div class="ef"><label>${t('cNom')}</label><input value="${e(X(h2,'nom'))}" oninput="sH(${i},'nom',this.value)"></div>
+          <div class="ef"><label>${t('cNum')}</label><input value="${h2.num}" oninput="sH(${i},'num',this.value)"></div>
+          <div class="ef"><label>${t('cProp')}</label><input value="${e(X(h2,'prop'))}" oninput="sH(${i},'prop',this.value)"></div>
+          <div class="ef"><label>${t('cElev')}</label><input value="${e(X(h2,'elev'))}" oninput="sH(${i},'elev',this.value)"></div>
+          <div class="ef"><label>${t('cEntr')}</label><input value="${e(X(h2,'entr'))}" oninput="sH(${i},'entr',this.value)"></div>
+          <div class="ef"><label>${t('cJok')}</label><input value="${e(X(h2,'jok'))}" oninput="sH(${i},'jok',this.value)"></div>
+          <div class="ef"><label>${t('cOrig')}</label><input value="${e(X(h2,'orig'))}" oninput="sH(${i},'orig',this.value)"></div>
           <div class="ef"><label>${t('cPds')}</label><input value="${h2.pds||''}" oninput="sH(${i},'pds',this.value)"></div>
-          <div class="ef"><label>S (sexe)</label><input value="${e(h2.s)}" oninput="sH(${i},'s',this.value)"></div>
-          <div class="ef"><label>RB (race)</label><input value="${e(h2.rb)}" oninput="sH(${i},'rb',this.value)"></div>
+          <div class="ef"><label>${t('cSexe')}</label><input value="${e(X(h2,'s'))}" oninput="sH(${i},'s',this.value)"></div>
+          <div class="ef"><label>${t('cRB')}</label><input value="${e(X(h2,'rb'))}" oninput="sH(${i},'rb',this.value)"></div>
           <div class="ef"><label>${t('cAge')}</label><input value="${h2.age||''}" oninput="sH(${i},'age',this.value)"></div>
           <div class="ef"><label>${t('cCorde')}</label><input value="${h2.corde||''}" oninput="sH(${i},'corde',this.value)"></div>
           <div class="ef full"><label>${t('cPerf')}</label><input value="${e(h2.perf)}" oninput="sH(${i},'perf',this.value)"></div>
@@ -986,15 +1100,15 @@ function renderEd(){
           <div class="ef full" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--bdr);margin-top:4px">
             <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:11px;color:var(--txt-m);font-weight:600;margin:0">
               <input type="checkbox" id="irm-${i}" ${h2.irm?'checked':''} onchange="sH(${i},'irm',this.checked)" style="width:15px;height:15px;accent-color:var(--or);cursor:pointer">
-              <span>👁️ Œil</span>
+              <span>👁️ ${t('cIRM')}</span>
             </label>
-            ${h2.irm?'<span style="font-size:10px;color:var(--or);font-family:Cinzel,serif;letter-spacing:.05em">→ (*) affiché devant le nom</span>':''}
+            ${h2.irm?'<span style="font-size:10px;color:var(--or);font-family:Cinzel,serif;letter-spacing:.05em">'+t('irmNote')+'</span>':''}
           </div>
         </div>
         <div class="cas-row">
           ${cas}
           <div>
-            <button class="btn btn-out btn-sm" onclick="pickCas(${i})">📁 Casaque (image/PDF)</button>
+            <button class="btn btn-out btn-sm" onclick="pickCas(${i})">📁 ${t('cCas')}</button>
             ${h2.cas?`<button class="btn btn-out btn-sm" style="margin-left:4px" onclick="clrCas(${i})">✕</button>`:''}
           </div>
         </div>
@@ -1006,7 +1120,12 @@ function renderEd(){
 
 function togCard(i){const c=document.getElementById('hc'+i);c.classList.toggle('exp');document.getElementById('hb'+i).style.display=c.classList.contains('exp')?'block':'none'}
 function e(s){return(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;')}
-function sH(i,f,v){AC[AI].chevaux[i][f]=v;upPV()}
+function sH(i,f,v){
+  const h=AC[AI].chevaux[i];
+  if(LANG==='ar'&&['nom','prop','elev','entr','jok','orig','s','rb'].includes(f)){(h._ar=h._ar||{})[f]=v}
+  else h[f]=v;
+  upPV();
+}
 function remH(i){AC[AI].chevaux.splice(i,1);renderEd();upPV()}
 function addH(){
   if(!AC[AI])return;
@@ -1079,16 +1198,16 @@ function pchips(str){
     if(v==='3')return`<span class="pc pc3">3</span>`;
     if(v==='0')return`<span class="pc pc0">0</span>`;
     if(/^[456789]/.test(v))return`<span class="pc pc4">${v}</span>`;
-    if(/^[ined]/i.test(v))return`<span class="pc pci">${p.toUpperCase()}</span>`;
+    if(/^[ined]/i.test(v))return`<span class="pc pci">${LANG==='ar'?arText(p):p.toUpperCase()}</span>`;
     return`<span class="pc pc4">${p}</span>`;
   }).join('');
 }
 
 function upPV(){
-  document.getElementById('dht').textContent=document.getElementById('f-title').value;
-  document.getElementById('dhippo').textContent=document.getElementById('f-hippo').value;
-  document.getElementById('djournee').textContent=document.getElementById('f-journee').value;
-  document.getElementById('ddate').textContent=document.getElementById('f-date').value;
+  document.getElementById('dht').textContent=XT(document.getElementById('f-title').value);
+  document.getElementById('dhippo').textContent=XT(document.getElementById('f-hippo').value);
+  document.getElementById('djournee').textContent=LANG==='ar'?arJournee(document.getElementById('f-journee').value):document.getElementById('f-journee').value;
+  document.getElementById('ddate').textContent=XT(document.getElementById('f-date').value);
   // Logo
   const dls=document.getElementById('dls');
   const dls2=document.getElementById('dls2');
@@ -1102,10 +1221,10 @@ function upPV(){
   const c=AC[AI];
   const num=document.getElementById('f-num').value||c.num;
   const heure=document.getElementById('f-heure').value||c.heure;
-  const prix=document.getElementById('f-prix').value||(t('prixPrefix')+' '+c.prix);
+  const prix=XT(document.getElementById('f-prix').value||('PRIX '+c.prix));
   const dist=document.getElementById('f-dist').value||c.dist;
   const alloc=document.getElementById('f-alloc').value||c.alloc;
-  const cond=document.getElementById('f-cond').value||c.cond;
+  const cond=LANG==='ar'?arCond(document.getElementById('f-cond').value||c.cond):(document.getElementById('f-cond').value||c.cond);
 
   document.getElementById('mtitle').textContent=`${t('courseLabel')} ${num} — ${prix} — ${c.chevaux.length} ${t('chevauxLabel')}`;
   document.getElementById('dprog').textContent=`${c.chevaux.length} ${t('partants')}`;
@@ -1119,16 +1238,16 @@ function upPV(){
     rows+=`<tr>
       <td class="c">${cas}</td>
       <td class="c"><div class="hnum-bd">${h.num}</div></td>
-      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${h.nom}${h.irm?' <span class="irm-marker" style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#6a5040">${h.prop||''}</span></td>
+      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${X(h,'nom')}${h.irm?' <span class="irm-marker" style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#6a5040">${X(h,'prop')}</span></td>
       <td class="c"><div class="corde-bd">${h.corde||''}</div></td>
-      <td style="font-size:10px">${h.jok||''}</td>
+      <td style="font-size:10px">${X(h,'jok')}</td>
       <td class="c">${h.pds||''}</td>
-      <td class="c srb-cell">${h.s||''}</td>
-      <td class="c srb-cell">${h.rb||''}</td>
+      <td class="c srb-cell">${X(h,'s')}</td>
+      <td class="c srb-cell">${X(h,'rb')}</td>
       <td class="c">${h.age||''}</td>
-      <td style="font-size:9px;max-width:110px;color:#5a4030">${h.orig||''}</td>
-      <td style="font-size:9px;color:#7a5030;max-width:90px">${h.elev||''}</td>
-      <td style="font-size:9.5px;white-space:nowrap">${h.entr||''}</td>
+      <td style="font-size:9px;max-width:110px;color:#5a4030">${X(h,'orig')}</td>
+      <td style="font-size:9px;color:#7a5030;max-width:90px">${X(h,'elev')}</td>
+      <td style="font-size:9.5px;white-space:nowrap">${X(h,'entr')}</td>
       <td style="white-space:nowrap">${pchips(h.perf)}</td>
     </tr>`;
   });
@@ -1136,8 +1255,8 @@ function upPV(){
   document.getElementById('dbody').innerHTML=`
     <div class="cb">
       <div class="cb-hd">
-        <div style="display:flex;align-items:center"><span class="cb-num">${num}e COURSE</span><span class="cb-prix">${prix}</span></div>
-        <div class="cb-pills"><span class="cb-pill">⏰ ${heure}</span><span class="cb-pill">📏 ${dist} m</span><span class="cb-pill g">💰 ${alloc} DT</span></div>
+        <div style="display:flex;align-items:center"><span class="cb-num">${t('courseHd')(num)}</span><span class="cb-prix">${prix}</span></div>
+        <div class="cb-pills"><span class="cb-pill">⏰ ${heure}</span><span class="cb-pill">📏 ${dist} ${t('mUnit')}</span><span class="cb-pill g">💰 ${alloc} ${t('dt')}</span></div>
       </div>
       ${cond?`<div class="cb-cond">${cond}</div>`:''}
       <table class="ht">
@@ -1313,7 +1432,7 @@ function useP1(){
 function setupP2(){
   const sel=document.getElementById('p2sel');
   sel.innerHTML='';
-  P2C.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=(i+1)+'e — PRIX '+(c.prix||c.num);sel.appendChild(o)});
+  P2C.forEach((c,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p2Opt(c,i);sel.appendChild(o)});
   document.getElementById('p2csel').style.display='block';
   P2I=0;loadP2C();
 }
@@ -1333,7 +1452,7 @@ function loadP2C(){
 // ═══════════════════════
 function renderCl(c,pt,np){
   const w=document.getElementById('p2wrap');
-  w.innerHTML=`<div style="font-family:Cinzel,serif;font-size:11px;color:var(--or);letter-spacing:.1em;margin-bottom:14px;max-width:800px;margin-left:auto;margin-right:auto">${t('courseNum')}${c.num} — ${t('prixPrefix')} ${c.prix} — ${c.dist}${t('distM')}</div>`;
+  w.innerHTML=`<div style="font-family:Cinzel,serif;font-size:11px;color:var(--or);letter-spacing:.1em;margin-bottom:14px;max-width:800px;margin-left:auto;margin-right:auto">${t('courseNum')}${c.num} — ${t('prixPrefix')} ${XP(c.prix)} — ${c.dist}${t('distM')}</div>`;
   const list=document.createElement('ul');list.className='cl-list';list.id='cll';
   pt.forEach((h,i)=>list.appendChild(mkClItem(h,i+1,c)));
   w.appendChild(list);
@@ -1343,7 +1462,7 @@ function renderCl(c,pt,np){
     np.forEach(h=>{
       const it=document.createElement('div');it.className='np-it';
       it.innerHTML=`<div class="hnum" style="width:20px;height:20px;font-size:10px;background:var(--danger)">${h.num}</div>
-        <span style="flex:1;font-family:Cinzel,serif;font-size:11px">${h.nom}</span>
+        <span style="flex:1;font-family:Cinzel,serif;font-size:11px">${X(h,'nom')}</span>
         <select class="st-sel" onchange="chSt(${h.num},this.value)">
           <option value="ok">${t('partant')}</option><option value="np" selected>🚫 ${t('nonPartant')}</option>
         </select>`;
@@ -1359,7 +1478,7 @@ function mkClItem(h,rank,c){
   const cas=h.cas?`<img src="${h.cas}" class="cl-cas">`:`<div class="cl-cas-ph">🎽</div>`;
   li.innerHTML=`<span class="cl-hdl">⠿</span>
     <div class="rk ${rk}">${rank}</div>${cas}
-    <div style="flex:1"><div class="cl-name">${h.nom}</div><div class="cl-sub">${h.prop||''} · ${h.jok||''}</div></div>
+    <div style="flex:1"><div class="cl-name">${X(h,'nom')}</div><div class="cl-sub">${X(h,'prop')} · ${X(h,'jok')}</div></div>
     <input class="gap-in" placeholder="${rank===1?t('ecart'):t('ecart')}" value="${h._gap||''}" oninput="updGap(${h.num},this.value)">
     <select class="st-sel" onchange="chSt(${h.num},this.value)">
       <option value="ok" selected>${t('partant')}</option><option value="np">🚫 ${t('nonPartant')}</option>
@@ -1387,11 +1506,11 @@ function buildClRows(pt, allRows){
   pt.forEach((h,i)=>{
     const cas=h.cas?`<img class="cl-pv-cas" src="${h.cas}">`:`<div class="cl-pv-cas-ph">🎽</div>`;
     const gapTxt=h._gap||'';
-    const origPart = h.orig ? ` <span class="cl-info-orig">( ${h.orig} )</span>` : '';
-    const propPart = h.prop ? `<span class="cl-info-item-lbl">${t('proprio')} :</span><span class="cl-info-item-val">${h.prop}</span>` : '';
-    const elevPart = h.elev ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('eleveur')} :</span><span class="cl-info-item-val">${h.elev}</span>` : '';
-    const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">${t('jockey')} :</span><span class="cl-info-item-val">${h.jok}</span>` : '';
-    const entrPart = h.entr ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('entraineur')} :</span><span class="cl-info-item-val">${h.entr}</span>` : '';
+    const origPart = h.orig ? ` <span class="cl-info-orig">( ${X(h,'orig')} )</span>` : '';
+    const propPart = h.prop ? `<span class="cl-info-item-lbl">${t('proprio')} :</span><span class="cl-info-item-val">${X(h,'prop')}</span>` : '';
+    const elevPart = h.elev ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('eleveur')} :</span><span class="cl-info-item-val">${X(h,'elev')}</span>` : '';
+    const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">${t('jockey')} :</span><span class="cl-info-item-val">${X(h,'jok')}</span>` : '';
+    const entrPart = h.entr ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('entraineur')} :</span><span class="cl-info-item-val">${X(h,'entr')}</span>` : '';
     rows+=`<div class="cl-row${!allRows&&i>=5?' cl-row-hidden':''}">
       <div class="cl-rank-col">
         <div class="cl-medal ${medalClass[i]}">${ords[i]}</div>
@@ -1401,8 +1520,8 @@ function buildClRows(pt, allRows){
       <div class="cl-info-col">
         <div class="cl-info-compact">
           <span class="cl-info-label-inline">${t('cheval')} :</span>
-          <span class="cl-info-num">N°${h.num}</span>
-          <span class="cl-info-name">${h.nom}</span>${origPart}
+          <span class="cl-info-num">${t('nLbl')}${h.num}</span>
+          <span class="cl-info-name">${X(h,'nom')}</span>${origPart}
         </div>
         <div class="cl-info-line1">${propPart}${elevPart}</div>
         <div class="cl-info-line2">${jokPart}${entrPart}</div>
@@ -1415,15 +1534,15 @@ function buildClRows(pt, allRows){
 
 function renderClPV(c,pt,np){
   const pv=document.getElementById('cl-pv');pv.style.display='block';
-  const hippo=document.getElementById('f-hippo')?.value||'';
-  const date=document.getElementById('f-date')?.value||'';
-  const title=document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL';
+  const hippo=XT(document.getElementById('f-hippo')?.value||'');
+  const date=XT(document.getElementById('f-date')?.value||'');
+  const title=XT(document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL');
   const logoHtml=LOGO
     ?`<div class="cp-logo"><img src="${LOGO}"></div>`
     :`<div class="cp-logo-ph"></div>`;
 
   const rows=buildClRows(pt, true);
-  const npH=np.length?`<div class="cp-np"><div class="cp-np-t">${t('npLabel')} :</div><div class="cp-np-tags">${np.map(h=>`<span class="np-tag">N°${h.num} ${h.nom}</span>`).join('')}</div></div>`:'';
+  const npH=np.length?`<div class="cp-np"><div class="cp-np-t">${t('npLabel')} :</div><div class="cp-np-tags">${np.map(h=>`<span class="np-tag">${t('nLbl')}${h.num} ${X(h,'nom')}</span>`).join('')}</div></div>`:'';
 
   pv.innerHTML=`
     <img class="cpwm${LOGO?' vis':''}" src="${LOGO||''}">
@@ -1438,7 +1557,7 @@ function renderClPV(c,pt,np){
     </div>
     <div class="cp-course-hd">
       <span class="cp-course-hd-num">${t('courseNum')}${c.num} &nbsp;·&nbsp; ${c.dist} ${t('distM')}</span>
-      <span class="cp-course-hd-prix">${t('prixPrefix')} ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+      <span class="cp-course-hd-prix">${t('prixPrefix')} ${XP(c.prix)}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div class="cp-body">
       <div class="cp-section-hd"><span>🏆 ${t('clOfficiel')}</span></div>
@@ -1449,9 +1568,9 @@ function renderClPV(c,pt,np){
 }
 
 function buildExportPreview(c,pt,np){
-  const hippo=document.getElementById('f-hippo')?.value||'';
-  const date=document.getElementById('f-date')?.value||'';
-  const title=document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL';
+  const hippo=XT(document.getElementById('f-hippo')?.value||'');
+  const date=XT(document.getElementById('f-date')?.value||'');
+  const title=XT(document.getElementById('f-title')?.value||'CLASSEMENT OFFICIEL');
   const top5=pt.slice(0,7);
 
   // Build rows with inline styles — exact same look as page 1 table
@@ -1467,11 +1586,11 @@ function buildExportPreview(c,pt,np){
       ?`<img src="${h.cas}" style="width:60px;height:60px;object-fit:contain;border-radius:4px;border:1px solid #d4c090;background:#f5edd8">`
       :`<div style="width:60px;height:60px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:24px">🎽</div>`;
     const gapTxt=h._gap||'';
-    const origPart=h.orig?` <span style="color:#9A7A28;font-style:italic;font-size:10px">( ${h.orig} )</span>`:'';
-    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('proprio')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.prop}</span>`:'';
-    const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('eleveur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.elev}</span>`:'';
-    const jokLine=h.jok?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('jockey')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.jok}</span>`:'';
-    const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('entraineur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${h.entr}</span>`:'';
+    const origPart=h.orig?` <span style="color:#9A7A28;font-style:italic;font-size:10px">( ${X(h,'orig')} )</span>`:'';
+    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('proprio')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'prop')}</span>`:'';
+    const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('eleveur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'elev')}</span>`:'';
+    const jokLine=h.jok?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('jockey')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'jok')}</span>`:'';
+    const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('entraineur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'entr')}</span>`:'';
 
     rowsHtml+=`
     <div style="display:flex;align-items:stretch;border-bottom:1px solid #e8dfc8;background:${bg};min-height:88px">
@@ -1483,8 +1602,8 @@ function buildExportPreview(c,pt,np){
       <div style="flex:1;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px">
         <div style="display:flex;align-items:baseline;gap:6px;flex-wrap:wrap">
           <span style="font-size:9px;color:#9A7A50;letter-spacing:.1em;text-transform:uppercase;font-weight:600">${t('cheval')} :</span>
-          <span style="font-size:11px;color:#7A5A20;font-weight:700">N°${h.num}</span>
-          <span style="font-family:Cinzel,serif;font-size:16px;font-weight:900;color:#1A0F08;letter-spacing:.02em">${h.nom}</span>${origPart}
+          <span style="font-size:11px;color:#7A5A20;font-weight:700">${t('nLbl')}${h.num}</span>
+          <span style="font-family:Cinzel,serif;font-size:16px;font-weight:900;color:#1A0F08;letter-spacing:.02em">${X(h,'nom')}</span>${origPart}
         </div>
         <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.6">${propLine}${elevLine}</div>
         <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.6">${jokLine}${entrLine}</div>
@@ -1497,7 +1616,7 @@ function buildExportPreview(c,pt,np){
   const npH=np.length?`
     <div style="background:#fff8f7;border:1.5px solid #f1948a;border-radius:4px;padding:10px 18px;margin:12px 18px 4px">
       <div style="font-family:Cinzel,serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700">${t('npLabel')} :</div>
-      <div style="display:flex;flex-wrap:wrap;gap:5px">${np.map(h=>`<span style="background:#fadbd8;color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:Cinzel,serif;border:1px solid #f1948a">N°${h.num} ${h.nom}</span>`).join('')}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">${np.map(h=>`<span style="background:#fadbd8;color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:Cinzel,serif;border:1px solid #f1948a">${t('nLbl')}${h.num} ${X(h,'nom')}</span>`).join('')}</div>
     </div>`:'';
 
   // Logo
@@ -1522,7 +1641,7 @@ function buildExportPreview(c,pt,np){
     </div>
     <div style="background:linear-gradient(90deg,#2D5016,#3E6B20);padding:8px 28px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;border-bottom:1px solid rgba(201,168,76,.3)">
       <span style="font-family:Cinzel,serif;font-size:13px;font-weight:700;color:#F5EDD8;letter-spacing:.08em;justify-self:start">${t('courseNum')}${c.num} &nbsp;·&nbsp; ${c.dist} ${t('distM')}</span>
-      <span style="font-family:Cinzel,serif;font-size:15px;font-weight:700;color:#D4C098;letter-spacing:.1em;justify-self:center">${t('prixPrefix')} ${c.prix}${c.groupe?' ('+c.groupe+')':''}</span>
+      <span style="font-family:Cinzel,serif;font-size:15px;font-weight:700;color:#D4C098;letter-spacing:.1em;justify-self:center">${t('prixPrefix')} ${XP(c.prix)}${c.groupe?' ('+c.groupe+')':''}</span>
     </div>
     <div style="background:#ffffff;border:1.5px solid #C9A84C;border-radius:4px;margin:14px 14px 0;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.08)">
       <div style="background:linear-gradient(135deg,#3D2B1F,#5A3E2B);padding:7px 14px;display:flex;align-items:center;gap:10px;border-bottom:2px solid #C9A84C">
@@ -1717,8 +1836,10 @@ function parseOfficialPDF(allWords){
     const jokWords=line.words.filter(w=>w.x>=298&&w.x<366);
     const jok=cl(jokWords.map(w=>w.str).join(' '));
 
-    const pdsWords=line.words.filter(w=>w.x>=365&&w.x<405&&/^\d{2,3}\.\d$/.test(w.str));
-    const pds=pdsWords.length?pdsWords[0].str:'';
+    // Colonne des poids : on prend le 2ᵉ poids (le 1er poids est ignoré).
+    // Repli sur l'unique poids présent si la ligne n'en contient qu'un.
+    const pdsWords=line.words.filter(w=>w.x>=340&&w.x<405&&/^\d{2,3}(\.\d)?$/.test(w.str));
+    const pds=pdsWords.length>1?pdsWords[1].str:(pdsWords.length?pdsWords[0].str:'');
 
     const sW=line.words.find(w=>w.x>=405&&w.x<414&&/^[MF]$/.test(w.str));
     const S=sW?sW.str:'';
