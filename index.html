@@ -232,7 +232,7 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 .st-sel{background:var(--surf);border:1px solid var(--bdr);color:var(--txt);padding:4px 6px;border-radius:3px;font-size:11px;font-family:'Inter',sans-serif}
 .st-sel.np{border-color:var(--danger);color:#e74c3c}
 .np-block{max-width:800px;margin:0 auto;background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.25);border-radius:var(--r);padding:12px;margin-top:14px}
-.np-hd{font-family:'Cinzel',serif;font-size:10px;color:#e74c3c;letter-spacing:.08em;margin-bottom:8px}
+.np-hd{font-family:'Cinzel',serif;font-size:12px;color:#FF6B5E;letter-spacing:.08em;margin-bottom:8px;font-weight:700}
 .np-it{display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid rgba(192,57,43,.12);font-size:11px}
 .np-it:last-child{border-bottom:none}
 
@@ -292,17 +292,29 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 .cl-info-line1,.cl-info-line2{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.7}
 .cl-info-item-lbl{font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 .cl-info-item-val{font-size:10px;color:#3D2B1F;font-weight:500;margin-left:2px}
+.cl-info-item-val.cl-owner{color:#1A0F08;font-weight:700}
 .cl-info-sep{color:#9A7A28;font-weight:700;margin:0 4px}
+
+/* Colonne poids */
+.cl-pds-col{width:84px;min-width:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 6px;border-left:1px solid #e8dfc8;flex-shrink:0}
+.cl-pds-lbl{font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+.cl-pds-val{font-family:'Cinzel',serif;font-size:15px;font-weight:900;color:#1A0F08;white-space:nowrap}
+.cl-pds-val small{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;color:#7A5A3A;margin-left:2px}
+@media (max-width:600px){
+  .cl-pds-col{width:58px;min-width:58px;padding:6px 3px}
+  .cl-pds-val{font-size:12px}
+  .cl-pds-val small{display:block;margin:0;font-size:8px}
+}
 
 /* Colonne écart */
 .cl-gap-col{width:116px;min-width:116px;display:flex;align-items:center;justify-content:center;padding:8px 12px;border-left:2px solid #C9A84C;flex-shrink:0;background:#fdf8e8}
 .cl-gap-val{font-size:15px;color:#2D5016;font-weight:800;font-style:italic;text-align:center}
 
 /* Non-partants block */
-.cp-np{background:rgba(192,57,43,.08);border:1.5px solid rgba(192,57,43,.35);border-radius:4px;padding:10px 18px;margin:14px 18px 4px}
-.cp-np-t{font-family:'Cinzel',serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700}
+.cp-np{background:rgba(155,28,28,.08);border:1.5px solid rgba(155,28,28,.6);border-radius:4px;padding:10px 18px;margin:14px 18px 4px}
+.cp-np-t{font-family:'Cinzel',serif;font-size:12px;color:#9B1C1C;letter-spacing:.1em;margin-bottom:6px;font-weight:900}
 .cp-np-tags{display:flex;flex-wrap:wrap;gap:5px}
-.np-tag{background:rgba(192,57,43,.15);color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:'Cinzel',serif;border:1px solid rgba(192,57,43,.3)}
+.np-tag{background:#9B1C1C;color:#fff;padding:3px 10px;border-radius:12px;font-size:10px;font-family:'Cinzel',serif;font-weight:700;border:1px solid #7A1414}
 
 /* Toast */
 .toast{position:fixed;bottom:22px;right:22px;background:linear-gradient(135deg,var(--or),var(--cuivre));color:var(--brun);padding:10px 18px;border-radius:var(--r);font-family:'Cinzel',serif;font-size:11px;letter-spacing:.05em;z-index:9999;transform:translateY(70px);opacity:0;transition:all .3s;box-shadow:0 4px 16px rgba(201,168,76,.4)}
@@ -363,7 +375,7 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
 
       <div class="sec">
         <div class="sec-hd" data-i18n="infoCourse">Informations course</div>
-        <div class="fg"><label class="fl" data-i18n="lTitre">Titre</label><input class="fi" id="f-title" value="SOCIETE DES COURSES" oninput="upPV()"></div>
+        <div class="fg"><label class="fl" data-i18n="lTitre">Titre</label><input class="fi" id="f-title" value="SOCIÉTÉ DES COURSES HIPPIQUES" oninput="upPV()"></div>
         <div class="fg"><label class="fl" data-i18n="lHippo">Hippodrome</label><input class="fi" id="f-hippo" value="HIPPODROME DE KASSAR-SAÏD" oninput="upPV()"></div>
         <div class="fr">
           <div class="fg"><label class="fl" data-i18n="lNum">N° course</label><input class="fi" id="f-num" value="1" oninput="upPV()"></div>
@@ -431,7 +443,7 @@ body.ar #lang-btn{margin-left:0;margin-right:8px}
           <div class="doc-hband">
             <div class="doc-logo-slot" id="dls" onclick="document.getElementById('li').click()"><div class="ph">LOGO</div></div>
             <div class="doc-hctr">
-              <div class="doc-ht" id="dht">SOCIETE DES COURSES</div>
+              <div class="doc-ht" id="dht">SOCIÉTÉ DES COURSES HIPPIQUES</div>
               <div class="doc-hippo" id="dhippo">HIPPODROME DE KASSAR-SAÏD</div>
               <div class="doc-journee" id="djournee">25ème Journée</div>
             </div>
@@ -525,7 +537,7 @@ const I18N = {
     dzPDFP1:'Importez le <strong>PDF</strong> généré depuis la Page 1',
     // Card fields
     cNom:'Nom', cNum:'N° dossard', cProp:'Propriétaire', cElev:'Éleveur',
-    cEntr:'Entraîneur', cJok:'Jockey', cOrig:'Origines', cPds:'Poids',
+    cEntr:'Entraîneur', kg:'kg', cJok:'Jockey', cOrig:'Origines', cPds:'Poids',
     cSexe:'Sexe', cRB:'Robe', cAge:'Âge', cCorde:'Corde', cPerf:'Performances',
     cCoul:'Couleurs casaque', cIRM:'Œil (IRM)',
     cCas:'Casaque (image ou PDF)', btnDel:'🗑️ Supprimer',
@@ -600,6 +612,7 @@ const I18N = {
     // Page 2
     clOfficiel:'الترتيب الرسمي — أفضل 7', npLabel:'غير المشاركين',
     rankSuf1:'', rankSufN:'',
+    kg:'كغ',
     cheval:'الحصان', proprio:'المالك', eleveur:'المربي',
     jockey:'الفارس', entraineur:'المدرب', ecart:'الفارق',
     statut:'الحالة', partant:'مشارك', nonPartant:'غير مشارك',
@@ -709,6 +722,9 @@ function X(h,f){
 }
 const XT=v=>LANG==='ar'?arText(v):v;
 const XP=XT;
+// Normalisations d'affichage (accent « Journée » / nom complet de la société)
+const fixJournee=v=>String(v||'').replace(/Journ[eé]e?(?![A-Za-zÀ-ÿ])/g,'Journée').replace(/JOURN[EÉ]E?(?![A-Za-zÀ-ÿ])/g,'JOURNÉE');
+const fixTitle=v=>/^\s*SOCI[EÉ]T[EÉ] DES COURSES\s*$/i.test(String(v||''))?'SOCIÉTÉ DES COURSES HIPPIQUES':v;
 function p2Opt(c,i){return LANG==='ar'?`${i+1} — جائزة ${arText(c.prix||c.num)}`:(i+1)+'e — PRIX '+(c.prix||c.num)}
 function toastAr(m){
   if(LANG!=='ar')return m;
@@ -1016,9 +1032,9 @@ function p1Loaded(payload){
     document.getElementById('lph').style.display='none';
   }
   if(payload.meta){
-    if(payload.meta.title)document.getElementById('f-title').value=payload.meta.title;
+    if(payload.meta.title)document.getElementById('f-title').value=fixTitle(payload.meta.title);
     if(payload.meta.hippo)document.getElementById('f-hippo').value=payload.meta.hippo;
-    if(payload.meta.journee)document.getElementById('f-journee').value=payload.meta.journee;
+    if(payload.meta.journee)document.getElementById('f-journee').value=fixJournee(payload.meta.journee);
     if(payload.meta.date)document.getElementById('f-date').value=payload.meta.date;
   }
   setupCourses();
@@ -1206,7 +1222,7 @@ function pchips(str){
 function upPV(){
   document.getElementById('dht').textContent=XT(document.getElementById('f-title').value);
   document.getElementById('dhippo').textContent=XT(document.getElementById('f-hippo').value);
-  document.getElementById('djournee').textContent=LANG==='ar'?arJournee(document.getElementById('f-journee').value):document.getElementById('f-journee').value;
+  document.getElementById('djournee').textContent=LANG==='ar'?arJournee(document.getElementById('f-journee').value):fixJournee(document.getElementById('f-journee').value);
   document.getElementById('ddate').textContent=XT(document.getElementById('f-date').value);
   // Logo
   const dls=document.getElementById('dls');
@@ -1238,7 +1254,7 @@ function upPV(){
     rows+=`<tr>
       <td class="c">${cas}</td>
       <td class="c"><div class="hnum-bd">${h.num}</div></td>
-      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${X(h,'nom')}${h.irm?' <span class="irm-marker" style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#6a5040">${X(h,'prop')}</span></td>
+      <td style="min-width:120px"><strong style="font-family:Cinzel,serif;font-size:10.5px">${X(h,'nom')}${h.irm?' <span class="irm-marker" style="color:#c0392b;font-weight:900">(*)</span>':''}</strong><br><span style="font-size:9px;color:#2A1A10;font-weight:600">${X(h,'prop')}</span></td>
       <td class="c"><div class="corde-bd">${h.corde||''}</div></td>
       <td style="font-size:10px">${X(h,'jok')}</td>
       <td class="c">${h.pds||''}</td>
@@ -1417,7 +1433,7 @@ function p2Loaded(payload){
   P2C=payload.courses||[];
   if(payload.logo)LOGO=payload.logo;
   if(payload.meta){
-    if(payload.meta.title)document.getElementById('f-title').value=payload.meta.title;
+    if(payload.meta.title)document.getElementById('f-title').value=fixTitle(payload.meta.title);
     if(payload.meta.hippo)document.getElementById('f-hippo').value=payload.meta.hippo;
     if(payload.meta.date)document.getElementById('f-date').value=payload.meta.date;
   }
@@ -1498,6 +1514,7 @@ function rebRanks(c){
 function updGap(num,val){const c=P2C[P2I];const h=c.chevaux.find(x=>x.num==num);if(h){h._gap=val;const pt=c.chevaux.filter(x=>x._st!=='np').sort((a,b)=>a._rk-b._rk);const np=c.chevaux.filter(x=>x._st==='np');renderClPV(c,pt,np)}}
 function chSt(num,st){const c=P2C[P2I];const h=c.chevaux.find(x=>x.num==num);if(h)h._st=st;loadP2C()}
 
+const pdsHtml=h=>(h.pds!==undefined&&h.pds!==null&&h.pds!=='')?`${h.pds}<small>${t('kg')}</small>`:'—';
 function buildClRows(pt, allRows){
   const ords=['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15'];
   const sups=Array.from({length:15},(_,i)=>i===0?t('rankEr'):t('rankEme'));
@@ -1507,7 +1524,7 @@ function buildClRows(pt, allRows){
     const cas=h.cas?`<img class="cl-pv-cas" src="${h.cas}">`:`<div class="cl-pv-cas-ph">🎽</div>`;
     const gapTxt=h._gap||'';
     const origPart = h.orig ? ` <span class="cl-info-orig">( ${X(h,'orig')} )</span>` : '';
-    const propPart = h.prop ? `<span class="cl-info-item-lbl">${t('proprio')} :</span><span class="cl-info-item-val">${X(h,'prop')}</span>` : '';
+    const propPart = h.prop ? `<span class="cl-info-item-lbl">${t('proprio')} :</span><span class="cl-info-item-val cl-owner">${X(h,'prop')}</span>` : '';
     const elevPart = h.elev ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('eleveur')} :</span><span class="cl-info-item-val">${X(h,'elev')}</span>` : '';
     const jokPart  = h.jok  ? `<span class="cl-info-item-lbl">${t('jockey')} :</span><span class="cl-info-item-val">${X(h,'jok')}</span>` : '';
     const entrPart = h.entr ? `<span class="cl-info-sep">/</span><span class="cl-info-item-lbl">${t('entraineur')} :</span><span class="cl-info-item-val">${X(h,'entr')}</span>` : '';
@@ -1526,6 +1543,7 @@ function buildClRows(pt, allRows){
         <div class="cl-info-line1">${propPart}${elevPart}</div>
         <div class="cl-info-line2">${jokPart}${entrPart}</div>
       </div>
+      <div class="cl-pds-col"><span class="cl-pds-lbl">${t('cPds')}</span><span class="cl-pds-val">${pdsHtml(h)}</span></div>
       ${gapTxt?`<div class="cl-gap-col"><span class="cl-gap-val">${gapTxt}</span></div>`:''}
     </div>`;
   });
@@ -1587,7 +1605,7 @@ function buildExportPreview(c,pt,np){
       :`<div style="width:60px;height:60px;background:#f5edd8;border:1.5px dashed #C9A84C;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:24px">🎽</div>`;
     const gapTxt=h._gap||'';
     const origPart=h.orig?` <span style="color:#9A7A28;font-style:italic;font-size:10px">( ${X(h,'orig')} )</span>`:'';
-    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('proprio')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'prop')}</span>`:'';
+    const propLine=h.prop?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('proprio')} :</span> <span style="font-size:10px;color:#1A0F08;font-weight:700">${X(h,'prop')}</span>`:'';
     const elevLine=h.elev?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('eleveur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'elev')}</span>`:'';
     const jokLine=h.jok?`<span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('jockey')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'jok')}</span>`:'';
     const entrLine=h.entr?` <span style="color:#9A7A28;font-weight:700;margin:0 3px">/</span> <span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('entraineur')} :</span> <span style="font-size:10px;color:#3D2B1F;font-weight:500">${X(h,'entr')}</span>`:'';
@@ -1608,15 +1626,16 @@ function buildExportPreview(c,pt,np){
         <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.6">${propLine}${elevLine}</div>
         <div style="display:flex;align-items:baseline;flex-wrap:wrap;gap:2px;line-height:1.6">${jokLine}${entrLine}</div>
       </div>
+      <div style="width:84px;min-width:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px 6px;border-left:1px solid #e8dfc8"><span style="font-size:8px;color:#9A7A28;letter-spacing:.08em;text-transform:uppercase;font-weight:700">${t('cPds')}</span><span style="font-family:Cinzel,serif;font-size:15px;font-weight:900;color:#1A0F08;white-space:nowrap">${pdsHtml(h)}</span></div>
       ${gapTxt?`<div style="width:110px;min-width:110px;display:flex;align-items:center;justify-content:center;padding:8px 12px;border-left:2px solid #C9A84C;background:#fdf8e8"><span style="font-size:15px;color:#2D5016;font-weight:800;font-style:italic">${gapTxt}</span></div>`:''}
     </div>`;
   });
 
   // Non-partants
   const npH=np.length?`
-    <div style="background:#fff8f7;border:1.5px solid #f1948a;border-radius:4px;padding:10px 18px;margin:12px 18px 4px">
-      <div style="font-family:Cinzel,serif;font-size:10px;color:#c0392b;letter-spacing:.1em;margin-bottom:6px;font-weight:700">${t('npLabel')} :</div>
-      <div style="display:flex;flex-wrap:wrap;gap:5px">${np.map(h=>`<span style="background:#fadbd8;color:#c0392b;padding:3px 10px;border-radius:12px;font-size:10px;font-family:Cinzel,serif;border:1px solid #f1948a">${t('nLbl')}${h.num} ${X(h,'nom')}</span>`).join('')}</div>
+    <div style="background:#fff8f7;border:1.5px solid #9B1C1C;border-radius:4px;padding:10px 18px;margin:12px 18px 4px">
+      <div style="font-family:Cinzel,serif;font-size:12px;color:#9B1C1C;letter-spacing:.1em;margin-bottom:6px;font-weight:900">${t('npLabel')} :</div>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">${np.map(h=>`<span style="background:#9B1C1C;color:#fff;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:700;font-family:Cinzel,serif;border:1px solid #7A1414">${t('nLbl')}${h.num} ${X(h,'nom')}</span>`).join('')}</div>
     </div>`:'';
 
   // Logo
@@ -1721,10 +1740,10 @@ function procOfficialPDF(file){
       const parsed=parseOfficialPDF(allWords);
       if(!parsed.courses.length){toast('⚠️ Aucune course trouvée dans ce PDF officiel');return}
       AC=parsed.courses; AI=0;
-      if(parsed.meta.title)document.getElementById('f-title').value=parsed.meta.title;
+      if(parsed.meta.title)document.getElementById('f-title').value=fixTitle(parsed.meta.title);
       if(parsed.meta.hippo)document.getElementById('f-hippo').value=parsed.meta.hippo;
       if(parsed.meta.date)document.getElementById('f-date').value=parsed.meta.date;
-      if(parsed.meta.journee)document.getElementById('f-journee').value=parsed.meta.journee;
+      if(parsed.meta.journee)document.getElementById('f-journee').value=fixJournee(parsed.meta.journee);
       setupCourses();
       toast('✅ '+AC.length+' courses importées depuis PDF officiel');
     }catch(err){toast('❌ Erreur PDF: '+err.message);console.error(err)}
@@ -1746,7 +1765,7 @@ function parseOfficialPDF(allWords){
     .sort((a,b)=>a.page-b.page||a.y-b.y)
     .map(l=>({...l,words:l.words.sort((a,b)=>a.x-b.x)}));
 
-  const meta={title:'SOCIETE DES COURSES',hippo:'HIPPODROME DE KASSAR-SAÏD',date:'',journee:''};
+  const meta={title:'SOCIÉTÉ DES COURSES HIPPIQUES',hippo:'HIPPODROME DE KASSAR-SAÏD',date:'',journee:''};
   const courses=[];
   let cur=null;
   let inHorses=false;
@@ -1763,8 +1782,8 @@ function parseOfficialPDF(allWords){
       if(mDate&&!meta.date){
         meta.date=mDate[0].trim();
       }
-      const mJ=txt.match(/(\d+)\s*[eè]?me?\s*Journ[ée]/i);
-      if(mJ&&!meta.journee)meta.journee=mJ[0];
+      const mJ=txt.match(/(\d+)\s*[eè]?me?\s*Journ[ée]e?/i);
+      if(mJ&&!meta.journee)meta.journee=fixJournee(mJ[0]);
     }
 
     // --- Course header: line contains the word "COURSE" plus a small leading number and a HH:MM time ---
